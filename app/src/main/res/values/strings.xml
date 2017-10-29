@@ -1,0 +1,40 @@
+<resources>
+    <string name="ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+
+    <string name="url_icon">https://pp.userapi.com/c639323/v639323758/27deb/L0SSSPfpEfA.jpg</string>
+
+    <string name="app_name">M-union</string>
+    <string name="title_news_feed">Новости</string>
+    <string name="title_account">Авторизация</string>
+    <string name="title_credit">Ипотека</string>
+    <string name="title_contacts">Контакты</string>
+    <string name="title_statistics">Статистика</string>
+    <string name="title_chat">Чат</string>
+
+    <!-- Contacts Fragment -->
+    <string name="contacts_address">Санкт-Петербург, Выборгское шоссе, д.36, офис 212</string>
+    <string name="contacts_address_head">Адресс:</string>
+    <string name="contacts_site">продамжильё.рф</string>
+    <string name="contacts_site_head">Сайт:</string>
+    <string name="contacts_vk">https://vk.com/m_union</string>
+    <string name="contacts_vk_head">Вконтакте</string>
+    <string name="contacts_phone">+7(812)988-64-14</string>
+    <string name="contacts_phone_head">Телефон</string>
+    <string name="contatcs_contact_us">Связаться с нами просто:</string>
+
+
+    <!-- Auth Fragment -->
+    <string name="auth_btn_text">Авторизоваться</string>
+    <string name="auth_edit_hint_phone">+7 (987) 654 - 32 -10</string>
+    <string name="auth_edit_hint_pass">********</string>
+    <string name="auth_head_text">Введите номер и пароль для входа</string>
+
+
+    <!-- Auth Fragment -->
+    <string name="credit_btn_text">Оставить заявку</string>
+    <string name="credit_edit_hint_name">Ваше имя</string>
+    <string name="credit_edit_hint_phone">Ваш телефон</string>
+    <string name="credit_head_text">Оформите заявку на ипотеку прямо сейчас</string>
+
+
+</resources>
