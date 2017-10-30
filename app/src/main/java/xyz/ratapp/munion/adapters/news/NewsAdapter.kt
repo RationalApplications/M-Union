@@ -1,12 +1,12 @@
-package xyz.ratapp.munion.adapters
+package xyz.ratapp.munion.adapters.news
 
-import android.content.Context
 import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
 
-import android.view.View
 import android.view.ViewGroup
-import xyz.ratapp.munion.extensions.inflate
+import xyz.ratapp.munion.adapters.AdapterConstants
+import xyz.ratapp.munion.adapters.ViewType
+import xyz.ratapp.munion.adapters.ViewTypeDelegateAdapter
 import xyz.ratapp.munion.models.PostNewsItem
 
 
@@ -19,6 +19,7 @@ import xyz.ratapp.munion.models.PostNewsItem
 class NewsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var items: ArrayList<ViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
+
     private val loadingItem = object : ViewType {
         override fun getViewType(): Int {
             return AdapterConstants.LOADING

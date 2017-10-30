@@ -7,4 +7,6 @@ package xyz.ratapp.munion.adapters
 object AdapterConstants {
     val NEWS = 0
     val LOADING = 1
+    val CHAT_USER = 2
+    val CHAT_MODER = 3
 }

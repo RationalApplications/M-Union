@@ -2,7 +2,6 @@ package xyz.ratapp.munion
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_vk.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import xyz.ratapp.munion.adapters.NewsAdapter
+import xyz.ratapp.munion.adapters.news.NewsAdapter
 import xyz.ratapp.munion.common.NewsManager
 import xyz.ratapp.munion.extensions.inflate
 import xyz.ratapp.munion.models.PostNews
@@ -40,7 +39,7 @@ class VkFragment : RxBaseFragment() {
             news_list.setHasFixedSize(true)
             val linearLayout = LinearLayoutManager(context)
             news_list.layoutManager = linearLayout
-            news_list.clearOnScrollListeners()
+//            news_list.clearOnScrollListeners()
 //            news_list.addOnScrollListener(InfiniteScrollListener({ requestNews() }, linearLayout))
         }
 

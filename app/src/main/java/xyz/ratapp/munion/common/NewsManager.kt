@@ -18,9 +18,9 @@ class NewsManager() {
             news.add(PostNewsItem("Центр вторичного жилья ", "text text", "https://pp.userapi.com/c639323/v639323758/27deb/L0SSSPfpEfA.jpg", "https://vk.com/wall-115518472_254", 1000 ))
             news.add(PostNewsItem("Центр вторичного жилья ", "text text text text", "https://pp.userapi.com/c639323/v639323758/27deb/L0SSSPfpEfA.jpg", "https://vk.com/wall-115518472_254", 1000 ))
 
-            val redditNews = PostNews("", "", news)
+            val vkNews = PostNews("", "", news)
 
-            subscriber.onNext(redditNews)
+            subscriber.onNext(vkNews)
             subscriber.onCompleted()
 
         }

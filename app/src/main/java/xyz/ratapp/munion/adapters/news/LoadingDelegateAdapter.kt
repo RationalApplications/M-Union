@@ -1,8 +1,10 @@
-package xyz.ratapp.munion.adapters
+package xyz.ratapp.munion.adapters.news
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import xyz.ratapp.munion.R
+import xyz.ratapp.munion.adapters.ViewType
+import xyz.ratapp.munion.adapters.ViewTypeDelegateAdapter
 import xyz.ratapp.munion.extensions.inflate
 
 /**

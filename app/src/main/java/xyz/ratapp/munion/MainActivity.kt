@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity() {
         navigation.addItem(itemHypothec)
         navigation.addItem(itemContact)
 
-
         navigation.setOnTabSelectedListener(listenerNoAuth)
     }
 
@@ -97,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 4 -> {
-                    changeFragment(ContactsFragment(), getString(R.string.title_contacts))
+                    changeFragment(StatisticsFragment(), getString(R.string.title_statistics))
                     return@OnTabSelectedListener true
                 }
             }
@@ -116,7 +115,6 @@ class MainActivity : AppCompatActivity() {
         navigation.addItem(itemHypothec)
         navigation.addItem(itemContact)
         navigation.addItem(itemStatistic)
-
 
         navigation.setOnTabSelectedListener(listenerAuth)
     }

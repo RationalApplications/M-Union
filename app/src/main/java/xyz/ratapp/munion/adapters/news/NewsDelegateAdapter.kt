@@ -1,4 +1,4 @@
-package xyz.ratapp.munion.adapters
+package xyz.ratapp.munion.adapters.news
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_post.view.*
 import xyz.ratapp.munion.R
+import xyz.ratapp.munion.adapters.ViewType
+import xyz.ratapp.munion.adapters.ViewTypeDelegateAdapter
 import xyz.ratapp.munion.extensions.getFriendlyTime
 import xyz.ratapp.munion.extensions.inflate
 import xyz.ratapp.munion.extensions.loadImg
