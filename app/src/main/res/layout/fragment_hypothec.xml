@@ -1,52 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/btn_order"
-        android:layout_width="@dimen/credit_btn_width"
-        android:layout_height="@dimen/credit_btn_height"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="147dp"
-        android:text="@string/credit_btn_text" />
-
-    <EditText
-        android:id="@+id/edit_name"
-        android:layout_width="@dimen/credit_edit_text_width"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_phone"
-        android:layout_alignLeft="@+id/edit_phone"
-        android:layout_marginBottom="22dp"
-        android:ems="10"
-        android:hint="@string/credit_edit_hint_name"
-        android:inputType="text" />
-
-    <EditText
-        android:id="@+id/edit_phone"
-        android:layout_width="@dimen/credit_edit_text_width"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_order"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
-        android:ems="10"
-        android:hint="@string/credit_edit_hint_phone"
-        android:inputType="phone" />
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_head_text"
-        android:layout_width="@dimen/credit_text_view_width"
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="64dp"
         android:text="@string/credit_head_text"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size"
         android:textStyle="bold" />
 
-</RelativeLayout>
+    <EditText
+        android:id="@+id/edit_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/radius_edit_text"
+        android:drawableLeft="@drawable/ic_account_circle"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/colorAccent"
+        android:ems="10"
+        android:hint="@string/credit_edit_hint_name"
+        android:inputType="text"
+        android:paddingBottom="16dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="16dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/hint" />
+
+    <EditText
+        android:id="@+id/edit_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/radius_edit_text"
+        android:drawableLeft="@drawable/ic_contacts"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/colorAccent"
+        android:ems="10"
+        android:hint="@string/credit_edit_hint_phone"
+        android:inputType="phone"
+        android:paddingBottom="16dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="16dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/hint" />
+
+    <Button
+        android:id="@+id/btn_order"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/auth_btn_height"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/radius_button"
+        android:text="@string/credit_btn_text"
+        android:textColor="@color/white" />
+
+</LinearLayout><!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@color/colorPrimary">-->
+
+
+    <!--<TextView--><!--android:id="@+id/tv_head_text"--><!--android:layout_width="@dimen/credit_text_view_width"--><!--android:layout_height="wrap_content"--><!--android:layout_above="@+id/edit_name"--><!--android:layout_centerHorizontal="true"--><!--android:layout_marginBottom="50dp"--><!--android:text="@string/credit_head_text"--><!--android:textAlignment="center"--><!--android:textAllCaps="false"--><!--android:textColor="@color/black"--><!--android:textSize="@dimen/text_size"--><!--android:textStyle="bold" />-->
+
+    <!--</RelativeLayout>-->

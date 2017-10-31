@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/post_icon"
-                android:text="Центр вторичного жилья"
+                android:text="Вконтакте"
                 android:textColor="@color/black" />
 
 

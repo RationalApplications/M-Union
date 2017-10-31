@@ -10,6 +10,12 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import xyz.ratapp.munion.R
 import java.util.*
+import android.support.v4.content.ContextCompat.startActivity
+import android.content.pm.ResolveInfo
+import android.content.Intent
+import android.app.Activity
+import android.net.Uri
+
 
 /**
  * <p>Date: 29.10.17</p>
@@ -33,6 +39,25 @@ fun ImageView.loadImg(imageUrl: String) {
     } else {
         Glide.with(context).load(imageUrl).into(this)
     }
+}
+
+fun openLink(activity: Activity, url: String) {
+    //TODO: Я не смог перенести это в ресурсы, потому что лагала студия(
+    val VK_APP_PACKAGE_ID = "com.vkontakte.android"
+
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    val resInfo = activity.packageManager.queryIntentActivities(intent, 0)
+
+    if (resInfo.isEmpty()) return
+
+    for (info in resInfo) {
+        if (info.activityInfo == null) continue
+        if (VK_APP_PACKAGE_ID == info.activityInfo.packageName) {
+            intent.`package` = info.activityInfo.packageName
+            break
+        }
+    }
+    activity.startActivity(intent)
 }
 
 fun Long.getFriendlyTime(): String {

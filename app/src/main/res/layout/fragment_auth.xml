@@ -1,53 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <Button
-        android:id="@+id/auth_submit"
-        android:layout_width="@dimen/auth_btn_width"
-        android:layout_height="@dimen/auth_btn_height"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="147dp"
-        android:text="@string/auth_btn_text" />
-
-    <EditText
-        android:id="@+id/edit_phone"
-        android:layout_width="@dimen/auth_edit_text_width"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/auth_edit_hint_phone"
-        android:inputType="phone"
-        android:layout_marginBottom="19dp"
-        android:layout_above="@+id/edit_pass"
-        android:layout_centerHorizontal="true"/>
-
-    <EditText
-        android:id="@+id/edit_pass"
-        android:layout_width="@dimen/auth_edit_text_width"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/auth_edit_hint_pass"
-        android:inputType="textPassword"
-        android:layout_marginBottom="19dp"
-        android:layout_above="@+id/auth_submit"
-        android:layout_centerHorizontal="true" />
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_head_text"
-        android:layout_width="@dimen/auth_text_view_width"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_phone"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="64dp"
         android:text="@string/auth_head_text"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size"
         android:textStyle="bold" />
 
-</RelativeLayout>
+    <EditText
+        android:id="@+id/edit_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/radius_edit_text"
+        android:drawableLeft="@drawable/ic_contacts"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/colorAccent"
+        android:ems="10"
+        android:hint="@string/auth_edit_hint_phone"
+        android:inputType="phone"
+        android:paddingBottom="16dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="16dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/hint" />
+
+    <EditText
+        android:id="@+id/edit_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/radius_edit_text"
+        android:drawableLeft="@drawable/ic_lock"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/colorAccent"
+        android:ems="10"
+        android:hint="@string/auth_edit_hint_pass"
+        android:inputType="textPassword"
+        android:paddingBottom="16dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="16dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/hint" />
+
+    <Button
+        android:id="@+id/auth_submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/auth_btn_height"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/radius_button"
+        android:text="@string/auth_btn_text"
+        android:textColor="@color/white" />
+
+</LinearLayout>

@@ -1,11 +1,8 @@
 package xyz.ratapp.munion
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,6 +13,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navigation.titleState = AHBottomNavigation.TitleState.ALWAYS_HIDE
+        navigation.defaultBackgroundColor = this.resources.getColor(R.color.colorPrimaryDark)
+        navigation.accentColor = this.resources.getColor(R.color.colorAccent)
+        navigation.inactiveColor = this.resources.getColor(R.color.white)
         initNoAuth()
     }
 
