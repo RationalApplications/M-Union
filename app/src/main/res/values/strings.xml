@@ -12,14 +12,15 @@
     <string name="title_chat">Чат</string>
 
     <!-- Contacts Fragment -->
-    <string name="contacts_address">Выборгское шоссе, д.36, офис 212</string>
+    <string name="contacts_address">Санкт-Петербург, Выборгское шоссе, д.36, офис 212</string>
     <string name="contacts_address_head">Адресс:</string>
     <string name="contacts_site">продамжильё.рф</string>
     <string name="contacts_site_head">Сайт:</string>
     <string name="contacts_vk">https://vk.com/m_union</string>
-    <string name="contacts_vk_head">Вконтакте:</string>
-    <string name="contacts_phone">+7 (812) 988-64-14</string>
-    <string name="contacts_phone_head">Телефон:</string>
+    <string name="contacts_vk_head">Вконтакте</string>
+    <string name="contacts_phone">+7(812)988-64-14</string>
+    <string name="contacts_phone_head">Телефон</string>
+    <string name="contatcs_contact_us">Связаться с нами просто:</string>
 
 
     <!-- Auth Fragment -->
@@ -34,6 +35,10 @@
     <string name="credit_edit_hint_name">Ваше имя</string>
     <string name="credit_edit_hint_phone">Ваш телефон</string>
     <string name="credit_head_text">Оформите заявку на ипотеку прямо сейчас</string>
+    <string name="object">Матроса Железняка 57</string>
+    <string name="count_of_views">Количество \nпросмотров</string>
+    <string name="count_of_calls">Количество \nзвонков</string>
+    <string name="count_of_shows">Количество \nпоказов</string>
     <string name="input_message">Введите сообщение</string>
 
 
