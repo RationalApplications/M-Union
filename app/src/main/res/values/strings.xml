@@ -34,6 +34,7 @@
     <string name="credit_edit_hint_name">Ваше имя</string>
     <string name="credit_edit_hint_phone">Ваш телефон</string>
     <string name="credit_head_text">Оформите заявку на ипотеку прямо сейчас</string>
+    <string name="input_message">Введите сообщение</string>
 
 
 </resources>

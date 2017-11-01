@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat.startActivity
 import android.content.pm.ResolveInfo
 import android.content.Intent
 import android.app.Activity
+import android.content.Context
 import android.net.Uri
 
 
@@ -41,7 +42,7 @@ fun ImageView.loadImg(imageUrl: String) {
     }
 }
 
-fun openLink(activity: Activity, url: String) {
+fun openLink(activity: Context, url: String) {
     //TODO: Я не смог перенести это в ресурсы, потому что лагала студия(
     val VK_APP_PACKAGE_ID = "com.vkontakte.android"
 

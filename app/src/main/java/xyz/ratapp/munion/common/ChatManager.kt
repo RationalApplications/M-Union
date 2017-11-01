@@ -16,10 +16,10 @@ class ChatManager {
         return Observable.create { subscriber ->
             val messages = ArrayList<ChatModelItem>()
 
-            messages.add(ChatModelItem("hello", 1))
-            messages.add(ChatModelItem("hello!", 0))
-            messages.add(ChatModelItem("helllllo!\nhelllloe", 0))
-            messages.add(ChatModelItem("okay", 1))
+            messages.add(ChatModelItem("Напоминаю, завтра назначен просмотр на квартиру в 10:00", 1))
+            messages.add(ChatModelItem("Хорошо, спасибо за напоминание! ", 0))
+            messages.add(ChatModelItem("А не могли бы вы мне скинуть информацию о том, сколько человек звонило по поводу квартиры?", 0))
+            messages.add(ChatModelItem("Данную информацию вы можете посмотреть самостоятельно во вкладке статистики. Так же там вы можете найти детализацию звонков.", 1))
 
 
             val chatModel = ChatModel(messages)

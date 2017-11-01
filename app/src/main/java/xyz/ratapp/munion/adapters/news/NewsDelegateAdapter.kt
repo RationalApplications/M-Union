@@ -14,6 +14,7 @@ import xyz.ratapp.munion.adapters.ViewTypeDelegateAdapter
 import xyz.ratapp.munion.extensions.getFriendlyTime
 import xyz.ratapp.munion.extensions.inflate
 import xyz.ratapp.munion.extensions.loadImg
+import xyz.ratapp.munion.extensions.openLink
 import xyz.ratapp.munion.models.PostNewsItem
 
 /**
@@ -37,15 +38,20 @@ class NewsDelegateAdapter : ViewTypeDelegateAdapter {
                 if (!url.startsWith("http://") && !url.startsWith("https://"))
                     url = "http://" + url;
 
-                try {
-                    val UrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    startActivity(context, UrlIntent, null)
-                } catch (e: ActivityNotFoundException) {
-                    Snackbar.make(post_text, "No application can handle this request." + " Please install a webbrowser", Snackbar.LENGTH_LONG).show()
-                    e.printStackTrace()
-                }
+                openLink(context, url)
+
+//                try {
+//                    val UrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//                    startActivity(context, UrlIntent, null)
+//                } catch (e: ActivityNotFoundException) {
+//                    Snackbar.make(post_text, "No application can handle this request." + " Please install a webbrowser", Snackbar.LENGTH_LONG).show()
+//                    e.printStackTrace()
+//                }
 
             }
+
+
+            post_image.loadImg(item.image)
 
             post_icon.loadImg(item.thumbnail)
             post_author.text = item.author

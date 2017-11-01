@@ -46,12 +46,12 @@ class ChatFragment : RxBaseFragment() {
 
         initAdapter()
 
-//        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_CHAT)) {
-//            chatList = savedInstanceState.get(KEY_CHAT) as ChatModel
-//            (chat_list.adapter as ChatAdapter).clearAndAddMessages(chatList!!.chat)
-//        } else {
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_CHAT)) {
+            chatList = savedInstanceState.get(KEY_CHAT) as ChatModel
+            (chat_list.adapter as ChatAdapter).clearAndAddMessages(chatList!!.chat)
+        } else {
             requestChat()
-//        }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

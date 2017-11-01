@@ -9,7 +9,7 @@
         android:id="@+id/chat_text"
         android:text="@string/ipsum"
         android:paddingRight="18dp"
-        android:background="@drawable/bubble_chat2"
+        android:background="@drawable/chat2"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

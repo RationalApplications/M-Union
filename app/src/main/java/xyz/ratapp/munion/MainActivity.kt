@@ -116,6 +116,9 @@ class MainActivity : AppCompatActivity() {
         navigation.addItem(itemContact)
         navigation.addItem(itemStatistic)
 
+        navigation.setCurrentItem(0, false)
+
+
         navigation.setOnTabSelectedListener(listenerAuth)
     }
 }

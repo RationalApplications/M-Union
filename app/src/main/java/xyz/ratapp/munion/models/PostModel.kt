@@ -45,6 +45,7 @@ data class PostNewsItem(
         val text: String,
         val thumbnail: String,
         val url: String,
+        val image: String,
         val created: Long
 ) : ViewType, Parcelable {
 
@@ -63,6 +64,7 @@ data class PostNewsItem(
             parcelIn.readString(),
             parcelIn.readString(),
             parcelIn.readString(),
+            parcelIn.readString(),
             parcelIn.readLong()
 
     )
@@ -72,6 +74,7 @@ data class PostNewsItem(
         dest.writeString(text)
         dest.writeString(thumbnail)
         dest.writeString(url)
+        dest.writeString(image)
         dest.writeLong(created)
     }
 
