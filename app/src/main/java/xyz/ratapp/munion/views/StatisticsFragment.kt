@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.views
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -40,8 +41,8 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
         return inflater!!.inflate(R.layout.fragment_statistics, container, false)
     }
 
-    override fun getFragmentName(): String {
-        return getString(R.string.title_statistics)
+    override fun getFragmentName(context: Context): String {
+        return context.resources.getString(R.string.title_statistics)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.views.common;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 
 /**
@@ -9,6 +10,6 @@ import android.support.v4.app.Fragment;
  */
 public abstract class FragmentBase extends Fragment {
 
-    public abstract String getFragmentName();
+    public abstract String getFragmentName(Context context);
 
 }

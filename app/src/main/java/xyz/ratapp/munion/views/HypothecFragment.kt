@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.views
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +14,8 @@ import xyz.ratapp.munion.R
  */
 class HypothecFragment : FragmentBase() {
 
-    override fun getFragmentName(): String {
-        return getString(R.string.title_credit)
+    override fun getFragmentName(context: Context): String {
+        return context.resources.getString(R.string.title_credit)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {

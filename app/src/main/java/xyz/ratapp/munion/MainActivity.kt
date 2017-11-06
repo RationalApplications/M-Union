@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.main_container, fragment)
         ft.commit()
-        supportActionBar?.title = fragment.fragmentName
+        supportActionBar?.title = fragment.getFragmentName(this)
     }
 
     fun initNoAuth() {

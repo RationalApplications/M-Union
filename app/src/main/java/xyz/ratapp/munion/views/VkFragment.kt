@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.views
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
@@ -23,16 +24,16 @@ import xyz.ratapp.munion.models.PostNews
 
 class VkFragment : RxBaseFragment() {
     companion object {
-
         private val KEY_VK_NEWS = "vkNews"
     }
+
     private var postNews: PostNews? = null
 
     private val newsManager by lazy { NewsManager() }
 
 
-    override fun getFragmentName(): String {
-        return getString(R.string.title_news_feed)
+    override fun getFragmentName(context: Context): String {
+        return context.resources.getString(R.string.title_news_feed)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {

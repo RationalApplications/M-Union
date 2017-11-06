@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.views
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +20,8 @@ import xyz.ratapp.munion.extensions.openLink
  * @author Simon
  */
 class ContactsFragment : FragmentBase() {
-    override fun getFragmentName(): String {
-        return getString(R.string.title_contacts)
+    override fun getFragmentName(context: Context): String {
+        return context.resources.getString(R.string.title_contacts)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {

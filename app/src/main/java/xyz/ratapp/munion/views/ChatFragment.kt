@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.views
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
@@ -27,8 +28,8 @@ class ChatFragment : RxBaseFragment() {
     }
     private var chatList: ChatModel? = null
 
-    override fun getFragmentName(): String {
-        return getString(R.string.title_chat)
+    override fun getFragmentName(context: Context): String {
+        return context.resources.getString(R.string.title_chat)
     }
 
     private val chatManager by lazy { ChatManager() }

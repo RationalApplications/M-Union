@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.views.common
 
+import android.content.Context
 import rx.subscriptions.CompositeSubscription
 
 /**
@@ -22,5 +23,5 @@ abstract class RxBaseFragment: FragmentBase() {
         subscriptions.clear()
     }
 
-    abstract override fun getFragmentName(): String
+    abstract override fun getFragmentName(context: Context): String
 }
