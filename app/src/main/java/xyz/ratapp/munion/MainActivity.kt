@@ -1,11 +1,13 @@
 package xyz.ratapp.munion
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import kotlinx.android.synthetic.main.activity_main.*
+import xyz.ratapp.munion.views.*
+import xyz.ratapp.munion.views.common.FragmentBase
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,36 +21,36 @@ class MainActivity : AppCompatActivity() {
         initNoAuth()
     }
 
-    fun changeFragment(fragment: Fragment, title : String) {
+    fun changeFragment(fragment: FragmentBase) {
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.main_container, fragment)
         ft.commit()
-        supportActionBar?.title = title
+        supportActionBar?.title = fragment.fragmentName
     }
 
     fun initNoAuth() {
         navigation.removeAllItems()
-        changeFragment(VkFragment(), getString(R.string.title_news_feed))
+        changeFragment(VkFragment())
 
         val listenerNoAuth = AHBottomNavigation.OnTabSelectedListener { position, wasSelected ->
             when (position) {
                 0 -> {
-                    changeFragment(VkFragment(), getString(R.string.title_news_feed))
+                    changeFragment(VkFragment())
                     return@OnTabSelectedListener true
                 }
 
                 1 -> {
-                    changeFragment(AuthFragment(), getString(R.string.title_account))
+                    changeFragment(AuthFragment())
                     return@OnTabSelectedListener true
                 }
 
                 2 -> {
-                    changeFragment(HypothecFragment(), getString(R.string.title_credit))
+                    changeFragment(HypothecFragment())
                     return@OnTabSelectedListener true
                 }
 
                 3 -> {
-                    changeFragment(ContactsFragment(), getString(R.string.title_contacts))
+                    changeFragment(ContactsFragment())
                     return@OnTabSelectedListener true
                 }
             }
@@ -71,32 +73,32 @@ class MainActivity : AppCompatActivity() {
 
     fun initAuth() {
         navigation.removeAllItems()
-        changeFragment(VkFragment(), getString(R.string.title_news_feed))
+        changeFragment(VkFragment())
 
         val listenerAuth = AHBottomNavigation.OnTabSelectedListener { position, wasSelected ->
             when (position) {
                 0 -> {
-                    changeFragment(VkFragment(), getString(R.string.title_news_feed))
+                    changeFragment(VkFragment())
                     return@OnTabSelectedListener true
                 }
 
                 1 -> {
-                    changeFragment(ChatFragment(), getString(R.string.title_chat))
+                    changeFragment(ChatFragment())
                     return@OnTabSelectedListener true
                 }
 
                 2 -> {
-                    changeFragment(HypothecFragment(), getString(R.string.title_credit))
+                    changeFragment(HypothecFragment())
                     return@OnTabSelectedListener true
                 }
 
                 3 -> {
-                    changeFragment(ContactsFragment(), getString(R.string.title_contacts))
+                    changeFragment(ContactsFragment())
                     return@OnTabSelectedListener true
                 }
 
                 4 -> {
-                    changeFragment(StatisticsFragment(), getString(R.string.title_statistics))
+                    changeFragment(StatisticsFragment())
                     return@OnTabSelectedListener true
                 }
             }

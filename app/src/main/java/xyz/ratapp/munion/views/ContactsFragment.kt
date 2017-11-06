@@ -1,7 +1,6 @@
-package xyz.ratapp.munion
+package xyz.ratapp.munion.views
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,8 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import kotlinx.android.synthetic.main.fragment_contacts.*
+import xyz.ratapp.munion.views.common.FragmentBase
+import xyz.ratapp.munion.R
 import xyz.ratapp.munion.extensions.openLink
 
 
@@ -17,7 +18,10 @@ import xyz.ratapp.munion.extensions.openLink
  * <p>Date: 29.10.17</p>
  * @author Simon
  */
-class ContactsFragment : Fragment() {
+class ContactsFragment : FragmentBase() {
+    override fun getFragmentName(): String {
+        return getString(R.string.title_contacts)
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -27,7 +31,8 @@ class ContactsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        contacts_address_body.apply {
+
+        contacts_telephone_body.apply {
             contacts_telephone_body.setOnClickListener({
                 val phone = resources.getText(R.string.contacts_phone)
                 val intent = Intent(Intent.ACTION_CALL)
@@ -41,23 +46,23 @@ class ContactsFragment : Fragment() {
             })
         }
 
-        contacts_telephone_body.apply {
-            contacts_site_body.setOnClickListener({
+        contacts_vk_body.apply {
+            contacts_vk_body.setOnClickListener({
                 val link = resources.getText(R.string.contacts_vk) as String
                 openLink(activity, link)
             })
         }
 
-        contacts_address_body.apply {
-            contacts_address_body.setOnClickListener(View.OnClickListener {
+        contacts_site_body.apply {
+            contacts_site_body.setOnClickListener(View.OnClickListener {
                 //TODO: Я не смог перенести это в ресурсы, потому что лагала студия(
                 val link = "http://www.m-union.one"
                 openLink(activity, link)
             })
         }
 
-        contacts_vk_body.apply {
-            contacts_vk_body.setOnClickListener(View.OnClickListener {
+        contacts_address_body.apply {
+            contacts_address_body.setOnClickListener(View.OnClickListener {
                 //TODO: Я не смог перенести это в ресурсы, потому что лагала студия(
                 val address = "0,0?q=Выборгское+ш.,+36,+Санкт-Петербург,+194214"
                 val intent = Intent(Intent.ACTION_VIEW)

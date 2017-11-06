@@ -1,13 +1,12 @@
-package xyz.ratapp.munion
+package xyz.ratapp.munion.views.common
 
-import android.support.v4.app.Fragment
 import rx.subscriptions.CompositeSubscription
 
 /**
  * <p>Date: 29.10.17</p>
  * @author Simon
  */
-open class RxBaseFragment: Fragment() {
+abstract class RxBaseFragment: FragmentBase() {
     protected var subscriptions = CompositeSubscription()
 
     override fun onResume() {
@@ -22,4 +21,6 @@ open class RxBaseFragment: Fragment() {
         }
         subscriptions.clear()
     }
+
+    abstract override fun getFragmentName(): String
 }

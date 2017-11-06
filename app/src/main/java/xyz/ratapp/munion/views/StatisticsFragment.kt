@@ -1,13 +1,10 @@
-package xyz.ratapp.munion
+package xyz.ratapp.munion.views
 
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.text.style.RelativeSizeSpan
-import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,21 +22,26 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.fragment_statistics.*
+import xyz.ratapp.munion.views.common.FragmentBase
+import xyz.ratapp.munion.R
 import java.util.ArrayList
 
 /**
  * <p>Date: 30.10.17</p>
  * @author Simon
  */
-class StatisticsFragment : Fragment(), OnChartValueSelectedListener {
-
+class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
     private lateinit var mChart: PieChart
+
     private lateinit var mTfRegular: Typeface
     private lateinit var mTfLight: Typeface
 
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_statistics, container, false)
+    }
+
+    override fun getFragmentName(): String {
+        return getString(R.string.title_statistics)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

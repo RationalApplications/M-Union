@@ -1,18 +1,50 @@
 package xyz.ratapp.munion.common
 
+import android.util.Log
+import com.vk.sdk.api.VKApi
+import com.vk.sdk.api.VKApiConst
+import com.vk.sdk.api.VKParameters
+import com.vk.sdk.api.VKRequest
 import rx.Observable
 import xyz.ratapp.munion.models.PostNews
 import xyz.ratapp.munion.models.PostNewsItem
+import com.vk.sdk.api.VKError
+import com.vk.sdk.api.VKResponse
+import com.vk.sdk.api.VKRequest.VKRequestListener
+import com.vk.sdk.api.model.VKApiPost
+import com.vk.sdk.api.model.VKList
 
 /**
  * <p>Date: 29.10.17</p>
  * @author Simon
+ *
  */
 class NewsManager {
 
-    fun getNews(after: String, limit: String = "10"): Observable<PostNews> {
+    fun getNews(after: String = "0", limit: String = "10"): Observable<PostNews> {
         return Observable.create { subscriber ->
 
+            val request = VKApi.wall().get(VKParameters.from(
+                    VKApiConst.ACCESS_TOKEN, "7c2f78977c2f78977c2f7897cf7c702df577c2f7c2f789725d0547ae54d871015328f12",
+                    VKApiConst.OWNER_ID, "-115518472",
+                    VKApiConst.COUNT, "10",
+                    VKApiConst.FIELDS, "text",
+                    VKApiConst.FILTERS, "owner"))
+
+            request.executeWithListener(object : VKRequestListener() {
+                override fun onComplete(response: VKResponse?) {
+                    println(response.toString())
+                    println(response?.json.toString())
+                }
+
+                override fun onError(error: VKError?) {
+                    Log.d("VK", error.toString())
+                }
+
+                override fun attemptFailed(request: VKRequest?, attemptNumber: Int, totalAttempts: Int) {
+                    Log.d("VK", "attemptFailed")
+                }
+            })
 
             val news = ArrayList<PostNewsItem>()
             news.add(PostNewsItem(

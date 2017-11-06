@@ -1,4 +1,4 @@
-package xyz.ratapp.munion
+package xyz.ratapp.munion.views
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_vk.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import xyz.ratapp.munion.R
+import xyz.ratapp.munion.views.common.RxBaseFragment
 import xyz.ratapp.munion.adapters.news.NewsAdapter
 import xyz.ratapp.munion.common.NewsManager
 import xyz.ratapp.munion.extensions.inflate
@@ -20,13 +22,18 @@ import xyz.ratapp.munion.models.PostNews
  */
 
 class VkFragment : RxBaseFragment() {
-
     companion object {
+
         private val KEY_VK_NEWS = "vkNews"
     }
-
     private var postNews: PostNews? = null
+
     private val newsManager by lazy { NewsManager() }
+
+
+    override fun getFragmentName(): String {
+        return getString(R.string.title_news_feed)
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_vk, false)
