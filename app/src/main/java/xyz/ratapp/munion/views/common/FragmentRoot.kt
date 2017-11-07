@@ -15,7 +15,7 @@ import xyz.ratapp.munion.extensions.inflate
  * @author Simon
  */
 
-class FragmentRoot : Fragment() {
+abstract class FragmentRoot : FragmentBase() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_root, false)
@@ -23,7 +23,7 @@ class FragmentRoot : Fragment() {
 
     fun changeFragment(fragment : Fragment){
         val ft = childFragmentManager.beginTransaction()
-        ft.replace(R.id.main_container, fragment)
+        ft.replace(R.id.child_container, fragment)
         ft.commit()
     }
 }

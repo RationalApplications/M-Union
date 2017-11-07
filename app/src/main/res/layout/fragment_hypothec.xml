@@ -74,9 +74,4 @@
         android:text="@string/credit_btn_text"
         android:textColor="@color/white" />
 
-</LinearLayout><!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@color/colorPrimary">-->
-
-
-    <!--<TextView--><!--android:id="@+id/tv_head_text"--><!--android:layout_width="@dimen/credit_text_view_width"--><!--android:layout_height="wrap_content"--><!--android:layout_above="@+id/edit_name"--><!--android:layout_centerHorizontal="true"--><!--android:layout_marginBottom="50dp"--><!--android:text="@string/credit_head_text"--><!--android:textAlignment="center"--><!--android:textAllCaps="false"--><!--android:textColor="@color/black"--><!--android:textSize="@dimen/text_size"--><!--android:textStyle="bold" />-->
-
-    <!--</RelativeLayout>-->
+</LinearLayout>

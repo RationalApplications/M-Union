@@ -7,6 +7,8 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import kotlinx.android.synthetic.main.activity_main.*
 import xyz.ratapp.munion.views.*
 import xyz.ratapp.munion.views.common.FragmentBase
+import xyz.ratapp.munion.views.hypothec.HypothecFragment
+import xyz.ratapp.munion.views.hypothec.HypothecRootFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 2 -> {
-                    changeFragment(HypothecFragment())
+                    changeFragment(HypothecRootFragment())
                     return@OnTabSelectedListener true
                 }
 
@@ -88,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 2 -> {
-                    changeFragment(HypothecFragment())
+                    changeFragment(HypothecRootFragment())
                     return@OnTabSelectedListener true
                 }
 
