@@ -28,7 +28,7 @@ class HypothecFragment : Fragment() {
 
         btn_order.apply {
             btn_order.setOnClickListener {
-                (parentFragment as FragmentRoot).changeFragment(CameraFragment())
+                (parentFragment as FragmentRoot).changeFragment(CameraFragment.newInstance("Фото"))
             }
         }
     }

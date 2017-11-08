@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         navigation.accentColor = this.resources.getColor(R.color.colorAccent)
         navigation.inactiveColor = this.resources.getColor(R.color.white)
         initNoAuth()
+        setSupportActionBar(toolbar)
     }
 
     fun changeFragment(fragment: FragmentBase) {
@@ -124,6 +125,10 @@ class MainActivity : AppCompatActivity() {
 
 
         navigation.setOnTabSelectedListener(listenerAuth)
+    }
+
+    fun getNavigation() : AHBottomNavigation{
+        return navigation
     }
 }
 

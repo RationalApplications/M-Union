@@ -6,6 +6,8 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.TextViewCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -30,23 +32,45 @@ import xyz.ratapp.munion.views.common.FullscreenFragment;
  * @author Simon
  */
 
-public class CameraFragment extends FragmentBase implements
+public class CameraFragment extends FullscreenFragment implements
         SurfaceHolder.Callback,
         View.OnClickListener,
         Camera.PictureCallback,
         Camera.PreviewCallback,
         Camera.AutoFocusCallback {
 
+    private static final String ARGS_TEXT = "camera_args_text";
+    private static final String ARGS_WIDTH = "camera_args_width";
+    private static final String ARGS_HEIGHT = "camera_args_height";
+
     private Camera camera;
     private SurfaceHolder surfaceHolder;
     private SurfaceView preview;
     private ImageButton shotBtn;
+    private AppCompatTextView cameraText;
+
+    public static CameraFragment newInstance(String text){
+        CameraFragment fragment = new CameraFragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putString(ARGS_TEXT, text);
+
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
-
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (camera != null){
+                    camera.autoFocus(null);
+                }
+            }
+        });
 
         preview = view.findViewById(R.id.camera_surface);
 
@@ -57,6 +81,13 @@ public class CameraFragment extends FragmentBase implements
         shotBtn = view.findViewById(R.id.camera_shot);
         shotBtn.setOnClickListener(this);
 
+        cameraText = view.findViewById(R.id.camera_text);
+
+        Bundle args = getArguments();
+        if (args != null){
+            cameraText.setText(args.getString(ARGS_TEXT));
+        }
+
         return view;
     }
 
@@ -65,6 +96,7 @@ public class CameraFragment extends FragmentBase implements
     public void onResume() {
         super.onResume();
         camera = Camera.open();
+        camera.autoFocus(null);
     }
 
     @Override
@@ -92,7 +124,6 @@ public class CameraFragment extends FragmentBase implements
             e.printStackTrace();
         }
 
-        // портретный вид
         camera.setDisplayOrientation(90);
         camera.startPreview();
     }
@@ -104,10 +135,6 @@ public class CameraFragment extends FragmentBase implements
     @Override
     public void onClick(View v) {
         if (v == shotBtn) {
-            // либо делаем снимок непосредственно здесь
-            // 	либо включаем обработчик автофокуса
-
-            //camera.takePicture(null, null, null, this);
             camera.autoFocus(this);
         }
     }
@@ -128,6 +155,7 @@ public class CameraFragment extends FragmentBase implements
             os.write(paramArrayOfByte);
             os.close();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         // после того, как снимок сделан, показ превью отключается. необходимо включить его
