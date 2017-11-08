@@ -12,6 +12,7 @@
     <string name="title_contacts">Контакты</string>
     <string name="title_statistics">Статистика</string>
     <string name="title_chat">Чат</string>
+    <string name="title_personal_cabinet">Личный кабинет</string>
 
     <!-- Contacts Fragment -->
     <string name="contacts_address">Санкт-Петербург, Выборгское шоссе, д.36, офис 212</string>
@@ -49,5 +50,10 @@
 
     <string name="action_settings">Settings</string>
 
-
+    <!-- CabinetActivity -->
+    <string name="address_btn_example">Сенная пл., 1, кв 5</string>
+    <string name="cabinet_tv_name_example">Олег</string>
+    <string name="cabinet_tv_date_of_publish_example">Дата размещения: 03.11.17</string>
+    <string name="cabinet_btn_copy_link">Копировать ссылку</string>
+    <string name="cabinet_btn_out_money">Вывести средства</string>
 </resources>

@@ -22,8 +22,16 @@ class MainActivity : AppCompatActivity() {
         navigation.defaultBackgroundColor = this.resources.getColor(R.color.colorPrimaryDark)
         navigation.accentColor = this.resources.getColor(R.color.colorAccent)
         navigation.inactiveColor = this.resources.getColor(R.color.white)
+
+        iv_bar.setImageDrawable(resources.getDrawable(R.drawable.icon_me))
+        iv_bar.setOnClickListener(View.OnClickListener {
+            val i = Intent(this, CabinetActivity::class.java)
+            startActivity(i)
+        })
+
         initNoAuth()
         setSupportActionBar(toolbar)
+        supportActionBar?.title = getString(R.string.title_news_feed)
     }
 
     fun changeFragment(fragment: FragmentBase) {
@@ -66,8 +74,6 @@ class MainActivity : AppCompatActivity() {
         val itemAuth = AHBottomNavigationItem(getString(R.string.title_account), R.drawable.ic_account_circle_white)
         val itemHypothec = AHBottomNavigationItem(getString(R.string.title_credit), R.drawable.ic_hypothec)
         val itemContact = AHBottomNavigationItem(getString(R.string.title_contacts), R.drawable.ic_contacts_white)
-
-        iv_bar.setImageDrawable(resources.getDrawable(R.drawable.icon_me))
 
         navigation.addItem(itemNews)
         navigation.addItem(itemAuth)
@@ -124,10 +130,7 @@ class MainActivity : AppCompatActivity() {
         navigation.addItem(itemContact)
         navigation.addItem(itemStatistic)
 
-        iv_bar.setImageDrawable(resources.getDrawable(R.drawable.icon_me))
-        iv_bar.setOnClickListener(View.OnClickListener {
-            TODO("переход в ЛК")
-        })
+
 
         navigation.setCurrentItem(0, false)
 

@@ -26,5 +26,8 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!-- Cabinet -->
+    <dimen name="cabinet_address_btn_height">30dp</dimen>
+
 
 </resources>
