@@ -29,9 +29,8 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="48dp"
         android:background="@drawable/radius_edit_text"
-        android:drawableLeft="@drawable/ic_contacts"
+        android:drawableLeft="@drawable/ic_contacts_white"
         android:drawablePadding="10dp"
-        android:drawableTint="@color/colorAccent"
         android:ems="10"
         android:hint="@string/auth_edit_hint_phone"
         android:inputType="phone"
@@ -50,9 +49,8 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/radius_edit_text"
-        android:drawableLeft="@drawable/ic_lock"
+        android:drawableLeft="@drawable/ic_lock_white"
         android:drawablePadding="10dp"
-        android:drawableTint="@color/colorAccent"
         android:ems="10"
         android:hint="@string/auth_edit_hint_pass"
         android:inputType="textPassword"
@@ -72,6 +70,6 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/radius_button"
         android:text="@string/auth_btn_text"
-        android:textColor="@color/white" />
+        android:textColor="@color/colorPrimaryDark" />
 
 </LinearLayout>

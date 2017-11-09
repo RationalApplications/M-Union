@@ -1,7 +1,9 @@
 package xyz.ratapp.munion
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -61,10 +63,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         val itemNews = AHBottomNavigationItem(getString(R.string.title_news_feed), R.drawable.ic_news)
-        val itemAuth = AHBottomNavigationItem(getString(R.string.title_account), R.drawable.ic_account_circle)
+        val itemAuth = AHBottomNavigationItem(getString(R.string.title_account), R.drawable.ic_account_circle_white)
         val itemHypothec = AHBottomNavigationItem(getString(R.string.title_credit), R.drawable.ic_hypothec)
-        val itemContact = AHBottomNavigationItem(getString(R.string.title_contacts), R.drawable.ic_contacts)
+        val itemContact = AHBottomNavigationItem(getString(R.string.title_contacts), R.drawable.ic_contacts_white)
 
+        iv_bar.setImageDrawable(resources.getDrawable(R.drawable.icon_me))
 
         navigation.addItem(itemNews)
         navigation.addItem(itemAuth)
@@ -111,7 +114,7 @@ class MainActivity : AppCompatActivity() {
         val itemNews = AHBottomNavigationItem(getString(R.string.title_news_feed), R.drawable.ic_news)
         val itemChat = AHBottomNavigationItem(getString(R.string.title_chat), R.drawable.ic_chat)
         val itemHypothec = AHBottomNavigationItem(getString(R.string.title_credit), R.drawable.ic_hypothec)
-        val itemContact = AHBottomNavigationItem(getString(R.string.title_contacts), R.drawable.ic_contacts)
+        val itemContact = AHBottomNavigationItem(getString(R.string.title_contacts), R.drawable.ic_contacts_white)
         val itemStatistic = AHBottomNavigationItem(getString(R.string.title_statistics), R.drawable.ic_statistic)
 
 
@@ -121,8 +124,12 @@ class MainActivity : AppCompatActivity() {
         navigation.addItem(itemContact)
         navigation.addItem(itemStatistic)
 
-        navigation.setCurrentItem(0, false)
+        iv_bar.setImageDrawable(resources.getDrawable(R.drawable.icon_me))
+        iv_bar.setOnClickListener(View.OnClickListener {
+            TODO("переход в ЛК")
+        })
 
+        navigation.setCurrentItem(0, false)
 
         navigation.setOnTabSelectedListener(listenerAuth)
     }
