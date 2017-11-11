@@ -11,10 +11,7 @@ import kotlinx.android.synthetic.main.item_post.view.*
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.adapters.ViewType
 import xyz.ratapp.munion.adapters.ViewTypeDelegateAdapter
-import xyz.ratapp.munion.extensions.getFriendlyTime
-import xyz.ratapp.munion.extensions.inflate
-import xyz.ratapp.munion.extensions.loadImg
-import xyz.ratapp.munion.extensions.openLink
+import xyz.ratapp.munion.extensions.*
 import xyz.ratapp.munion.models.PostNewsItem
 
 /**
@@ -38,7 +35,7 @@ class NewsDelegateAdapter : ViewTypeDelegateAdapter {
                 if (!url.startsWith("http://") && !url.startsWith("https://"))
                     url = "http://" + url;
 
-                openLink(context, url)
+                url.openItLink(context)
 
 //                try {
 //                    val UrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))

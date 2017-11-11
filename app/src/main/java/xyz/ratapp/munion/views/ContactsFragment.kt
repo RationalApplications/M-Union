@@ -12,7 +12,7 @@ import android.util.Log
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import xyz.ratapp.munion.views.common.FragmentBase
 import xyz.ratapp.munion.R
-import xyz.ratapp.munion.extensions.openLink
+import xyz.ratapp.munion.extensions.openItLink
 
 
 /**
@@ -50,15 +50,14 @@ class ContactsFragment : FragmentBase() {
         contacts_vk_body.apply {
             contacts_vk_body.setOnClickListener({
                 val link = resources.getText(R.string.contacts_vk) as String
-                openLink(activity, link)
+                link.openItLink(activity)
             })
         }
 
         contacts_site_body.apply {
             contacts_site_body.setOnClickListener(View.OnClickListener {
-                //TODO: Я не смог перенести это в ресурсы, потому что лагала студия(
                 val link = "http://www.m-union.one"
-                openLink(activity, link)
+                link.openItLink(activity)
             })
         }
 

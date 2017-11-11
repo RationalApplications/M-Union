@@ -1,5 +1,7 @@
 package xyz.ratapp.munion;
 
+import android.content.Context;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -9,13 +11,16 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 
 import xyz.ratapp.munion.R;
 
@@ -37,12 +42,27 @@ public class CameraActivity extends AppCompatActivity implements
     private static final String ARGS_WIDTH = "camera_args_width";
     private static final String ARGS_HEIGHT = "camera_args_height";
 
+    private String argsText;
+    private Integer argsWidth;
+    private Integer argsHeight;
+
     private Camera camera;
     private SurfaceHolder surfaceHolder;
     private SurfaceView preview;
     private ImageButton shotBtn;
     private AppCompatTextView cameraText;
     private ImageButton backButton;
+
+    public static Intent newIntent(Context context, String text, int width, int height) {
+        Intent i = new Intent(context, CameraActivity.class);
+
+        i.putExtra(ARGS_TEXT, text);
+        i.putExtra(ARGS_WIDTH, width);
+        i.putExtra(ARGS_HEIGHT, height);
+
+        return i;
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,11 +74,15 @@ public class CameraActivity extends AppCompatActivity implements
 
         setContentView(R.layout.fragment_camera);
 
+        argsText = getIntent().getStringExtra(ARGS_TEXT);
+        argsWidth = getIntent().getIntExtra(ARGS_WIDTH, 200);
+        argsHeight = getIntent().getIntExtra(ARGS_HEIGHT, 300);
+
         View view = findViewById(R.id.camera_frame_layout);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (camera != null){
+                if (camera != null) {
                     camera.autoFocus(null);
                 }
             }
@@ -81,8 +105,10 @@ public class CameraActivity extends AppCompatActivity implements
             }
         });
 
-        cameraText.setText("Сделайте фото паспорта");
+        cameraText.setText(argsText);
 
+        View cameraDocumentFrame = findViewById(R.id.camera_document_frame);
+        resizeView(cameraDocumentFrame, argsWidth, argsHeight);
     }
 
     @Override
@@ -166,5 +192,13 @@ public class CameraActivity extends AppCompatActivity implements
     @Override
     public void onPreviewFrame(byte[] paramArrayOfByte, Camera paramCamera) {
         // здесь можно обрабатывать изображение, показываемое в preview
+    }
+
+    private void resizeView(View view, int newWidth, int newHeight) {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)view.getLayoutParams();
+        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        layoutParams.width = newWidth;
+        layoutParams.height = newHeight;
+        view.setLayoutParams(layoutParams);
     }
 }

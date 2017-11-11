@@ -42,12 +42,12 @@ fun ImageView.loadImg(imageUrl: String) {
     }
 }
 
-fun openLink(activity: Context, url: String) {
-    //TODO: Я не смог перенести это в ресурсы, потому что лагала студия(
+fun String.openItLink(context: Context) {
+    //TODO: в ресурсы
     val VK_APP_PACKAGE_ID = "com.vkontakte.android"
 
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-    val resInfo = activity.packageManager.queryIntentActivities(intent, 0)
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(this))
+    val resInfo = context.packageManager.queryIntentActivities(intent, 0)
 
     if (resInfo.isEmpty()) return
 
@@ -58,7 +58,7 @@ fun openLink(activity: Context, url: String) {
             break
         }
     }
-    activity.startActivity(intent)
+    context.startActivity(intent)
 }
 
 fun Long.getFriendlyTime(): String {

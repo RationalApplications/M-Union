@@ -30,7 +30,7 @@ class HypothecFragment : Fragment() {
 
         btn_order.apply {
             btn_order.setOnClickListener {
-                val i = Intent(activity, CameraActivity::class.java)
+                val i = CameraActivity.newIntent(activity, "Новое фото", 350, 560)
                 startActivity(i)
             }
         }
