@@ -16,49 +16,102 @@
 
         <ImageButton
             android:id="@+id/camera_back"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            app:srcCompat="@drawable/ic_arrow_back"
-            android:tint="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:padding="16dp"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_arrow_back" />
 
 
         <android.support.v7.widget.AppCompatTextView
-            android:layout_below="@id/camera_back"
-            android:textSize="24sp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textAlignment="center"
             android:id="@+id/camera_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:autoSizeTextType="uniform"
+            android:layout_below="@id/camera_back"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textAlignment="center"
             android:textColor="@color/white"
-            android:maxLines="1"/>
+            android:textSize="24sp"
+            app:autoSizeTextType="uniform" />
 
         <ImageView
             android:id="@+id/camera_document_frame"
             android:layout_width="168dp"
             android:layout_height="256dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_camera_frame"/>
+            android:src="@drawable/ic_camera_frame" />
 
         <ImageButton
-            android:src="@drawable/ic_camera_shot"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
             android:id="@+id/camera_shot"
-            android:background="@null"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:src="@drawable/ic_camera_shot" />
+
+        <Button
+            android:id="@+id/camera_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:background="@null"
+            android:drawablePadding="6dp"
+            android:drawableLeft="@drawable/ic_done"
+            android:drawableTint="@color/colorAccent"
+            android:text="Accept"
+            android:textColor="@color/colorAccent"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/camera_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="8dp"
+            android:background="@null"
+            android:text="Cancel"
+            android:drawablePadding="6dp"
+            android:drawableLeft="@drawable/ic_cancel"
+            android:drawableTint="@color/white"
+            android:textColor="@color/white"
+            android:visibility="invisible" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/camera_loading"
+        android:visibility="invisible"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:layout_gravity="center_horizontal"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            style="@style/Widget.AppCompat.ProgressBar"/>
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:layout_marginTop="6dp"
+            android:text="Saving..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 
 </FrameLayout>
