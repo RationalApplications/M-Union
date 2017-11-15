@@ -29,6 +29,7 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun addMessages(news: List<ChatModelItem>) {
         // insert news and the loading at the end of the list
         items.addAll(news)
+        notifyItemRangeInserted(0, items.size)
     }
 
     fun clearAndAddMessages(news: List<ChatModelItem>){
