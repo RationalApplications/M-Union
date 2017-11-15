@@ -28,7 +28,10 @@ class HypothecFragment : Fragment() {
         val REQUEST_CODE_PHOTO: Int = 801;
     }
 
+    //TODO: убрать счетчик
+
     var photoUris: ArrayList<Uri> = ArrayList()
+    var count = 0;
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_hypothec, false)
@@ -39,8 +42,7 @@ class HypothecFragment : Fragment() {
 
         hypothec_btn_order.apply {
             hypothec_btn_order.setOnClickListener {
-                val i = CameraActivity.newIntent(activity, "Новое фото", 350, 560)
-                startActivityForResult(i, REQUEST_CODE_PHOTO)
+                runCamera("Сделайте фото паспорта", 88 * 7, 125 * 7)
             }
         }
     }
@@ -48,23 +50,41 @@ class HypothecFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode != Activity.RESULT_OK){
+        if (resultCode != Activity.RESULT_OK) {
             return
         }
 
-        if (requestCode  == REQUEST_CODE_PHOTO){
-            if (data == null){
+        if (requestCode == REQUEST_CODE_PHOTO) {
+            if (data == null) {
                 return
             }
             photoUris.add(CameraActivity.getPhotoUri(data))
 
-            Log.d("TAG", photoUris[0].toString())
+            when (count) {
+                1 -> {
+                    runCamera("Сделайте фото ИНН", 210 * 3, 297 * 3)
+                }
 
-            hypothec_text.text = "Заявка отправлена на обработку"
-            hypothec_edit_name.visibility = View.INVISIBLE
-            hypothec_edit_phone.visibility = View.INVISIBLE
-            hypothec_btn_order.visibility = View.INVISIBLE
+                2 -> {
+                    runCamera("Сделайте фото СНИЛС", 115 * 6, 80 * 6)
+                }
+
+                3 -> {
+                    hypothec_text.text = "Заявка отправлена на рассмотрение"
+                    hypothec_edit_name.visibility = View.INVISIBLE
+                    hypothec_edit_phone.visibility = View.INVISIBLE
+                    hypothec_btn_order.visibility = View.INVISIBLE
+                }
+
+            }
+
         }
+    }
+
+    fun runCamera(text: String, width: Int, height: Int) {
+        val i = CameraActivity.newIntent(activity, text, width, height)
+        startActivityForResult(i, REQUEST_CODE_PHOTO)
+        count++
     }
 
 }

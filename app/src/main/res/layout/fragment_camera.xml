@@ -91,6 +91,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:layout_gravity="center"
         android:id="@+id/camera_loading"
         android:visibility="invisible"
         android:orientation="vertical"
