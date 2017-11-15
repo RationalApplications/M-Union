@@ -2,8 +2,10 @@ package xyz.ratapp.munion
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.Toast
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,12 +25,6 @@ class MainActivity : AppCompatActivity() {
         navigation.accentColor = this.resources.getColor(R.color.colorAccent)
         navigation.inactiveColor = this.resources.getColor(R.color.white)
 
-        iv_bar.setImageDrawable(resources.getDrawable(R.drawable.icon_me))
-        iv_bar.setOnClickListener(View.OnClickListener {
-            val i = Intent(this, CabinetActivity::class.java)
-            startActivity(i)
-        })
-
         initNoAuth()
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.title_news_feed)
@@ -42,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initNoAuth() {
+
         navigation.removeAllItems()
         changeFragment(VkFragment())
 
@@ -84,6 +81,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initAuth() {
+
+        iv_bar.setImageDrawable(resources.getDrawable(R.drawable.icon_me))
+        iv_bar.setOnClickListener(View.OnClickListener {
+            val i = Intent(this, CabinetActivity::class.java)
+            startActivity(i)
+        })
+
         navigation.removeAllItems()
         changeFragment(VkFragment())
 
@@ -139,6 +143,19 @@ class MainActivity : AppCompatActivity() {
 
     fun getNavigation() : AHBottomNavigation{
         return navigation
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == -1){
+            initAuth()
+        }
+        else
+        {
+            Toast.makeText(applicationContext, "Can't authorize", Toast.LENGTH_LONG ).show()
+        }
     }
 }
 
