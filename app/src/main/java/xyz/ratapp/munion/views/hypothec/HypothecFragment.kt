@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_hypothec.*
 import xyz.ratapp.munion.CameraActivity
 import xyz.ratapp.munion.views.common.FragmentBase
 import xyz.ratapp.munion.R
+import xyz.ratapp.munion.email.Sender
 import xyz.ratapp.munion.extensions.inflate
 import xyz.ratapp.munion.views.CameraFragment
 import xyz.ratapp.munion.views.common.FragmentRoot
@@ -70,6 +71,11 @@ class HypothecFragment : Fragment() {
                 }
 
                 3 -> {
+                    Sender.getInstance()
+                            .sendMessage(activity,
+                                    hypothec_edit_name.text.toString(),
+                                    hypothec_edit_phone.text.toString(),
+                                    photoUris)
                     hypothec_text.text = "Заявка отправлена на рассмотрение"
                     hypothec_edit_name.visibility = View.INVISIBLE
                     hypothec_edit_phone.visibility = View.INVISIBLE

@@ -25,12 +25,13 @@ public class Sender {
     public void sendMessage(Context context, String name, String phone, List<Uri> photos) {
         try {
             String email = "temp@gmail.com";
-            String sendTo = "temp@gmail.com";
+            String sendTo = "semavar3@gmail.com";
 
             SendTask sendTask;
             sendTask = new SendTask(context, "Заявка на ипотеку от " + name, name + "\n" + phone + "\n" + email + "\n" + email,
-                    "UBER777", sendTo, photos, "rational.app@gmail.com", "Dy4-SWx-vu8-Lna");
+                    "AZINO777", sendTo, photos, "rational.app@gmail.com", "Dy4-SWx-vu8-Lna");
             sendTask.execute();
+
         } catch (Exception e) {
             if (e.getMessage() != null)
                 Log.e("Exception", e.getMessage());
