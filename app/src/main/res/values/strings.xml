@@ -56,4 +56,6 @@
     <string name="cabinet_tv_date_of_publish_example">Дата размещения: 03.11.17</string>
     <string name="cabinet_btn_copy_link">Копировать ссылку</string>
     <string name="cabinet_btn_out_money">Вывести средства</string>
+    <string name="cancel">Отмена</string>
+    <string name="signin">Войти</string>
 </resources>
