@@ -40,7 +40,6 @@ public class AuthActivity extends AppCompatActivity {
 
     private static final String TAG = "PhoneAuthActivity";
 
-
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]

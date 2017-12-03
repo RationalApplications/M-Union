@@ -34,8 +34,7 @@ class AuthFragment : FragmentBase() {
         super.onActivityCreated(savedInstanceState)
 
         auth_submit.apply {
-            auth_submit.setOnClickListener {/* v ->
-                (activity as MainActivity).inaitAuth()*/
+            auth_submit.setOnClickListener {
 
                 val i = Intent(context, AuthActivity::class.java)
                 if (edit_phone?.text.toString() != "" && (edit_phone?.text.toString()).startsWith('+') && edit_phone?.text.toString().length == 12)
