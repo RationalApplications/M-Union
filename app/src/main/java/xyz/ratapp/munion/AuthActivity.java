@@ -56,7 +56,6 @@ public class AuthActivity extends AppCompatActivity {
     //TODO: Наверное не должно быть static
     static String mVerificationId;
 
-
     ProgressBar pb;
 
     @Override
@@ -270,10 +269,7 @@ public class AuthActivity extends AppCompatActivity {
 
     }
 
-
-
     class MyTask extends AsyncTask<String, Void, Void> {
-
 
         @Override
         protected void onPreExecute() {

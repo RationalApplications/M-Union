@@ -36,7 +36,7 @@ class ContactsFragment : FragmentBase() {
         contacts_telephone_body.apply {
             contacts_telephone_body.setOnClickListener({
                 val phone = resources.getText(R.string.contacts_phone)
-                val intent = Intent(Intent.ACTION_CALL)
+                val intent = Intent(Intent.ACTION_DIAL)
                 intent.data = Uri.parse("tel:" + phone)
 
                 try {

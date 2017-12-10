@@ -1,5 +1,6 @@
 package xyz.ratapp.munion
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -11,11 +12,17 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import kotlinx.android.synthetic.main.activity_main.*
 import xyz.ratapp.munion.views.*
 import xyz.ratapp.munion.views.common.FragmentBase
-import xyz.ratapp.munion.views.hypothec.HypothecFragment
 import xyz.ratapp.munion.views.hypothec.HypothecRootFragment
+import android.content.pm.PackageManager
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        private val PERMISSIONS_REQUEST = 91
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +35,20 @@ class MainActivity : AppCompatActivity() {
         initNoAuth()
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.title_news_feed)
+
+        val permissions = emptyArray<String>()
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            permissions.plus(Manifest.permission.CAMERA)
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissions.plus(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+
+        if (permissions.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, permissions, PERMISSIONS_REQUEST)
+        }
     }
 
     fun changeFragment(fragment: FragmentBase) {
@@ -104,17 +125,17 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 2 -> {
-                    changeFragment(HypothecRootFragment())
+                    changeFragment(StatisticsFragment())
                     return@OnTabSelectedListener true
                 }
 
                 3 -> {
-                    changeFragment(ContactsFragment())
+                    changeFragment(HypothecRootFragment())
                     return@OnTabSelectedListener true
                 }
 
                 4 -> {
-                    changeFragment(StatisticsFragment())
+                    changeFragment(ContactsFragment())
                     return@OnTabSelectedListener true
                 }
             }
@@ -123,9 +144,9 @@ class MainActivity : AppCompatActivity() {
 
         val itemNews = AHBottomNavigationItem(getString(R.string.title_news_feed), R.drawable.ic_news)
         val itemChat = AHBottomNavigationItem(getString(R.string.title_chat), R.drawable.ic_chat)
+        val itemStatistic = AHBottomNavigationItem(getString(R.string.title_statistics), R.drawable.ic_statistic)
         val itemHypothec = AHBottomNavigationItem(getString(R.string.title_credit), R.drawable.ic_hypothec)
         val itemContact = AHBottomNavigationItem(getString(R.string.title_contacts), R.drawable.ic_contacts_white)
-        val itemStatistic = AHBottomNavigationItem(getString(R.string.title_statistics), R.drawable.ic_statistic)
 
 
         navigation.addItem(itemNews)
@@ -141,7 +162,7 @@ class MainActivity : AppCompatActivity() {
         navigation.setOnTabSelectedListener(listenerAuth)
     }
 
-    fun getNavigation() : AHBottomNavigation{
+    fun getNavigation(): AHBottomNavigation {
         return navigation
     }
 
@@ -149,12 +170,29 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == -1){
+        if (resultCode == -1) {
             initAuth()
+        } else {
+            Toast.makeText(applicationContext, "Can't authorize", Toast.LENGTH_LONG).show()
         }
-        else
-        {
-            Toast.makeText(applicationContext, "Can't authorize", Toast.LENGTH_LONG ).show()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            PERMISSIONS_REQUEST -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return
+            }
         }
     }
 }
