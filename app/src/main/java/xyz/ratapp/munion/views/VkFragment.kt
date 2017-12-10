@@ -85,6 +85,9 @@ class VkFragment : RxBaseFragment() {
                 private fun injectScriptFile(view: WebView, scriptFile: String) {
                     val input: InputStream
                     try {
+                        if (activity == null){
+                            return
+                        }
                         input = activity.assets.open(scriptFile)
                         val buffer = ByteArray(input.available())
                         input.read(buffer)
