@@ -1,6 +1,7 @@
 package xyz.ratapp.munion
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -16,6 +17,12 @@ import xyz.ratapp.munion.views.hypothec.HypothecRootFragment
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.util.Log
+import android.net.NetworkInfo
+import android.content.Context.CONNECTIVITY_SERVICE
+import android.net.ConnectivityManager
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,19 +43,20 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.title_news_feed)
 
-        val permissions = emptyArray<String>()
+        val permissions = ArrayList<String>()
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            permissions.plus(Manifest.permission.CAMERA)
+            permissions.add(Manifest.permission.CAMERA)
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissions.plus(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
 
         if (permissions.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this, permissions, PERMISSIONS_REQUEST)
+            ActivityCompat.requestPermissions(this, permissions.toTypedArray(), PERMISSIONS_REQUEST)
         }
+
     }
 
     fun changeFragment(fragment: FragmentBase) {
@@ -177,6 +185,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //todo error fragment if not granted
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             PERMISSIONS_REQUEST -> {
@@ -194,6 +203,22 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
+    }
+
+    fun setNoConnection(){
+        changeFragment(ErrorFragment.getInstance("No internet connection", "reload"))
+        navigation.visibility = View.INVISIBLE
+    }
+
+    fun setHaveConnection(){
+        changeFragment(VkFragment())
+        navigation.visibility = View.VISIBLE
+    }
+
+    private fun isOnline(): Boolean {
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val netInfo = cm.activeNetworkInfo
+        return netInfo != null && netInfo.isConnectedOrConnecting
     }
 }
 
