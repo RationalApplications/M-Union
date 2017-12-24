@@ -1,9 +1,9 @@
-package xyz.ratapp.munion.models
+package xyz.ratapp.munion.data.models
 
 import android.os.Parcel
 import android.os.Parcelable
-import xyz.ratapp.munion.adapters.AdapterConstants
-import xyz.ratapp.munion.adapters.ViewType
+import xyz.ratapp.munion.ui.adapters.AdapterConstants
+import xyz.ratapp.munion.ui.adapters.ViewType
 import xyz.ratapp.munion.extensions.createParcel
 
 /**

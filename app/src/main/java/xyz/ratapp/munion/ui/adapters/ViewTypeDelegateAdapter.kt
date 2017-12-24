@@ -1,4 +1,4 @@
-package xyz.ratapp.munion.adapters
+package xyz.ratapp.munion.ui.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup

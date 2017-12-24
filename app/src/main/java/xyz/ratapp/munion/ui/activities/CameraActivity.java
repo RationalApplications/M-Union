@@ -110,12 +110,7 @@ public class CameraActivity extends AppCompatActivity implements
         cameraText = findViewById(R.id.camera_text);
         backButton = findViewById(R.id.camera_back);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> onBackPressed());
 
         cameraText.setText(argsText);
 
@@ -210,28 +205,22 @@ public class CameraActivity extends AppCompatActivity implements
         shotBtn.setVisibility(View.GONE);
 
 
-        acceptPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri uri = savePhoto(paramArrayOfByte);
-                setResultUri(uri);
-                finish();
-            }
+        acceptPhoto.setOnClickListener(view -> {
+            Uri uri = savePhoto(paramArrayOfByte);
+            setResultUri(uri);
+            finish();
         });
 
-        cancelPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                acceptPhoto.setVisibility(View.GONE);
-                cancelPhoto.setVisibility(View.GONE);
+        cancelPhoto.setOnClickListener(view -> {
+            acceptPhoto.setVisibility(View.GONE);
+            cancelPhoto.setVisibility(View.GONE);
 
-                backButton.setVisibility(View.VISIBLE);
-                cameraText.setVisibility(View.VISIBLE);
-                cameraDocumentFrame.setVisibility(View.VISIBLE);
-                shotBtn.setVisibility(View.VISIBLE);
+            backButton.setVisibility(View.VISIBLE);
+            cameraText.setVisibility(View.VISIBLE);
+            cameraDocumentFrame.setVisibility(View.VISIBLE);
+            shotBtn.setVisibility(View.VISIBLE);
 
-                paramCamera.startPreview();
-            }
+            paramCamera.startPreview();
         });
 
     }

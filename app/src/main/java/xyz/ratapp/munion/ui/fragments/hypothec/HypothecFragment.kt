@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_hypothec.*
 import xyz.ratapp.munion.ui.activities.CameraActivity
 import xyz.ratapp.munion.R
-import xyz.ratapp.munion.email.Sender
+import xyz.ratapp.munion.helpers.email.Sender
 import xyz.ratapp.munion.extensions.inflate
 
 /**
@@ -21,7 +21,7 @@ import xyz.ratapp.munion.extensions.inflate
 class HypothecFragment : Fragment() {
 
     companion object {
-        val REQUEST_CODE_PHOTO: Int = 801;
+        val REQUEST_CODE_PHOTO: Int = 801
     }
 
     //TODO: убрать счетчик

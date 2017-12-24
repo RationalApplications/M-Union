@@ -1,13 +1,13 @@
-package xyz.ratapp.munion.adapters.news
+package xyz.ratapp.munion.ui.adapters.news
 
 import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
 
 import android.view.ViewGroup
-import xyz.ratapp.munion.adapters.AdapterConstants
-import xyz.ratapp.munion.adapters.ViewType
-import xyz.ratapp.munion.adapters.ViewTypeDelegateAdapter
-import xyz.ratapp.munion.models.PostNewsItem
+import xyz.ratapp.munion.ui.adapters.AdapterConstants
+import xyz.ratapp.munion.ui.adapters.ViewType
+import xyz.ratapp.munion.ui.adapters.ViewTypeDelegateAdapter
+import xyz.ratapp.munion.data.models.PostNewsItem
 
 
 /**

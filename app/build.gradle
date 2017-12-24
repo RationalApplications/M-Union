@@ -21,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -28,12 +32,10 @@ dependencies {
     compile files('libs/activation.jar')
     compile files('libs/additionnal.jar')
     compile files('libs/mail.jar')
-
     //chat sdk
-    compile project(":chat-sdk-core")
-    compile project(":chat-sdk-ui")
-    compile project(":chat-sdk-firebase-adapter")
-
+    compile project(':chat-sdk-core')
+    compile project(':chat-sdk-ui')
+    compile project(':chat-sdk-firebase-adapter')
     //other
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'

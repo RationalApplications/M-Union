@@ -1,10 +1,9 @@
-package xyz.ratapp.munion.email;
+package xyz.ratapp.munion.helpers.email;
 
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

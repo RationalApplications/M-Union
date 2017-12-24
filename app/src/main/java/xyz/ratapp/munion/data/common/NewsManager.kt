@@ -1,4 +1,4 @@
-package xyz.ratapp.munion.common
+package xyz.ratapp.munion.data.common
 
 import android.util.Log
 import com.vk.sdk.api.VKApi
@@ -6,13 +6,11 @@ import com.vk.sdk.api.VKApiConst
 import com.vk.sdk.api.VKParameters
 import com.vk.sdk.api.VKRequest
 import rx.Observable
-import xyz.ratapp.munion.models.PostNews
-import xyz.ratapp.munion.models.PostNewsItem
+import xyz.ratapp.munion.data.models.PostNews
+import xyz.ratapp.munion.data.models.PostNewsItem
 import com.vk.sdk.api.VKError
 import com.vk.sdk.api.VKResponse
 import com.vk.sdk.api.VKRequest.VKRequestListener
-import com.vk.sdk.api.model.VKApiPost
-import com.vk.sdk.api.model.VKList
 
 /**
  * <p>Date: 29.10.17</p>

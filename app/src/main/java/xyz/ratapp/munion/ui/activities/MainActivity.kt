@@ -1,6 +1,7 @@
 package xyz.ratapp.munion.ui.activities
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -17,6 +18,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.net.ConnectivityManager
 import xyz.ratapp.munion.R
+import xyz.ratapp.munion.ui.activities.auth.AuthActivity
 import xyz.ratapp.munion.ui.fragments.*
 
 
@@ -104,10 +106,10 @@ class MainActivity : AppCompatActivity() {
         navigation.setOnTabSelectedListener(listenerNoAuth)
     }
 
-    fun initAuth() {
+    fun initAuth(chatId: String) {
 
         iv_bar.setImageDrawable(resources.getDrawable(R.drawable.icon_me))
-        iv_bar.setOnClickListener(View.OnClickListener {
+        iv_bar.setOnClickListener({
             val i = Intent(this, CabinetActivity::class.java)
             startActivity(i)
         })
@@ -123,7 +125,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 1 -> {
-                    changeFragment(ChatFragment())
+                    val fragment = ChatFragment()
+                    fragment.setupThread(chatId)
+                    changeFragment(fragment)
                     return@OnTabSelectedListener true
                 }
 
@@ -173,10 +177,11 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == -1) {
-            initAuth()
-        } else {
-            Toast.makeText(applicationContext, "Can't authorize", Toast.LENGTH_LONG).show()
+        if (resultCode == Activity.RESULT_OK &&
+                requestCode == AuthActivity.REQUEST_AUTH_CODE &&
+                intent.extras.containsKey(AuthActivity.RESPONSE_EXTRA_CHAT_ENTITY_ID)) {
+            val chatId = intent.extras.getString(AuthActivity.RESPONSE_EXTRA_CHAT_ENTITY_ID, "")
+            initAuth(chatId)
         }
     }
 

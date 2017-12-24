@@ -113,7 +113,6 @@ class ChatFragment : RxBaseFragment(), TextInputDelegate, ChatOptionsDelegate {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupThread()
         initViews()
 
         if (savedInstanceState != null) {
@@ -127,9 +126,7 @@ class ChatFragment : RxBaseFragment(), TextInputDelegate, ChatOptionsDelegate {
         setChatState(TypingIndicatorHandler.State.active)
     }
 
-    fun setupThread() {
-        val prefs = activity.getSharedPreferences("THREAD_PREFS", Context.MODE_PRIVATE)
-        val threadEntityID = prefs.getString("thread_entity_id", "")
+    fun setupThread(threadEntityID: String) {
         thread = StorageManager.shared().fetchThreadWithEntityID(threadEntityID)
     }
 

@@ -1,17 +1,16 @@
 package xyz.ratapp.munion.ui.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_auth.*
-import xyz.ratapp.munion.ui.activities.AuthActivity
 import xyz.ratapp.munion.ui.fragments.common.FragmentBase
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.extensions.inflate
+import xyz.ratapp.munion.ui.activities.auth.AuthActivity
 
 /**
  * <p>Date: 29.10.17</p>
@@ -34,24 +33,23 @@ class AuthFragment : FragmentBase() {
         auth_submit.apply {
             auth_submit.setOnClickListener {
 
-                val i = Intent(context, AuthActivity::class.java)
-                if (edit_phone?.text.toString() != "" && (edit_phone?.text.toString()).startsWith('+') && edit_phone?.text.toString().length == 12)
-                {
-                        i.putExtra("tel", edit_phone?.text.toString())
-                        if (edit_pass?.text.toString()!= "")
-                        {
-                            i.putExtra("pass", edit_pass?.text.toString())
-                            startActivityForResult(i, 0)
-                        }
-                        else {
-                            Toast.makeText(context, "Введите пароль", Toast.LENGTH_LONG).show()
-                        }
+                val phone = edit_phone!!.text.toString()
+                val password = edit_pass!!.text.toString()
+
+                if(dataIsValid(phone, password)) {
+                    val intent = AuthActivity.getAuthIntent(phone, password)
+                    startActivityForResult(intent, AuthActivity.REQUEST_AUTH_CODE)
                 }
                 else {
-                    Toast.makeText(context, "Введите корректный номер телефона начиная с \"+\" " + (edit_phone?.text.toString() != ""), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, R.string.auth_validation_toast, Toast.LENGTH_LONG).show()
                 }
             }
         }
+    }
+
+    private fun dataIsValid(phone: String, password: String): Boolean {
+        return phone.matches(Regex("^\\+\\d{11}$")) &&
+                password.isNotBlank()
     }
 
 }

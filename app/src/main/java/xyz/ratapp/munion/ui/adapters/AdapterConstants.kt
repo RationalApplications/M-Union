@@ -1,4 +1,4 @@
-package xyz.ratapp.munion.adapters
+package xyz.ratapp.munion.ui.adapters
 
 /**
  * <p>Date: 29.10.17</p>

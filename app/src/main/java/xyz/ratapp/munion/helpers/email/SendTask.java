@@ -1,6 +1,5 @@
-package xyz.ratapp.munion.email;
+package xyz.ratapp.munion.helpers.email;
 
-import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 

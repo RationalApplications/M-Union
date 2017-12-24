@@ -1,18 +1,13 @@
-package xyz.ratapp.munion.adapters.news
+package xyz.ratapp.munion.ui.adapters.news
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_post.view.*
 import xyz.ratapp.munion.R
-import xyz.ratapp.munion.adapters.ViewType
-import xyz.ratapp.munion.adapters.ViewTypeDelegateAdapter
+import xyz.ratapp.munion.ui.adapters.ViewType
+import xyz.ratapp.munion.ui.adapters.ViewTypeDelegateAdapter
 import xyz.ratapp.munion.extensions.*
-import xyz.ratapp.munion.models.PostNewsItem
+import xyz.ratapp.munion.data.models.PostNewsItem
 
 /**
  * <p>Date: 29.10.17</p>

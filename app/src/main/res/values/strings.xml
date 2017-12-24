@@ -59,5 +59,10 @@
     <string name="cabinet_btn_out_money">Вывести средства</string>
     <string name="cancel">Отмена</string>
     <string name="signin">Войти</string>
+    <string name="incorrect_phone_number">: некорректный номер телефона!</string>
+    <string name="too_many_requests">: слишком много запросов в день!</string>
+    <string name="error_auth">Ошибка авторизации</string>
+    <string name="incorrect_password">Неверный пароль, выслан новый.</string>
+    <string name="auth_validation_toast">Введите корректные данные!\nНомер телефона в формате +71234567892\nПароль не пустой</string>
 
 </resources>
