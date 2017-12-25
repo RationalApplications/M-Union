@@ -43,7 +43,7 @@ class AuthFragment : FragmentBase() {
                         if (edit_pass?.text.toString()!= "")
                         {
                             i.putExtra("pass", edit_pass?.text.toString())
-                            startActivityForResult(i, 0)
+                            startActivityForResult(i, 802)
                         }
                         else {
                             Toast.makeText(context, "Введите пароль", Toast.LENGTH_LONG).show()

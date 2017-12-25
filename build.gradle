@@ -17,8 +17,11 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
         jcenter()
+        maven {
+            url  "http://dl.bintray.com/marcouberti/maven"
+        }
+        google()
         maven { url "https://jitpack.io" }
     }
 }

@@ -131,7 +131,7 @@ public class CameraActivity extends AppCompatActivity implements
         camera = Camera.open();
         Camera.Parameters parameters = camera.getParameters();
         List<Camera.Size> sizes = parameters.getSupportedPictureSizes();
-        parameters.setPictureSize(sizes.get(6).width, sizes.get(6).height);
+        parameters.setPictureSize(sizes.get(sizes.size()-1).width, sizes.get(sizes.size()-1).height);
         parameters.set("orientation", "portrait");
         parameters.setRotation(90);
         camera.setDisplayOrientation(90);
