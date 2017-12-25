@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="xyz.ratapp.munion.AuthActivity">
+    tools:context="xyz.ratapp.munion.ui.activities.AuthActivity">
 
     <ProgressBar
         android:id="@+id/pb_verif"

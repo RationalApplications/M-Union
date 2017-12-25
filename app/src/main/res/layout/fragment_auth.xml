@@ -39,7 +39,8 @@
         android:paddingRight="18dp"
         android:paddingTop="16dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/hint" />
+        android:textColorHint="@color/hint"
+        android:drawableStart="@drawable/ic_contacts_white" />
 
     <EditText
         android:id="@+id/edit_pass"
@@ -59,7 +60,8 @@
         android:paddingRight="18dp"
         android:paddingTop="16dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/hint" />
+        android:textColorHint="@color/hint"
+        android:drawableStart="@drawable/ic_lock_white" />
 
     <Button
         android:id="@+id/auth_submit"
