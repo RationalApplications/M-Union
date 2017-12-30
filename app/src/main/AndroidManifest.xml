@@ -34,6 +34,7 @@
         </activity>
 
         <activity android:name=".ui.activities.CabinetActivity"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
 
         <activity
@@ -43,7 +44,7 @@
 
         <activity
             android:name=".ui.activities.MainActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"
             android:isScrollContainer="true" />
 

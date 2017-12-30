@@ -56,7 +56,6 @@ public class MUnionApplication extends Application {
 
         builder.firebase("prod", "rootPath");
         builder.threadDetailsEnabled(false);
-        builder.anonymousLoginEnabled(true);
         builder.debugModeEnabled(true);
 
         ChatSDK.initialize(builder.build());

@@ -52,12 +52,7 @@ public class ErrorFragment extends FragmentBase {
 
         final MainActivity activity = (MainActivity) getActivity();
 
-        errorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.initNoAuth();
-            }
-        });
+        errorButton.setOnClickListener(view1 -> activity.init());
 
         return view;
     }

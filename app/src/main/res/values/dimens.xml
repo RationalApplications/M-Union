@@ -28,6 +28,7 @@
 
     <!-- Cabinet -->
     <dimen name="cabinet_address_btn_height">30dp</dimen>
+    <dimen name="bottom_scroll_view_padding">74dp</dimen>
 
 
 </resources>

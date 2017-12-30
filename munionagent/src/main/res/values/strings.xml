@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MUnionAgent</string>
+
+    <string name="auth_btn_text">АВТОРИЗОВАТЬСЯ</string>
+    <string name="auth_edit_hint_pass">********</string>
+    <string name="auth_head_text">Введите email и пароль из Битрикс24</string>
+    <string name="fill_code_here">Введите полученный код</string>
+    <string name="cancel">Отмена</string>
+    <string name="signin">Войти</string>
+    <string name="incorrect_phone_number">: некорректный номер телефона!</string>
+    <string name="too_many_requests">: слишком много запросов в день!</string>
+    <string name="error_auth">Ошибка авторизации</string>
+    <string name="incorrect_password">Неверный пароль, выслан новый.</string>
+    <string name="iv_munion_logo_description">This is logo of MUnion</string>
+    <string name="auth_edit_hint_email">admin@example.com</string>
+    <string name="login_fill_correct_data">Введите корректные данные!</string>
+
+</resources>

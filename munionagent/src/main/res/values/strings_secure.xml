@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="client_id">local.5a457ed23d0961.79234579</string>
+    <string name="client_secret">KXdBlaj5dTLPFCZOFoRyi7Tpmon80jZbdjkGYmzG3n5a3Cyvem</string>
+    <string name="redirect_uri">http://ratapp.xyz/</string>
+    <string name="scopes">disk,lists,crm,user</string>
+</resources>

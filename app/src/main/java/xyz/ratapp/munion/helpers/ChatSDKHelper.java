@@ -4,12 +4,14 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import co.chatsdk.core.dao.Thread;
 import co.chatsdk.core.dao.User;
 import co.chatsdk.core.session.NM;
+import co.chatsdk.core.session.StorageManager;
 import co.chatsdk.firebase.FirebaseAuthenticationHandler;
 import co.chatsdk.ui.utils.AppBackgroundMonitor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -43,14 +45,15 @@ public class ChatSDKHelper {
     }
 
     public static void firstAuth(final AuthActivity activity,
-                                    FirebaseUser user) {
+                                    FirebaseUser user, String agentEntityId) {
         FirebaseAuthenticationHandler auth =
                 ((FirebaseAuthenticationHandler) NM.auth());
         auth.authenticateWithUser(user).
                 observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
             AppBackgroundMonitor.shared().setEnabled(true);
+            User agent = StorageManager.shared().fetchUserWithEntityID(agentEntityId);
             ChatSDKHelper.createThread(activity,
-                    Collections.singletonList(NM.currentUser()));
+                    Arrays.asList(NM.currentUser(), agent));
             PreferencesHelper.getInstance(activity).setAuthed(true);
         });
     }

@@ -1,131 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
-    android:orientation="vertical">
+    android:paddingTop="18dp"
+    android:paddingBottom="@dimen/bottom_scroll_view_padding">
 
-    <TextView
-        android:id="@+id/contacts_telephone_head"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="26dp"
-        android:text="@string/contacts_phone_head"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/contacts_telephone_body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/radius_button"
-        android:drawableLeft="@drawable/ic_contacts_black"
-        android:drawablePadding="16dp"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:text="@string/contacts_phone"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/contacts_telephone_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="26dp"
+            android:text="@string/contacts_phone_head"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:layout_marginStart="26dp"
+            android:singleLine="true" />
 
-
-    <TextView
-        android:id="@+id/contacts_vk_head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="26dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/contacts_vk_head"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/contacts_vk_body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/radius_button"
-        android:drawableLeft="@drawable/ic_vk_black"
-        android:drawablePadding="16dp"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:text="@string/contacts_vk"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/contacts_telephone_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:background="@drawable/radius_button"
+            android:drawablePadding="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/contacts_phone"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:minTextSize="8sp"
+            android:singleLine="true"/>
 
 
-    <TextView
-        android:id="@+id/contacts_site_head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="26dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/contacts_site_head"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size"
-        android:textStyle="bold" />
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/contacts_vk_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/contacts_vk_head"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:layout_marginStart="26dp"
+            android:singleLine="true"/>
 
-    <TextView
-        android:id="@+id/contacts_site_body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/radius_button"
-        android:drawableLeft="@drawable/ic_link_black"
-        android:drawablePadding="16dp"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:text="@string/contacts_site"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-
-    <TextView
-        android:id="@+id/tv_address_head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="26dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/contacts_address_head"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/contacts_address_body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/radius_button"
-        android:drawableLeft="@drawable/ic_map_black"
-        android:drawablePadding="16dp"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:text="@string/contacts_address"
-        android:textColor="@color/black"
-        android:lines="1"
-        android:textSize="16sp" />
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/contacts_vk_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:background="@drawable/radius_button"
+            android:drawablePadding="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/contacts_vk"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:minTextSize="8sp"
+            android:singleLine="true"/>
 
 
-</LinearLayout>
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/contacts_site_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/contacts_site_head"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:singleLine="true"/>
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/contacts_site_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:background="@drawable/radius_button"
+            android:drawablePadding="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/contacts_site"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:minTextSize="8sp"
+            android:singleLine="true"/>
+
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tv_address_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/contacts_address_head"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:layout_marginStart="26dp"
+            android:singleLine="true"/>
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/contacts_address_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/radius_button"
+            android:drawablePadding="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/contacts_address"
+            android:textColor="@color/black"
+            android:lines="1"
+            android:textSize="16sp"
+            app:minTextSize="8sp"
+            android:singleLine="true"/>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -127,7 +127,8 @@ class ChatFragment : RxBaseFragment(), TextInputDelegate, ChatOptionsDelegate {
     }
 
     fun setupThread(threadEntityID: String) {
-        thread = StorageManager.shared().fetchThreadWithEntityID(threadEntityID)
+        thread = StorageManager.shared().
+                fetchThreadWithEntityID(threadEntityID)
     }
 
     fun loadMessages(showLoadingIndicator: Boolean, amountToLoad: Int, toPosition: ListPosition) {

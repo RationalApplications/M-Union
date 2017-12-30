@@ -38,7 +38,7 @@ class AuthFragment : FragmentBase() {
 
                 if(dataIsValid(phone, password)) {
                     val intent = AuthActivity.getAuthIntent(phone, password)
-                    startActivityForResult(intent, AuthActivity.REQUEST_AUTH_CODE)
+                    activity.startActivityForResult(intent, AuthActivity.REQUEST_AUTH_CODE)
                 }
                 else {
                     Toast.makeText(context, R.string.auth_validation_toast, Toast.LENGTH_LONG).show()

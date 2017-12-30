@@ -7,17 +7,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Toast
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import kotlinx.android.synthetic.main.activity_main.*
 import xyz.ratapp.munion.ui.fragments.common.FragmentBase
 import xyz.ratapp.munion.ui.fragments.hypothec.HypothecRootFragment
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.net.ConnectivityManager
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.BitmapImageViewTarget
 import xyz.ratapp.munion.R
+import xyz.ratapp.munion.data.DataController
+import xyz.ratapp.munion.data.pojo.Lead
+import xyz.ratapp.munion.helpers.PreferencesHelper
 import xyz.ratapp.munion.ui.activities.auth.AuthActivity
 import xyz.ratapp.munion.ui.fragments.*
 
@@ -36,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         navigation.accentColor = this.resources.getColor(R.color.colorAccent)
         navigation.inactiveColor = this.resources.getColor(R.color.white)
 
-        initNoAuth()
+        init()
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.title_news_feed)
 
@@ -56,6 +62,26 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        val preferencesHelper = PreferencesHelper.getInstance(this)
+        if(preferencesHelper.isAuthed) {
+            val user = DataController.getInstance(this).user
+            setUserIcon(user)
+        }
+    }
+
+    fun init() {
+        val preferencesHelper = PreferencesHelper.getInstance(this)
+        if(preferencesHelper.isAuthed) {
+            val chatId = preferencesHelper.chatThreadEntityId
+            initAuth(chatId)
+        }
+        else {
+            initNoAuth()
+        }
+    }
+
     fun changeFragment(fragment: FragmentBase) {
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.main_container, fragment)
@@ -63,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = fragment.getFragmentName(this)
     }
 
-    fun initNoAuth() {
+    private fun initNoAuth() {
 
         navigation.removeAllItems()
         changeFragment(VkFragment())
@@ -106,13 +132,10 @@ class MainActivity : AppCompatActivity() {
         navigation.setOnTabSelectedListener(listenerNoAuth)
     }
 
-    fun initAuth(chatId: String) {
+    private fun initAuth(chatId: String) {
 
-        iv_bar.setImageDrawable(resources.getDrawable(R.drawable.icon_me))
-        iv_bar.setOnClickListener({
-            val i = Intent(this, CabinetActivity::class.java)
-            startActivity(i)
-        })
+        val user = DataController.getInstance(this).user
+        setUserIcon(user)
 
         navigation.removeAllItems()
         changeFragment(VkFragment())
@@ -158,15 +181,37 @@ class MainActivity : AppCompatActivity() {
 
         navigation.addItem(itemNews)
         navigation.addItem(itemChat)
+        navigation.addItem(itemStatistic)
         navigation.addItem(itemHypothec)
         navigation.addItem(itemContact)
-        navigation.addItem(itemStatistic)
 
 
 
         navigation.setCurrentItem(0, false)
 
         navigation.setOnTabSelectedListener(listenerAuth)
+    }
+
+    private fun setUserIcon(user: Lead) {
+        Glide.with(this).
+                load(if (user.photoUri != null)
+                    user.photoUri
+                else
+                    "android.resource://xyz.ratapp.munion/drawable/icon_me").
+                asBitmap().centerCrop().
+                error(R.drawable.icon_me).
+                into(object : BitmapImageViewTarget(iv_bar) {
+                    override fun setResource(resource: Bitmap) {
+                        val circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(resources, resource)
+                        circularBitmapDrawable.isCircular = true
+                        iv_bar.setImageDrawable(circularBitmapDrawable)
+                    }
+                })
+        iv_bar.setOnClickListener({
+            val i = Intent(this, CabinetActivity::class.java)
+            startActivity(i)
+        })
     }
 
     fun getNavigation(): AHBottomNavigation {
@@ -179,8 +224,8 @@ class MainActivity : AppCompatActivity() {
 
         if (resultCode == Activity.RESULT_OK &&
                 requestCode == AuthActivity.REQUEST_AUTH_CODE &&
-                intent.extras.containsKey(AuthActivity.RESPONSE_EXTRA_CHAT_ENTITY_ID)) {
-            val chatId = intent.extras.getString(AuthActivity.RESPONSE_EXTRA_CHAT_ENTITY_ID, "")
+                data!!.extras.containsKey(AuthActivity.RESPONSE_EXTRA_CHAT_ENTITY_ID)) {
+            val chatId = data.extras.getString(AuthActivity.RESPONSE_EXTRA_CHAT_ENTITY_ID, "")
             initAuth(chatId)
         }
     }

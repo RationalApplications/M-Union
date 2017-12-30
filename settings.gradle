@@ -1,1 +1,1 @@
-include ':app', ':chat-sdk-firebase-file-storage', ':chat-sdk-firebase-push', ':chat-sdk-firebase-adapter', ':chat-sdk-ui', ':chat-sdk-core'
+include ':app', ':chat-sdk-firebase-file-storage', ':chat-sdk-firebase-push', ':chat-sdk-firebase-adapter', ':chat-sdk-ui', ':chat-sdk-core', ':munionagent'

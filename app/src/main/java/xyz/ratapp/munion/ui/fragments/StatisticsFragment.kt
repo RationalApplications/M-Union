@@ -25,6 +25,7 @@ import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import xyz.ratapp.munion.ui.fragments.common.FragmentBase
 import xyz.ratapp.munion.R
+import xyz.ratapp.munion.data.DataController
 import java.util.ArrayList
 
 /**
@@ -48,6 +49,24 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupView()
+        setupData()
+    }
+
+    private fun setupView() {
+        setupPieChart()
+        //val stat = DataController.getInstance(activity).statistics
+    }
+
+    private fun setupData() {
+        val user = DataController.getInstance(activity).user
+
+        tv_calls_count.text = "${user.callsCount}"
+        tv_looks_count.text = "${user.looksCount}"
+        tv_object.text = user.title
+    }
+
+    private fun setupPieChart() {
         mTfRegular = Typeface.createFromAsset(activity.assets, "OpenSans-Regular.ttf")
         mTfLight = Typeface.createFromAsset(activity.assets, "OpenSans-Light.ttf")
         mChart = pc_stats

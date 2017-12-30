@@ -16,7 +16,7 @@
 
     <Button
         android:id="@+id/error_button"
-        android:text="Reload"
+        android:text="@string/reload"
         android:layout_below="@id/error_text"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
