@@ -15,6 +15,7 @@ import xyz.ratapp.munionagent.helpers.PreferencesHelper;
 public class SplashActivity extends AppCompatActivity {
 
     public final static String EXTRA_SHOW_SPLASH = "show_splash";
+    private Bundle savedInstanceState;
 
     public static Intent getSplashIntent(Context context) {
         Intent intent = new Intent(context, SplashActivity.class);
@@ -28,7 +29,18 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!PreferencesHelper.getInstance(this).isAuthed()) {
+            next();
+        }
+    }
+
+    public void next() {
         if(savedInstanceState != null &&
                 savedInstanceState.containsKey(EXTRA_SHOW_SPLASH) &&
                 savedInstanceState.getBoolean(EXTRA_SHOW_SPLASH)) {

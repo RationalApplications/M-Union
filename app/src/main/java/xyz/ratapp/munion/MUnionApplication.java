@@ -18,15 +18,13 @@ import co.chatsdk.core.session.NetworkManager;
 import co.chatsdk.core.types.AccountDetails;
 import co.chatsdk.core.types.AuthKeys;
 import co.chatsdk.firebase.FirebaseModule;
+import co.chatsdk.firebase.file_storage.FirebaseFileStorageModule;
+import co.chatsdk.firebase.push.FirebasePushModule;
 import co.chatsdk.ui.manager.UserInterfaceModule;
 import co.chatsdk.ui.utils.AppBackgroundMonitor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-/*import co.chatsdk.firebase.FirebaseModule;
-import co.chatsdk.firebase.file_storage.FirebaseFileStorageModule;
-import co.chatsdk.firebase.push.FirebasePushModule;
-import co.chatsdk.ui.manager.UserInterfaceModule;*/
 
 
 /**
@@ -54,51 +52,19 @@ public class MUnionApplication extends Application {
         Context context = getApplicationContext();
         Configuration.Builder builder = new Configuration.Builder(context);
 
-        builder.firebase("prod", "rootPath");
+        builder.firebase("prod", "AAAAhsFBP2w:APA91bGzXpe5ylwm2fhIkhPIj6E7jBeiEcEYsJTdfSNvCZcSlCjQYsvbUCbGbrRxSBkuOwEOFYG7HVi78yTpNSFnNIDr3BjNGfutmcP9nwCOSyHYKnBY12150CA27_b36f4j1Gs3nxNu");
+        builder.googleMaps("AIzaSyD-tOuSye6oPh33pACsD1S3W-RMEQmJWPs");
+        builder.imageCroppingEnabled(true);
+        builder.locationMessagesEnabled(true);
+        builder.saveImagesToDirectoryEnabled(true);
         builder.threadDetailsEnabled(false);
         builder.debugModeEnabled(true);
 
         ChatSDK.initialize(builder.build());
         FirebaseModule.activate();
         UserInterfaceModule.activate(context);
-
-        //auth();
-
-        /*FirebaseFileStorageModule.activate();
-        FirebasePushModule.activateForFirebase();*/
+        FirebaseFileStorageModule.activate();
+        FirebasePushModule.activateForFirebase();
     }
 
-    private void setUserData() {
-        User user = NM.currentUser();
-        user.setName("Tim Kuzmin");
-        user.setAvatarURL("https://pp.userapi.com/c841639/v841639899/3a2a2/5Olfu5GddnM.jpg");
-        user.setCountryCode("RU");
-        user.setDateOfBirth("15.07.1998");
-        user.setEmail("admin@timtim.tech");
-        user.setPhoneNumber("+79111696442");
-    }
-
-    private void auth() {
-        AccountDetails details = new AccountDetails();
-        details.type = AccountDetails.Type.Anonymous;
-        NM.auth().authenticate(details)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        setUserData();
-                    }
-                })
-                .subscribe(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        AppBackgroundMonitor.shared().setEnabled(true);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable e) throws Exception {
-                        e.printStackTrace();
-                    }
-                });
-    }
 }

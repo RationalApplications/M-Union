@@ -3,7 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:id="@+id/chat_sdk_root_view"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/bottom_height">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -47,10 +48,10 @@
 
     </FrameLayout>
 
-    <co.chatsdk.ui.chat.TextInputView
+    <xyz.ratapp.munion.ui.views.TextInputView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/chat_sdk_message_box">
-    </co.chatsdk.ui.chat.TextInputView>
+    </xyz.ratapp.munion.ui.views.TextInputView>
 
 </LinearLayout>

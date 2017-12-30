@@ -55,6 +55,7 @@ public class AuthActivity extends SplashActivity {
     private String clientSecret;
     private String redirectUri;
     private String scopes;
+    private boolean doing = false;
 
     public static Intent getAuthIntent(String email, String password) {
         Intent intent = new Intent(ACTION_DO_AUTH);
@@ -86,19 +87,19 @@ public class AuthActivity extends SplashActivity {
 
     @Override
     protected void onStart() {
-        super.onStart();
-
         FirebaseUser currentUser = auth.getCurrentUser();
 
         if (currentUser != null) {
             boolean isAuthed = PreferencesHelper.getInstance(this).isAuthed();
             if(isAuthed) {
-                ChatSDKHelper.authWithUser(currentUser);
+                ChatSDKHelper.authWithUser(this, currentUser);
             }
         }
         else {
             doModeTasks();
         }
+
+        super.onStart();
     }
 
     private Bundle setActivityMode(Bundle savedInstanceState) {
@@ -127,7 +128,8 @@ public class AuthActivity extends SplashActivity {
     }
 
     private void doModeTasks() {
-        if(!splashModeEnabled) {
+        if(!splashModeEnabled && !doing) {
+            doing = true;
             setContentView(R.layout.activity_auth);
             initAuthData();
             pb = findViewById(R.id.pb_verif);

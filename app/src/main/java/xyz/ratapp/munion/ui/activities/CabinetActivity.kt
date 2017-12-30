@@ -18,6 +18,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget
 import kotlinx.android.synthetic.main.activity_cabinet.*
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.data.DataController
+import xyz.ratapp.munion.helpers.ChatSDKHelper
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -86,7 +87,9 @@ class CabinetActivity : AppCompatActivity() {
 
     private fun setupImage(uri: Uri) {
         setImage(uri.toString())
-        DataController.getInstance(this).setUserPhotoUri(uri.toString())
+        val dataController = DataController.getInstance(this)
+        dataController.setUserPhotoUri(uri)
+        ChatSDKHelper.initChatUser(dataController.user)
     }
 
     private fun setImage(uri: String) {
@@ -107,7 +110,7 @@ class CabinetActivity : AppCompatActivity() {
     private fun setupData() {
         val user = DataController.getInstance(this).user
 
-        tv_name.text = "${user.name} ${user.secondName}"
+        tv_name.text = "${user.name} ${user.lastName}"
         btn_address.text = user.title
         val dateString = user.dateCreate.substring(0, 10)
         var sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

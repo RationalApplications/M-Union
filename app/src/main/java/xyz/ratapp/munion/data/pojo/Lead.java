@@ -11,7 +11,7 @@ public class Lead implements Serializable
 {
     @SerializedName("ID")
     @Expose
-    private String id;
+    private int id;
     @SerializedName("TITLE")
     @Expose
     private String title;
@@ -57,7 +57,7 @@ public class Lead implements Serializable
     private Statistics statistics;
 
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

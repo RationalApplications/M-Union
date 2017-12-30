@@ -13,6 +13,7 @@ import co.chatsdk.ui.utils.AppBackgroundMonitor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import xyz.ratapp.munionagent.data.pojo.BitrixUser;
+import xyz.ratapp.munionagent.ui.activities.SplashActivity;
 import xyz.ratapp.munionagent.ui.activities.auth.AuthActivity;
 
 /**
@@ -40,12 +41,13 @@ public class ChatSDKHelper {
         });
     }
 
-    public static void authWithUser(FirebaseUser user) {
+    public static void authWithUser(SplashActivity activity, FirebaseUser user) {
         FirebaseAuthenticationHandler auth =
                 ((FirebaseAuthenticationHandler) NM.auth());
         auth.authenticateWithUser(user).
                 observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
             AppBackgroundMonitor.shared().setEnabled(true);
+            activity.next();
         });
     }
 
@@ -57,7 +59,7 @@ public class ChatSDKHelper {
         String phoneNumber = bitrixUser.getWORK_PHONE();
         String email = bitrixUser.getEMAIL();
         String avatarUrl = bitrixUser.getPERSONAL_PHOTO().toString();
-        String entityId = "a" + bitrixUser.getID(); //a means agent
+        int id = bitrixUser.getID() * 10 + 1; //format idx, where x = 1 if agent, 0 else
 
         if(!StringUtils.isEmpty(name)) {
             user.setName(name);
@@ -71,9 +73,7 @@ public class ChatSDKHelper {
         if(!StringUtils.isEmpty(avatarUrl)) {
             user.setAvatarURL(avatarUrl);
         }
-        if(!StringUtils.isEmpty(entityId)) {
-            user.setEntityID(entityId);
-        }
+        user.setStatus(id + "");
 
         NM.core().pushUser()
                 .observeOn(AndroidSchedulers.mainThread())

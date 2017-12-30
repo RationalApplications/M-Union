@@ -46,7 +46,8 @@ public class AuthActivity extends SplashActivity {
     private PhoneAuthProvider.ForceResendingToken resendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
     private ProgressBar pb;
-    private String agentEntityID;
+    private int agentID;
+    private Lead user;
 
     public static Intent getAuthIntent(String phone, String password) {
         Intent intent = new Intent(ACTION_DO_AUTH);
@@ -124,8 +125,9 @@ public class AuthActivity extends SplashActivity {
             {
                 @Override
                 protected void doAfterPhoneChecked(Lead user) {
+                    AuthActivity.this.user = user;
                     if(user.getPassword().equals(password)) {
-                        agentEntityID = "a" + user.getAssignedById();
+                        agentID = user.getAssignedById() * 10 + 1;
                         pb.setVisibility(View.GONE);
                         startPhoneNumberVerification();
                         showCodeDialog(AuthActivity.this, phone);
@@ -216,7 +218,8 @@ public class AuthActivity extends SplashActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = task.getResult().getUser();
-                        ChatSDKHelper.firstAuth(AuthActivity.this, user, agentEntityID);
+                        ChatSDKHelper.firstAuth(AuthActivity.this,
+                                user, this.user, agentID);
                         pb.setVisibility(View.VISIBLE);
                     }
                     else {

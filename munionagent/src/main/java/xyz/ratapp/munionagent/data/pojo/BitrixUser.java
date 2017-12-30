@@ -14,7 +14,7 @@ public class BitrixUser implements Serializable, Parcelable
 
     @SerializedName("ID")
     @Expose
-    private String iD;
+    private int iD;
     @SerializedName("ACTIVE")
     @Expose
     private Boolean aCTIVE;
@@ -136,7 +136,7 @@ public class BitrixUser implements Serializable, Parcelable
     private final static long serialVersionUID = 8163358539325379738L;
 
     protected BitrixUser(Parcel in) {
-        this.iD = ((String) in.readValue((String.class.getClassLoader())));
+        this.iD = ((int) in.readValue((int.class.getClassLoader())));
         this.aCTIVE = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.eMAIL = ((String) in.readValue((String.class.getClassLoader())));
         this.nAME = ((String) in.readValue((String.class.getClassLoader())));
@@ -218,7 +218,7 @@ public class BitrixUser implements Serializable, Parcelable
      * @param lAST_NAME
      * @param uF_WEB_SITES
      */
-    public BitrixUser(String iD, Boolean aCTIVE, String eMAIL, String nAME, String lAST_NAME, String sECOND_NAME, String pERSONAL_GENDER, Object pERSONAL_PROFESSION, String pERSONAL_WWW, String pERSONAL_BIRTHDAY, Object pERSONAL_PHOTO, Object pERSONAL_ICQ, Object pERSONAL_PHONE, Object pERSONAL_FAX, String pERSONAL_MOBILE, Object pERSONAL_PAGER, Object pERSONAL_STREET, String pERSONAL_CITY, Object pERSONAL_STATE, Object pERSONAL_ZIP, Object pERSONAL_COUNTRY, Object wORK_COMPANY, String wORK_POSITION, String wORK_PHONE, List<Integer> uF_DEPARTMENT, Object uF_INTERESTS, Object uF_SKILLS, Object uF_WEB_SITES, Object uF_XING, Object uF_LINKEDIN, Object uF_FACEBOOK, Object uF_TWITTER, Object uF_SKYPE, Object uF_DISTRICT, Object uF_PHONE_INNER) {
+    public BitrixUser(int iD, Boolean aCTIVE, String eMAIL, String nAME, String lAST_NAME, String sECOND_NAME, String pERSONAL_GENDER, Object pERSONAL_PROFESSION, String pERSONAL_WWW, String pERSONAL_BIRTHDAY, Object pERSONAL_PHOTO, Object pERSONAL_ICQ, Object pERSONAL_PHONE, Object pERSONAL_FAX, String pERSONAL_MOBILE, Object pERSONAL_PAGER, Object pERSONAL_STREET, String pERSONAL_CITY, Object pERSONAL_STATE, Object pERSONAL_ZIP, Object pERSONAL_COUNTRY, Object wORK_COMPANY, String wORK_POSITION, String wORK_PHONE, List<Integer> uF_DEPARTMENT, Object uF_INTERESTS, Object uF_SKILLS, Object uF_WEB_SITES, Object uF_XING, Object uF_LINKEDIN, Object uF_FACEBOOK, Object uF_TWITTER, Object uF_SKYPE, Object uF_DISTRICT, Object uF_PHONE_INNER) {
         super();
         this.iD = iD;
         this.aCTIVE = aCTIVE;
@@ -257,11 +257,11 @@ public class BitrixUser implements Serializable, Parcelable
         this.uF_PHONE_INNER = uF_PHONE_INNER;
     }
 
-    public String getID() {
+    public int getID() {
         return iD;
     }
 
-    public void setID(String iD) {
+    public void setID(int iD) {
         this.iD = iD;
     }
 

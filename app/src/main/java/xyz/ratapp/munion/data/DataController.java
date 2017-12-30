@@ -3,16 +3,25 @@ package xyz.ratapp.munion.data;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -39,16 +48,21 @@ public class DataController {
 
     public static DataController getInstance(Context context) {
         ourInstance.context = context;
-        ourInstance.retrofit = new Retrofit.Builder().
-                addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(BitrixAPI.getBaseUrl(context))
-                .build();
+        if(ourInstance.retrofit == null ||
+                ourInstance.api == null) {
+            ourInstance.retrofit = new Retrofit.Builder().
+                    addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(BitrixAPI.getBaseUrl(context))
+                    .build();
+            ourInstance.api = ourInstance.retrofit.create(BitrixAPI.class);
+        }
+
         return ourInstance;
     }
 
 
-    private Retrofit retrofit;
-    private BitrixAPI api = retrofit.create(BitrixAPI.class);
+    private Retrofit retrofit = null;
+    private BitrixAPI api = null;
     private Context context;
     private Lead user;
     private Statistics statistics;
@@ -73,8 +87,32 @@ public class DataController {
         return user;
     }
 
-    public void setUserPhotoUri(@NotNull String imagePath) {
-        user.setPhotoUri(imagePath);
+    public void setUserPhotoUri(@NotNull Uri imageUri) throws Exception {
+        InputStream input = context.getContentResolver().openInputStream(imageUri);
+
+        try {
+            File file = new File(getAppFolder(), "avatar.png");
+            file.createNewFile();
+
+            OutputStream output = new FileOutputStream(file);
+            try {
+                byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                int read;
+
+                while ((read = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, read);
+                }
+
+                output.flush();
+            } finally {
+                output.close();
+                user.setPhotoUri(file.getAbsolutePath());
+            }
+        } finally {
+            input.close();
+        }
+
+
         saveUser();
     }
 
@@ -137,11 +175,8 @@ public class DataController {
     private void saveUser() {
         if(user != null) {
             try {
-                //detect app folder
-                PackageManager m = context.getPackageManager();
-                String t = context.getPackageName();
-                PackageInfo p = m.getPackageInfo(t, 0);
-                String dir = p.applicationInfo.dataDir;
+                String dir = getAppFolder();
+
 
                 //serialize user
                 FileOutputStream fos =
@@ -159,10 +194,7 @@ public class DataController {
     private Lead loadUser() {
         try {
             //detect app folder
-            PackageManager m = context.getPackageManager();
-            String t = context.getPackageName();
-            PackageInfo p = m.getPackageInfo(t, 0);
-            String dir = p.applicationInfo.dataDir;
+            String dir = getAppFolder();
 
             //deserialize user
             File f = new File(dir, USER_DATA);
@@ -175,6 +207,14 @@ public class DataController {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private String getAppFolder() throws PackageManager.NameNotFoundException {
+        //detect app folder
+        PackageManager m = context.getPackageManager();
+        String t = context.getPackageName();
+        PackageInfo p = m.getPackageInfo(t, 0);
+        return p.applicationInfo.dataDir;
     }
 
 }
