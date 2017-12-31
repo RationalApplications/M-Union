@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/M-Union.iml" filepath="$PROJECT_DIR$/M-Union.iml" />
       <module fileurl="file://C:\projects\M-Union\MUnion.iml" filepath="C:\projects\M-Union\MUnion.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MUnion.iml" filepath="$PROJECT_DIR$/MUnion.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/chat-sdk-core/chat-sdk-core.iml" filepath="$PROJECT_DIR$/chat-sdk-core/chat-sdk-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/chat-sdk-firebase-adapter/chat-sdk-firebase-adapter.iml" filepath="$PROJECT_DIR$/chat-sdk-firebase-adapter/chat-sdk-firebase-adapter.iml" />
@@ -12,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/chat-sdk-firebase-push/chat-sdk-firebase-push.iml" filepath="$PROJECT_DIR$/chat-sdk-firebase-push/chat-sdk-firebase-push.iml" />
       <module fileurl="file://$PROJECT_DIR$/chat-sdk-ui/chat-sdk-ui.iml" filepath="$PROJECT_DIR$/chat-sdk-ui/chat-sdk-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/munionagent/munionagent.iml" filepath="$PROJECT_DIR$/munionagent/munionagent.iml" />
+      <module fileurl="file://C:\projects\M-Union\munionagent\munionagent.iml" filepath="C:\projects\M-Union\munionagent\munionagent.iml" />
     </modules>
   </component>
 </project>
