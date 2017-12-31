@@ -64,5 +64,11 @@
     <string name="error_auth">Ошибка авторизации</string>
     <string name="incorrect_password">Неверный пароль, выслан новый.</string>
     <string name="auth_validation_toast">Введите корректные данные!\nНомер телефона в формате +71234567892\nПароль не пустой</string>
+    <string name="description_iv_piter">Saint-Petersburg building logo</string>
+    <string name="logo_m_union_rus">Logo M-Union rus</string>
+    <string name="temp_id_invitation">2 5 1 5     2 5 1 2</string>
+    <string name="description_iv_building">building Saint Petersburg</string>
+    <string name="temp_invited_count">Приглашено: 21 чел.</string>
+    <string name="temp_balance">Баланс: 2150 руб.</string>
 
 </resources>
