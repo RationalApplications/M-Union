@@ -39,8 +39,6 @@ import co.chatsdk.core.utils.PermissionRequestHandler
 import co.chatsdk.core.utils.Strings
 import co.chatsdk.ui.chat.ChatActivity
 import co.chatsdk.ui.chat.MessagesListAdapter
-import co.chatsdk.ui.chat.TextInputDelegate
-import co.chatsdk.ui.chat.TextInputView
 import co.chatsdk.ui.main.MainActivity
 import co.chatsdk.ui.manager.BaseInterfaceAdapter.THREAD_ENTITY_ID
 import co.chatsdk.ui.manager.InterfaceManager
@@ -60,6 +58,8 @@ import timber.log.Timber
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.ui.fragments.common.RxBaseFragment
 import xyz.ratapp.munion.extensions.inflate
+import xyz.ratapp.munion.ui.views.TextInputDelegate
+import xyz.ratapp.munion.ui.views.TextInputView
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.prefs.Preferences
@@ -127,7 +127,8 @@ class ChatFragment : RxBaseFragment(), TextInputDelegate, ChatOptionsDelegate {
     }
 
     fun setupThread(threadEntityID: String) {
-        thread = StorageManager.shared().fetchThreadWithEntityID(threadEntityID)
+        thread = StorageManager.shared().
+                fetchThreadWithEntityID(threadEntityID)
     }
 
     fun loadMessages(showLoadingIndicator: Boolean, amountToLoad: Int, toPosition: ListPosition) {

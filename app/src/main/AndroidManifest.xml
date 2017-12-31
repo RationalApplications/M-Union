@@ -34,6 +34,7 @@
         </activity>
 
         <activity android:name=".ui.activities.CabinetActivity"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
 
         <activity

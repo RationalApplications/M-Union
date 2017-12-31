@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/hypothec_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="54dp"
+        android:text="@string/credit_head_text"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size"
+        app:minTextSize="16sp"
+        android:maxLines="2"/>
+
+    <EditText
+        android:id="@+id/hypothec_edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/radius_edit_text"
+        android:drawableLeft="@drawable/ic_account_circle_white"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="@string/credit_edit_hint_name"
+        android:inputType="textPersonName"
+        android:paddingBottom="16dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="16dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/hint" />
+
+    <EditText
+        android:id="@+id/hypothec_edit_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/radius_edit_text"
+        android:drawableLeft="@drawable/ic_contacts_white"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="@string/credit_edit_hint_phone"
+        android:inputType="phone"
+        android:paddingBottom="16dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="16dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/hint" />
+
+    <com.marcouberti.autofitbutton.AutoFitButton
+        android:id="@+id/hypothec_btn_order"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/auth_btn_height"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/radius_button"
+        android:text="@string/credit_btn_text"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:singleLine="true" />
+
+
+</LinearLayout>

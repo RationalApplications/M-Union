@@ -28,14 +28,14 @@
 
 
     <!-- Auth Fragment -->
-    <string name="auth_btn_text">Авторизоваться</string>
+    <string name="auth_btn_text">АВТОРИЗОВАТЬСЯ</string>
     <string name="auth_edit_hint_phone">+7 (987) 654 - 32 -10</string>
     <string name="auth_edit_hint_pass">********</string>
     <string name="auth_head_text">Введите номер и пароль для входа</string>
 
 
     <!-- Auth Fragment -->
-    <string name="credit_btn_text">Оставить заявку</string>
+    <string name="credit_btn_text">ОСТАВИТЬ ЗАЯВКУ</string>
     <string name="credit_edit_hint_name">Ваше имя</string>
     <string name="credit_edit_hint_phone">Ваш телефон</string>
     <string name="credit_head_text">Оформите заявку на ипотеку прямо сейчас</string>
@@ -64,6 +64,10 @@
     <string name="error_auth">Ошибка авторизации</string>
     <string name="incorrect_password">Неверный пароль, выслан новый.</string>
     <string name="auth_validation_toast">Введите корректные данные!\nНомер телефона в формате +71234567892\nПароль не пустой</string>
+    <string name="iv_user_photo_description">Photo of user</string>
+    <string name="iv_bar_descr">Photo of user, by click goes to personal cabinet</string>
+    <string name="fill_code_here">Введите полученный код</string>
+    <string name="reload">Reload</string>
     <string name="description_iv_piter">Saint-Petersburg building logo</string>
     <string name="logo_m_union_rus">Logo M-Union rus</string>
     <string name="temp_id_invitation">2 5 1 5     2 5 1 2</string>

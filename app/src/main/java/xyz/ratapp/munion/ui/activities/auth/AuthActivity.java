@@ -1,7 +1,9 @@
 package xyz.ratapp.munion.ui.activities.auth;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -16,6 +18,8 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.concurrent.TimeUnit;
 
 import xyz.ratapp.munion.R;
+import xyz.ratapp.munion.data.DataController;
+import xyz.ratapp.munion.data.pojo.Lead;
 import xyz.ratapp.munion.helpers.ChatSDKHelper;
 import xyz.ratapp.munion.helpers.PreferencesHelper;
 import xyz.ratapp.munion.ui.activities.SplashActivity;
@@ -41,6 +45,9 @@ public class AuthActivity extends SplashActivity {
     private boolean verificationInProgress = false;
     private PhoneAuthProvider.ForceResendingToken resendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
+    private ProgressBar pb;
+    private int agentID;
+    private Lead user;
 
     public static Intent getAuthIntent(String phone, String password) {
         Intent intent = new Intent(ACTION_DO_AUTH);
@@ -58,27 +65,26 @@ public class AuthActivity extends SplashActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         savedInstanceState = setActivityMode(savedInstanceState);
-        super.onCreate(savedInstanceState);
         auth = FirebaseAuth.getInstance();
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(!splashModeEnabled) {
-            FirebaseUser currentUser = auth.getCurrentUser();
 
-            if (currentUser != null) {
-                boolean isAuthed = PreferencesHelper.getInstance(this).isAuthed();
-                String chatThread = PreferencesHelper.getInstance(this).getChatThreadEntityId();
+        FirebaseUser currentUser = auth.getCurrentUser();
 
-                if(isAuthed && !chatThread.isEmpty()) {
-                    ChatSDKHelper.authWithUser(this, currentUser);
-                }
+        if (currentUser != null) {
+            boolean isAuthed = PreferencesHelper.getInstance(this).isAuthed();
+            String chatThread = PreferencesHelper.getInstance(this).getChatThreadEntityId();
+
+            if(isAuthed && !chatThread.isEmpty()) {
+                ChatSDKHelper.authWithUser(this, currentUser);
             }
-            else {
-                doModeTasks();
-            }
+        }
+        else {
+            doModeTasks();
         }
     }
 
@@ -111,10 +117,33 @@ public class AuthActivity extends SplashActivity {
         if(!splashModeEnabled) {
             setContentView(R.layout.activity_auth);
             initAuthFields();
-            ProgressBar pb = findViewById(R.id.pb_verif);
-            AuthTask task = new AuthTask(pb, this);
-            task.execute();
+            pb = findViewById(R.id.pb_verif);
+            pb.setVisibility(View.VISIBLE);
+            DataController.getInstance(this).loadUser(
+                    phone.substring(2), //normalize phone number
+                    new AuthUserCallback(this)
+            {
+                @Override
+                protected void doAfterPhoneChecked(Lead user) {
+                    AuthActivity.this.user = user;
+                    if(user.getPassword().equals(password)) {
+                        agentID = user.getAssignedById() * 10 + 1;
+                        pb.setVisibility(View.GONE);
+                        startPhoneNumberVerification();
+                        showCodeDialog(AuthActivity.this, phone);
+                    }
+                    else {
+                        onFailed(new Throwable("Password incorrect"));
+                    }
+                }
+            });
         }
+    }
+
+    static void showCodeDialog(Activity activity, String phone) {
+        VerificationDialog dialog = new VerificationDialog();
+        dialog.setPhone(phone);
+        dialog.show(activity.getFragmentManager(), "dialog");
     }
 
     private void initAuthFields() {
@@ -156,7 +185,12 @@ public class AuthActivity extends SplashActivity {
         };
     }
 
-    void startPhoneNumberVerification() {
+    void onFailedInAuthTask(Throwable thr) {
+        Toast.makeText(this, thr.getMessage(), Toast.LENGTH_LONG).show();
+        finish();
+    }
+
+    private void startPhoneNumberVerification() {
         PhoneAuthProvider.getInstance().
                 verifyPhoneNumber(phone,
                         60, TimeUnit.SECONDS,
@@ -184,14 +218,16 @@ public class AuthActivity extends SplashActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = task.getResult().getUser();
-                        ChatSDKHelper.firstAuth(AuthActivity.this, user);
+                        ChatSDKHelper.firstAuth(AuthActivity.this,
+                                user, this.user, agentID);
+                        pb.setVisibility(View.VISIBLE);
                     }
                     else {
                         Toast.makeText(getApplicationContext(),
                                 R.string.incorrect_password,
                                 Toast.LENGTH_LONG).show();
                         resendVerificationCode(resendToken);
-                        AuthTask.showCodeDialog(AuthActivity.this);
+                        showCodeDialog(AuthActivity.this, phone);
                     }
                 });
     }
@@ -204,6 +240,7 @@ public class AuthActivity extends SplashActivity {
     }
 
     public void setChatEntityId(String entityID) {
+        pb.setVisibility(View.GONE);
         sendResult(RESULT_OK, entityID);
     }
 }

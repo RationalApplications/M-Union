@@ -99,3 +99,5 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+/munionagent/src/main/res/values/strings_secure.xml
+/app/src/main/res/values/strings_secure.xml

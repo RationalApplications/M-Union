@@ -1,7 +1,9 @@
 package co.chatsdk.firebase;
 
+import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -68,37 +70,41 @@ public class FirebaseCoreHandler extends AbstractCoreHandler {
         return Single.create(new SingleOnSubscribe<User>() {
             @Override
             public void subscribe(@NonNull final SingleEmitter<User> e) throws Exception {
-                // Check to see if the avatar URL is local or remote
-                File avatar = new File(NM.currentUser().getAvatarURL());
-                if (avatar.exists() && NM.upload() != null) {
-                    // Upload the image
-                    Bitmap bitmap = BitmapFactory.decodeFile(avatar.getPath());
-                    NM.upload().uploadImage(bitmap).subscribe(new Observer<FileUploadResult>() {
-                        @Override
-                        public void onSubscribe(@NonNull Disposable d) {
-                        }
-
-                        @Override
-                        public void onNext(@NonNull FileUploadResult fileUploadResult) {
-                            if (fileUploadResult.urlValid()) {
-                                NM.currentUser().setAvatarURL(fileUploadResult.url);
-                                NM.currentUser().update();
-                                NM.events().source().onNext(NetworkEvent.userMetaUpdated(NM.currentUser()));
+                try {
+                    // Check to see if the avatar URL is local or remote
+                    File avatar = new File(NM.currentUser().getAvatarURL());
+                    if (avatar.exists() && NM.upload() != null) {
+                        // Upload the image
+                        Bitmap bitmap = BitmapFactory.decodeFile(avatar.getPath());
+                        NM.upload().uploadImage(bitmap).subscribe(new Observer<FileUploadResult>() {
+                            @Override
+                            public void onSubscribe(@NonNull Disposable d) {
                             }
-                        }
 
-                        @Override
-                        public void onError(@NonNull Throwable ex) {
-                            ex.printStackTrace();
-                            e.onSuccess(NM.currentUser());
-                        }
+                            @Override
+                            public void onNext(@NonNull FileUploadResult fileUploadResult) {
+                                if (fileUploadResult.urlValid()) {
+                                    NM.currentUser().setAvatarURL(fileUploadResult.url);
+                                    NM.currentUser().update();
+                                    NM.events().source().onNext(NetworkEvent.userMetaUpdated(NM.currentUser()));
+                                }
+                            }
 
-                        @Override
-                        public void onComplete() {
-                            e.onSuccess(NM.currentUser());
-                        }
-                    });
-                } else {
+                            @Override
+                            public void onError(@NonNull Throwable ex) {
+                                ex.printStackTrace();
+                                e.onSuccess(NM.currentUser());
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                e.onSuccess(NM.currentUser());
+                            }
+                        });
+                    } else {
+                        e.onSuccess(NM.currentUser());
+                    }
+                } catch (Exception ex) {
                     e.onSuccess(NM.currentUser());
                 }
             }
