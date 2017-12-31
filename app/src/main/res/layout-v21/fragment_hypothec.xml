@@ -35,7 +35,7 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="@string/credit_edit_hint_name"
-        android:inputType="text"
+        android:inputType="textPersonName"
         android:paddingBottom="16dp"
         android:paddingLeft="18dp"
         android:paddingRight="18dp"

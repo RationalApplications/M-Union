@@ -76,7 +76,7 @@ class CabinetActivity : AppCompatActivity() {
         }
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK &&
                 requestCode == 100 && data != null &&
                 data.data != null) {

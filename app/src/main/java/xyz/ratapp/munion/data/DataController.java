@@ -22,7 +22,9 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import retrofit2.Call;
@@ -117,31 +119,37 @@ public class DataController {
     }
 
     private Statistics loadStatistics() {
-        user = loadUser();
 
-        if(user != null && user.getStatistics() != null) {
-            return user.getStatistics();
+        /*loadUser(user.getPhones().get(0).getPhone(),
+                new UserCallback() {
+            @Override
+            public void onSuccess(Lead user) {
+                DataController.this.user.setCallsCount(user.getCallsCount());
+                DataController.this.user.setLooksCount(user.getLooksCount());
+                DataController.this.user.setTalksRecords(user.getTalksRecords());
+            }
+
+            @Override
+            public void onFailed(Throwable thr) {
+
+            }
+        });*/
+
+        if(user == null || user.getStatistics() == null) {
+            HashMap<String, Float> data = new HashMap<>();
+            data.put("emls.ru", 615f);
+            data.put("spb.rucountry.ru", 33f);
+            data.put("mirkvartir.ru", 19f);
+            data.put("realty.yandex.ru", 170f);
+            data.put("avito.ru", 1588f);
+            data.put("restate.ru", 42f);
+
+            user.setStatistics(220, data);
         }
-        else {
-            return loadStatisticsFromExcel();
-        }
+
+        return user.getStatistics();
     }
 
-    private Statistics loadStatisticsFromExcel() {
-        /*
-        try {
-            InputStream input = context.getAssets().open("stats.xlsx");
-            Workbook wb = WorkbookFactory.create(input);
-            Sheet mySheet = wb.getSheetAt(0);
-            Iterator<Row> rowIter = mySheet.rowIterator();
-            Log.e("MyTag", mySheet.getRow(19).getCell(0).getStringCellValue());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
-        return null;
-    }
 
     public void loadUser(String phone, UserCallback callback) {
         api.loadLeadByPhone(phone).enqueue(new Callback<LeadListResponse>() {

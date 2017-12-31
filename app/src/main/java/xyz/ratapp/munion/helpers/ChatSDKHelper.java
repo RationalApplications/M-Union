@@ -38,7 +38,7 @@ public class ChatSDKHelper {
 
     public static void createThread(final AuthActivity activity,
                                     List<User> users) {
-        NM.thread().createThread(DEFAULT_CHAT_NAME, users)
+        NM.thread().createThread(users.get(0).getName(), users)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(thread -> {
                             PreferencesHelper.

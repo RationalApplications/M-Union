@@ -3,6 +3,7 @@ package xyz.ratapp.munion.data.pojo;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -125,9 +126,22 @@ public class Lead implements Serializable
         return statistics;
     }
 
-    public void setStatistics(Statistics statistics) {
-        this.statistics = statistics;
+    public void setStatistics(int viewsCount, Map<String, Float> data) {
+        this.statistics = new Statistics(title, callsCount,
+                looksCount, viewsCount, data);
     }
+
+    /*public void setCallsCount(int callsCount) {
+        this.callsCount = callsCount;
+    }
+
+    public void setLooksCount(int looksCount) {
+        this.looksCount = looksCount;
+    }
+
+    public void setTalksRecords(List<Record> talksRecords) {
+        this.talksRecords = talksRecords;
+    }*/
 
     public class Record implements Serializable {
         @SerializedName("id")

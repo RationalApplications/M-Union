@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.ui.fragments
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
@@ -10,6 +11,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.TextView
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -26,7 +29,9 @@ import kotlinx.android.synthetic.main.fragment_statistics.*
 import xyz.ratapp.munion.ui.fragments.common.FragmentBase
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.data.DataController
-import java.util.ArrayList
+import xyz.ratapp.munion.data.pojo.Statistics
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * <p>Date: 30.10.17</p>
@@ -55,15 +60,30 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
 
     private fun setupView() {
         setupPieChart()
-        //val stat = DataController.getInstance(activity).statistics
     }
 
     private fun setupData() {
         val user = DataController.getInstance(activity).user
 
-        tv_calls_count.text = "${user.callsCount}"
-        tv_looks_count.text = "${user.looksCount}"
+//        startCountAnimation(user.callsCount, tv_calls_count)
+//        startCountAnimation(user.looksCount, tv_looks_count)
+        startCountAnimation(70, 70 * 50, tv_calls_count)
+        startCountAnimation(16, 16 * 200, tv_looks_count)
         tv_object.text = user.title
+    }
+
+    private fun startCountAnimation(toValue: Int, duration: Long,
+                                    textView: TextView) {
+        val animator = ValueAnimator.ofInt(0, toValue)
+        animator.duration = duration
+        animator.interpolator = AccelerateDecelerateInterpolator()
+        animator.addUpdateListener {
+            animation ->
+            if(this@StatisticsFragment.isVisible) {
+                textView.text = animation.animatedValue.toString()
+            }
+        }
+        animator.start()
     }
 
     private fun setupPieChart() {
@@ -99,7 +119,8 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
         // add a selection listener
         mChart.setOnChartValueSelectedListener(this)
 
-        setData()
+        val stat = DataController.getInstance(activity).statistics
+        setData(stat)
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad)
 
@@ -118,21 +139,20 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
         mChart.setEntryLabelTextSize(12f)
     }
 
-    private fun setData() {
-
-        val count = 6
-        val range = 2467f
-        val markets = arrayListOf("emls.ru", "spb.rucountry.ru", "mirkvartir.ru",
-                "realty.yandex.ru", "avito.ru", "restate.ru")
-        val values = arrayListOf(615f, 33f, 19f, 170f, 1588f, 42f)
+    private fun setData(stat: Statistics) {
+        val map = stat.data
+        var range = 0f
+        for (entry in map) {
+            range += entry.component2()
+        }
 
         val entries = ArrayList<PieEntry>()
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (i in 0 until count) {
-            entries.add(PieEntry((values[i] / range) * 100,
-                    markets[i]))
+        for (entry in map) {
+            entries.add(PieEntry((entry.component2() / range) * 100,
+                    entry.component1()))
         }
 
         val dataSet = PieDataSet(entries, "Sales Results")
@@ -193,7 +213,7 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
         if (e == null)
-return
+            return
         Log.i("VAL SELECTED",
                 "Value: " + e.y + ", index: " + h!!.getX()
                 + ", DataSet index: " + h.getDataSetIndex())

@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         navigation.defaultBackgroundColor = this.resources.getColor(R.color.colorPrimaryDark)
         navigation.accentColor = this.resources.getColor(R.color.colorAccent)
         navigation.inactiveColor = this.resources.getColor(R.color.white)
+        navigation.isBehaviorTranslationEnabled = false
 
         init()
         setSupportActionBar(toolbar)
