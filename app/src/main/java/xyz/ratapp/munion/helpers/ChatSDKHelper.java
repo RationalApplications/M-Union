@@ -122,6 +122,7 @@ public class ChatSDKHelper {
         User user = NM.currentUser();
 
         String name = lead.getName() + " " + lead.getLastName();
+        String title = lead.getTitle();
         String phoneNumber = lead.getPhones().get(0).getPhone();
         String avatarUrl = lead.getPhotoUri();
         int id = lead.getId() * 10; //format idx, where x = 1 if agent, 0 else
@@ -130,12 +131,13 @@ public class ChatSDKHelper {
             user.setName(name);
         }
         if(!StringUtils.isEmpty(phoneNumber)) {
-            user.setPhoneNumber(phoneNumber);
+            user.setPhoneNumber("+7" + phoneNumber);
         }
         if(!StringUtils.isEmpty(avatarUrl)) {
             user.setAvatarURL(avatarUrl);
         }
-        user.setStatus(id + "");
+        user.setEmail(title); //we will use email as title of object
+        user.setStatus(id + ""); //we will use status as simple id
 
         NM.core().pushUser()
                 .observeOn(AndroidSchedulers.mainThread())

@@ -14,5 +14,11 @@
     <string name="iv_munion_logo_description">This is logo of MUnion</string>
     <string name="auth_edit_hint_email">admin@example.com</string>
     <string name="login_fill_correct_data">Введите корректные данные!</string>
+    <string name="clients">Клиенты</string>
+    <string name="profile">Профиль</string>
+    <string name="details">Детали</string>
+    <string name="phone_number">Номер Телефона</string>
+    <string name="name">Имя</string>
+    <string name="message">Сообщение</string>
 
 </resources>

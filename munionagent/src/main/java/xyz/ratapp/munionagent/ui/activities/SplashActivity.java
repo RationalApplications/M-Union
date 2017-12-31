@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import co.chatsdk.ui.main.MainActivity;
 import xyz.ratapp.munionagent.helpers.PreferencesHelper;
+import xyz.ratapp.munionagent.ui.activities.main.MainActivity;
 
 /**
  * Created by timtim on 28/12/2017.

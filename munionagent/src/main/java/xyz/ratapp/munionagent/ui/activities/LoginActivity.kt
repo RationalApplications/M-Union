@@ -5,10 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import co.chatsdk.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import xyz.ratapp.munionagent.R
 import xyz.ratapp.munionagent.ui.activities.auth.AuthActivity
+import xyz.ratapp.munionagent.ui.activities.main.MainActivity
 
 /**
  * Created by timtim on 28/12/2017.
