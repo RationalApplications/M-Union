@@ -53,7 +53,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'me.grantland:autofittextview:0.2.+'
     compile 'com.marcouberti.autofitbutton:android-auto-fit-button:0.1.1@aar'
-    //compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.9'
+    compile 'com.github.alxrm:audiowave-progressbar:0.9'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/colorPrimary"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_media_play_dark"
+        android:contentDescription="@string/button_for_playing_audio" />
+
+    <rm.com.audiowave.AudioWaveView
+        android:id="@+id/awv_wave"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_margin="8dp"
+        app:animateExpansion="false"
+        app:chunkWidth="3dp"
+        app:chunkHeight="24dp"
+        app:minChunkHeight="2dp"
+        app:chunkSpacing="1dp"
+        app:chunkRadius="1dp"
+        app:waveColor="@android:color/white"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/iv_play"
+        android:layout_toEndOf="@id/iv_play" />
+
+</RelativeLayout>

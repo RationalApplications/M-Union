@@ -22,10 +22,12 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,6 +73,20 @@ public class DataController {
 
     private DataController() {
 
+    }
+
+    public List<String> getTalksUrls() {
+        ArrayList<String> result = new ArrayList<>();
+
+        if(user != null &&
+                user.getTalksRecords() != null &&
+                user.getTalksRecords().size() > 0) {
+            for (Lead.Record record : user.getTalksRecords()) {
+                result.add(record.getDownloadUrl());
+            }
+        }
+
+        return result;
     }
 
     public Statistics getStatistics() {
@@ -120,7 +136,7 @@ public class DataController {
 
     private Statistics loadStatistics() {
 
-        /*loadUser(user.getPhones().get(0).getPhone(),
+        loadUser(user.getPhones().get(0).getPhone(),
                 new UserCallback() {
             @Override
             public void onSuccess(Lead user) {
@@ -133,9 +149,9 @@ public class DataController {
             public void onFailed(Throwable thr) {
 
             }
-        });*/
+        });
 
-        if(user == null || user.getStatistics() == null) {
+        if(user != null && user.getStatistics() == null) {
             HashMap<String, Float> data = new HashMap<>();
             data.put("emls.ru", 615f);
             data.put("spb.rucountry.ru", 33f);
@@ -147,7 +163,7 @@ public class DataController {
             user.setStatistics(220, data);
         }
 
-        return user.getStatistics();
+        return user == null ? null : user.getStatistics();
     }
 
 

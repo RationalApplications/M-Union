@@ -30,6 +30,7 @@ import xyz.ratapp.munion.ui.fragments.common.FragmentBase
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.data.DataController
 import xyz.ratapp.munion.data.pojo.Statistics
+import xyz.ratapp.munion.ui.views.audio.AudiosDialog
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -56,6 +57,16 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
 
         setupView()
         setupData()
+        setupDelegates()
+    }
+
+    private fun setupDelegates() {
+        ll_calls_container.setOnClickListener {
+            val dialog = AudiosDialog(context)
+            dialog.show()
+            dialog.setData(DataController.
+                    getInstance(activity).talksUrls)
+        }
     }
 
     private fun setupView() {

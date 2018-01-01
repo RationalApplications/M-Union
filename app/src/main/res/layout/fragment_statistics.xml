@@ -20,7 +20,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/object"
         android:singleLine="true"
-        app:minTextSize="18sp"/>
+        app:minTextSize="16sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,29 +70,30 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_calls_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="8dp"
-            android:background="@color/white"
-            android:orientation="vertical"
             android:layout_marginStart="14dp"
-            android:layout_marginEnd="8dp">
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical">
 
             <me.grantland.widget.AutofitTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:padding="4dp"
                 android:background="@color/colorAccent"
+                android:maxLines="2"
+                android:minLines="2"
+                android:padding="4dp"
+                android:text="@string/count_of_calls"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textSize="16sp"
-                android:minLines="2"
-                android:maxLines="2"
-                app:minTextSize="12sp"
-                android:text="@string/count_of_calls"/>
+                app:minTextSize="12sp" />
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/tv_calls_count"

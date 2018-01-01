@@ -29,6 +29,6 @@
     <!-- Cabinet -->
     <dimen name="cabinet_address_btn_height">30dp</dimen>
     <dimen name="bottom_scroll_view_padding">74dp</dimen>
-
+    <dimen name="dialog_audios_height">300dp</dimen>
 
 </resources>

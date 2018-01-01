@@ -2,6 +2,7 @@
 package xyz.ratapp.munion.data.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,9 @@ public class Lead implements Serializable
     @SerializedName("LAST_NAME")
     @Expose
     private String lastName;
+    @SerializedName("COMMENTS")
+    @Expose
+    private String comments;
     @SerializedName("BIRTHDATE")
     @Expose
     private String birthday;
@@ -118,6 +122,10 @@ public class Lead implements Serializable
         return looksCount;
     }
 
+    public String getComments() {
+        return comments;
+    }
+
     public void setPhotoUri(String photoUri) {
         this.photoUri = photoUri;
     }
@@ -127,11 +135,16 @@ public class Lead implements Serializable
     }
 
     public void setStatistics(int viewsCount, Map<String, Float> data) {
+        List<String> talks = new ArrayList<>(talksRecords.size());
+        for (Record talksRecord : talksRecords) {
+            talks.add(talksRecord.getDownloadUrl());
+        }
+
         this.statistics = new Statistics(title, callsCount,
-                looksCount, viewsCount, data);
+                looksCount, viewsCount, data, talks);
     }
 
-    /*public void setCallsCount(int callsCount) {
+    public void setCallsCount(int callsCount) {
         this.callsCount = callsCount;
     }
 
@@ -140,8 +153,9 @@ public class Lead implements Serializable
     }
 
     public void setTalksRecords(List<Record> talksRecords) {
+        //if zip unzip it
         this.talksRecords = talksRecords;
-    }*/
+    }
 
     public class Record implements Serializable {
         @SerializedName("id")

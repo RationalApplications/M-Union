@@ -74,5 +74,7 @@
     <string name="description_iv_building">building Saint Petersburg</string>
     <string name="temp_invited_count">Приглашено: 21 чел.</string>
     <string name="temp_balance">Баланс: 2150 руб.</string>
+    <string name="button_for_playing_audio">Button for playing audio</string>
+    <string name="recs_of_calls">Записи звонков</string>
 
 </resources>
