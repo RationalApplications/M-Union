@@ -67,6 +67,7 @@
             android:layout_margin="8dp"
             android:background="@null"
             android:drawablePadding="6dp"
+            android:drawableLeft="@drawable/ic_done"
             android:drawableTint="@color/colorAccent"
             android:text="Accept"
             android:textColor="@color/colorAccent"
@@ -82,6 +83,7 @@
             android:background="@null"
             android:text="Cancel"
             android:drawablePadding="6dp"
+            android:drawableLeft="@drawable/ic_cancel"
             android:drawableTint="@color/white"
             android:textColor="@color/white"
             android:visibility="invisible" />

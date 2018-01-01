@@ -31,6 +31,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="48dp"
         android:background="@drawable/radius_edit_text"
+        android:drawableLeft="@drawable/ic_contacts_white_png"
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="@string/auth_edit_hint_phone"
@@ -40,7 +41,8 @@
         android:paddingRight="18dp"
         android:paddingTop="16dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/hint" />
+        android:textColorHint="@color/hint"
+        android:drawableStart="@drawable/ic_contacts_white_png" />
 
     <EditText
         android:id="@+id/edit_pass"
@@ -50,6 +52,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/radius_edit_text"
+        android:drawableLeft="@drawable/ic_lock_white_png"
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="@string/auth_edit_hint_pass"
@@ -59,7 +62,8 @@
         android:paddingRight="18dp"
         android:paddingTop="16dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/hint" />
+        android:textColorHint="@color/hint"
+        android:drawableStart="@drawable/ic_lock_white_png" />
 
     <com.marcouberti.autofitbutton.AutoFitButton
         android:id="@+id/auth_submit"
