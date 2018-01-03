@@ -76,5 +76,6 @@
     <string name="temp_balance">Баланс: 2150 руб.</string>
     <string name="button_for_playing_audio">Button for playing audio</string>
     <string name="recs_of_calls">Записи звонков</string>
+    <string name="error_when_load_data">При загрузке данных произошла ошибка!</string>
 
 </resources>

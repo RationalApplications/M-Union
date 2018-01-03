@@ -121,7 +121,7 @@ public class AuthActivity extends SplashActivity {
             pb.setVisibility(View.VISIBLE);
             DataController.getInstance(this).loadUser(
                     phone.substring(2), //normalize phone number
-                    new AuthUserCallback(this)
+                    new AuthDataCallback(this)
             {
                 @Override
                 protected void doAfterPhoneChecked(Lead user) {

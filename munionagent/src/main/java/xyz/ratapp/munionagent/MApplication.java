@@ -35,8 +35,8 @@ public class MApplication extends Application {
         Context context = getApplicationContext();
         Configuration.Builder builder = new Configuration.Builder(context);
 
-        builder.firebase("prod", "AAAAhsFBP2w:APA91bGzXpe5ylwm2fhIkhPIj6E7jBeiEcEYsJTdfSNvCZcSlCjQYsvbUCbGbrRxSBkuOwEOFYG7HVi78yTpNSFnNIDr3BjNGfutmcP9nwCOSyHYKnBY12150CA27_b36f4j1Gs3nxNu");
-        builder.googleMaps("AIzaSyD-tOuSye6oPh33pACsD1S3W-RMEQmJWPs");
+        builder.firebase("prod", context.getString(R.string.cloud_messaging_server_key));
+        builder.googleMaps(context.getString(R.string.google_maps_api_key));
         builder.imageCroppingEnabled(true);
         builder.locationMessagesEnabled(true);
         builder.saveImagesToDirectoryEnabled(true);

@@ -39,7 +39,7 @@ public class AuthActivity extends SplashActivity {
 
     private static final String AUTH_URL_MASK =
             "https://m-union.bitrix24.ru/oauth/authorize/?client_id=%s&response_type=%d&redirect_uri=%s";
-    private static final int responseType = 13;
+    private static final int RESPONSE_TYPE = 13;
 
     private FirebaseAuth auth;
     private String phone;
@@ -137,7 +137,7 @@ public class AuthActivity extends SplashActivity {
 
             BitrixAuthWebView wv = findViewById(R.id.wv_auth);
             String url = String.format(Locale.getDefault(), AUTH_URL_MASK,
-                    clientId, responseType, redirectUri);
+                    clientId, RESPONSE_TYPE, redirectUri);
             wv.login(url, email, password, new BitrixAuthWebView.
                     BitrixAuthCallback() {
 
@@ -149,7 +149,7 @@ public class AuthActivity extends SplashActivity {
                 @Override
                 public void onFailed() {
                     Toast.makeText(AuthActivity.this,
-                            "Введите верные данные!",
+                            "Введите неверные данные!",
                             Toast.LENGTH_SHORT).show();
                     finish();
                 }

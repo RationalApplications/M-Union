@@ -1,13 +1,16 @@
 package xyz.ratapp.munion.data.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+
+import xyz.ratapp.munion.data.statistic.StatisticLoader;
 
 /**
  * Created by timtim on 27/12/2017.
  */
 
-public class Statistics {
+public class Statistics implements Serializable {
 
     private String objectName;
     private int callsCount;
@@ -26,6 +29,10 @@ public class Statistics {
         this.viewsCount = viewsCount;
         this.data = data;
         this.talksUrls = talksUrls;
+    }
+
+    public Statistics(StatisticLoader loader) {
+
     }
 
     public String getObjectName() {

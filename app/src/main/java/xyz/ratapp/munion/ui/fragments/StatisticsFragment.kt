@@ -28,10 +28,10 @@ import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import xyz.ratapp.munion.ui.fragments.common.FragmentBase
 import xyz.ratapp.munion.R
+import xyz.ratapp.munion.controllers.interfaces.DataCallback
 import xyz.ratapp.munion.data.DataController
 import xyz.ratapp.munion.data.pojo.Statistics
 import xyz.ratapp.munion.ui.views.audio.AudiosDialog
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -56,16 +56,27 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
         super.onViewCreated(view, savedInstanceState)
 
         setupView()
-        setupData()
-        setupDelegates()
+        DataController.getInstance(activity).
+                loadStatistics(object: DataCallback<Statistics>
+                {
+                    override fun onSuccess(data: Statistics) {
+                        setupData(data)
+                        setupDelegates(data)
+                    }
+
+                    override fun onFailed(thr: Throwable?) {
+
+                    }
+                })
     }
 
-    private fun setupDelegates() {
+    private fun setupDelegates(data: Statistics) {
         ll_calls_container.setOnClickListener {
+
             val dialog = AudiosDialog(context)
+
             dialog.show()
-            dialog.setData(DataController.
-                    getInstance(activity).talksUrls)
+            dialog.setData(data.talksUrls)
         }
     }
 
@@ -73,20 +84,20 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
         setupPieChart()
     }
 
-    private fun setupData() {
-        val user = DataController.getInstance(activity).user
-
-//        startCountAnimation(user.callsCount, tv_calls_count)
-//        startCountAnimation(user.looksCount, tv_looks_count)
-        startCountAnimation(70, 70 * 50, tv_calls_count)
-        startCountAnimation(16, 16 * 200, tv_looks_count)
-        tv_object.text = user.title
+    private fun setupData(data: Statistics) {
+        startCountAnimation(data.callsCount,
+                50, tv_calls_count)
+        startCountAnimation(data.looksCount,
+                200, tv_looks_count)
+        startCountAnimation(data.viewsCount,
+                8, tv_views_count)
+        tv_object.text = data.objectName
     }
 
     private fun startCountAnimation(toValue: Int, duration: Long,
                                     textView: TextView) {
         val animator = ValueAnimator.ofInt(0, toValue)
-        animator.duration = duration
+        animator.duration = duration * toValue
         animator.interpolator = AccelerateDecelerateInterpolator()
         animator.addUpdateListener {
             animation ->
@@ -130,8 +141,17 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
         // add a selection listener
         mChart.setOnChartValueSelectedListener(this)
 
-        val stat = DataController.getInstance(activity).statistics
-        setData(stat)
+        DataController.getInstance(activity).
+                loadStatistics(object: DataCallback<Statistics> {
+
+            override fun onSuccess(data: Statistics) {
+                setData(data)
+            }
+
+            override fun onFailed(thr: Throwable?) {
+
+            }
+        })
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad)
 

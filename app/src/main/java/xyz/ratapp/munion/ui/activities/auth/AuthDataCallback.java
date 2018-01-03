@@ -1,17 +1,17 @@
 package xyz.ratapp.munion.ui.activities.auth;
 
-import xyz.ratapp.munion.controllers.interfaces.UserCallback;
+import xyz.ratapp.munion.controllers.interfaces.DataCallback;
 import xyz.ratapp.munion.data.pojo.Lead;
 
 /**
  * Created by timtim on 27/12/2017.
  */
 
-public abstract class AuthUserCallback implements UserCallback {
+public abstract class AuthDataCallback implements DataCallback<Lead> {
 
     private AuthActivity authActivity;
 
-    public AuthUserCallback(AuthActivity authActivity) {
+    public AuthDataCallback(AuthActivity authActivity) {
         this.authActivity = authActivity;
     }
 

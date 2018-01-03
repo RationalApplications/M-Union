@@ -134,14 +134,8 @@ public class Lead implements Serializable
         return statistics;
     }
 
-    public void setStatistics(int viewsCount, Map<String, Float> data) {
-        List<String> talks = new ArrayList<>(talksRecords.size());
-        for (Record talksRecord : talksRecords) {
-            talks.add(talksRecord.getDownloadUrl());
-        }
-
-        this.statistics = new Statistics(title, callsCount,
-                looksCount, viewsCount, data, talks);
+    public void setStatistics(Statistics statistics) {
+        this.statistics = statistics;
     }
 
     public void setCallsCount(int callsCount) {

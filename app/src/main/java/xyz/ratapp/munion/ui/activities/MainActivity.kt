@@ -21,6 +21,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import xyz.ratapp.munion.R
+import xyz.ratapp.munion.controllers.interfaces.DataCallback
 import xyz.ratapp.munion.data.DataController
 import xyz.ratapp.munion.data.pojo.Lead
 import xyz.ratapp.munion.helpers.PreferencesHelper
@@ -67,8 +68,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val preferencesHelper = PreferencesHelper.getInstance(this)
         if(preferencesHelper.isAuthed) {
-            val user = DataController.getInstance(this).user
-            setUserIcon(user)
+            setUserIcon()
         }
     }
 
@@ -134,9 +134,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initAuth(chatId: String) {
-
-        val user = DataController.getInstance(this).user
-        setUserIcon(user)
+        setUserIcon()
 
         navigation.removeAllItems()
         changeFragment(VkFragment())
@@ -193,26 +191,36 @@ class MainActivity : AppCompatActivity() {
         navigation.setOnTabSelectedListener(listenerAuth)
     }
 
-    private fun setUserIcon(user: Lead) {
-        Glide.with(this).
-                load(if (user.photoUri != null)
-                    user.photoUri
-                else
-                    "android.resource://xyz.ratapp.munion/drawable/icon_me").
-                asBitmap().centerCrop().
-                error(R.drawable.icon_me).
-                into(object : BitmapImageViewTarget(iv_bar) {
-                    override fun setResource(resource: Bitmap) {
-                        val circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(resources, resource)
-                        circularBitmapDrawable.isCircular = true
-                        iv_bar.setImageDrawable(circularBitmapDrawable)
+    private fun setUserIcon() {
+        DataController.getInstance(this).
+                getUser(object: DataCallback<Lead> {
+                    override fun onSuccess(user: Lead) {
+                        Glide.with(this@MainActivity).
+                                load(if (user.photoUri != null)
+                                    user.photoUri
+                                else
+                                    "android.resource://xyz.ratapp.munion/drawable/icon_me").
+                                asBitmap().centerCrop().
+                                error(R.drawable.icon_me).
+                                into(object : BitmapImageViewTarget(iv_bar) {
+                                    override fun setResource(resource: Bitmap) {
+                                        val circularBitmapDrawable =
+                                                RoundedBitmapDrawableFactory.create(resources, resource)
+                                        circularBitmapDrawable.isCircular = true
+                                        iv_bar.setImageDrawable(circularBitmapDrawable)
+                                    }
+                                })
+                        iv_bar.setOnClickListener({
+                            val i = Intent(this@MainActivity,
+                                    CabinetActivity::class.java)
+                            startActivity(i)
+                        })
+                    }
+
+                    override fun onFailed(thr: Throwable?) {
+
                     }
                 })
-        iv_bar.setOnClickListener({
-            val i = Intent(this, CabinetActivity::class.java)
-            startActivity(i)
-        })
     }
 
     fun getNavigation(): AHBottomNavigation {
