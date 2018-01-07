@@ -22,7 +22,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size"
             android:textStyle="bold"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:layout_marginLeft="26dp" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/contacts_telephone_body"
@@ -43,7 +44,8 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:minTextSize="8sp"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:drawableLeft="@drawable/ic_contacts" />
 
 
         <me.grantland.widget.AutofitTextView
@@ -56,7 +58,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size"
             android:textStyle="bold"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:layout_marginLeft="26dp" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/contacts_vk_body"
@@ -77,7 +80,8 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:minTextSize="8sp"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:drawableLeft="@drawable/ic_vk" />
 
 
         <me.grantland.widget.AutofitTextView
@@ -90,7 +94,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size"
             android:textStyle="bold"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:layout_marginLeft="26dp" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/contacts_site_body"
@@ -101,7 +106,7 @@
             android:layout_marginTop="6dp"
             android:gravity="start|center_vertical"
             android:background="@drawable/radius_button"
-            android:drawableStart="@drawable/ic_link"
+            android:drawableStart="@drawable/ic_link_png"
             android:drawablePadding="16dp"
             android:paddingBottom="16dp"
             android:paddingLeft="16dp"
@@ -111,7 +116,8 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:minTextSize="8sp"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:drawableLeft="@drawable/ic_link_png" />
 
 
         <me.grantland.widget.AutofitTextView
@@ -124,7 +130,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size"
             android:textStyle="bold"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:layout_marginLeft="26dp" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/contacts_address_body"
@@ -146,7 +153,8 @@
             android:lines="1"
             android:textSize="16sp"
             app:minTextSize="8sp"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:drawableLeft="@drawable/ic_map" />
 
 
     </LinearLayout>

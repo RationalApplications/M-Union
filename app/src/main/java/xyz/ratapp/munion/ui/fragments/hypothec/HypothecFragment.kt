@@ -67,7 +67,7 @@ class HypothecFragment : Fragment() {
 
                 3 -> {
                     Sender.getInstance()
-                            .sendMessage(activity,
+                            .sendHypothecMessage(activity,
                                     hypothec_edit_name.text.toString(),
                                     hypothec_edit_phone.text.toString(),
                                     photoUris)

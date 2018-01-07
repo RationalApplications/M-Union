@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="xyz.ratapp.munion.ui.activities.MoneyOutActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/abl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:layout_alignParentTop="true">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_money"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimaryDark"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/tv_money_head_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/abl"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:text="@string/fill_card_number_and_money"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size"
+        app:minTextSize="16sp"
+        android:maxLines="2" />
+
+
+    <com.braintreepayments.cardform.view.CardForm
+        android:id="@+id/card_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tv_money_head_text" />
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/til_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:labelFor="@+id/et_money"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/card_form">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/et_money"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingTop="8dp"
+            android:textSize="16sp"
+            android:textCursorDrawable="@null"
+            android:hint="@string/how_much_money"
+            android:inputType="numberDecimal"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/tv_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/til_money"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:text="@string/balance"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:minTextSize="8sp"
+        android:maxLines="1" />
+
+
+    <Button
+        android:id="@+id/btn_sent_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/move_money"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:background="@drawable/radius_button"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_margin="10dp"/>
+
+</RelativeLayout>

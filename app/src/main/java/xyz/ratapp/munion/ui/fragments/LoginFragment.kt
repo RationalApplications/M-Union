@@ -17,7 +17,7 @@ import xyz.ratapp.munion.ui.activities.auth.AuthActivity
  * @author Simon
  */
 
-class AuthFragment : FragmentBase() {
+class LoginFragment : FragmentBase() {
 
     override fun getFragmentName(context: Context): String {
         return context.resources.getString(R.string.title_account)

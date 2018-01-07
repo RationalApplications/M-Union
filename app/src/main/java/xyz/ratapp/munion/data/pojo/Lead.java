@@ -53,13 +53,26 @@ public class Lead implements Serializable
     @SerializedName("UF_CRM_1502809647")
     @Expose
     private List<Record> talksRecords = null;
+    @SerializedName("UF_CRM_1514422195")
+    @Expose
+    private String loyaltyCode;
+    @SerializedName("UF_CRM_1514422511")
+    @Expose
+    private String money;
+    @SerializedName("UF_CRM_1514422134")
+    @Expose
+    private Object invitedUsers;
     @SerializedName("PHONE")
     @Expose
     private List<Phone> phones = null;
+
+    //My fields
     @SerializedName("PHOTO_URI")
     private String photoUri;
     @SerializedName("STATISTICS")
     private Statistics statistics;
+    @SerializedName("FB_ENTITY")
+    private String firebaseEntity;
 
 
     public int getId() {
@@ -149,6 +162,46 @@ public class Lead implements Serializable
     public void setTalksRecords(List<Record> talksRecords) {
         //if zip unzip it
         this.talksRecords = talksRecords;
+    }
+
+    public String getFirebaseEntity() {
+        return firebaseEntity;
+    }
+
+    public void setFirebaseEntity(String firebaseEntity) {
+        this.firebaseEntity = firebaseEntity;
+    }
+
+    public String getLoyaltyCode() {
+        return loyaltyCode;
+    }
+
+    public void setLoyaltyCode(String loyaltyCode) {
+        this.loyaltyCode = loyaltyCode;
+    }
+
+    public String getMoney() {
+        if (money == null) {
+            money = "0|RUB";
+        }
+
+        return money.substring(0, money.indexOf('|'));
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public List<String> getInvitedUsers() {
+        if(!(invitedUsers instanceof List)) {
+            invitedUsers = new ArrayList<String>();
+        }
+
+        return (List<String>) invitedUsers;
+    }
+
+    public void setInvitedUsers(List<String> invitedUsers) {
+        this.invitedUsers = invitedUsers;
     }
 
     public class Record implements Serializable {

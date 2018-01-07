@@ -69,6 +69,7 @@ public class SendTask extends AsyncTask<Object, String, Boolean> {
                 return false;
             }
         }
+
         return false;
     }
 
@@ -94,6 +95,10 @@ public class SendTask extends AsyncTask<Object, String, Boolean> {
     }
 
     private String[] getPath(List<Uri> uris) {
+        if(uris == null) {
+            return null;
+        }
+
         String[] files = new String[uris.size()];
         for (int i = 0; i < uris.size(); i++) {
             try {

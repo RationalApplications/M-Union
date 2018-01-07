@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.net.ConnectivityManager
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import android.support.v7.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import xyz.ratapp.munion.R
@@ -30,9 +31,14 @@ import xyz.ratapp.munion.ui.fragments.*
 
 
 class MainActivity : AppCompatActivity() {
+
     companion object {
         private val PERMISSIONS_REQUEST = 91
+    }
 
+    public fun showDialog(view: View) {
+        AlertDialog.Builder(this).
+                setView(view).create().show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 1 -> {
-                    changeFragment(AuthFragment())
+                    changeFragment(LoginFragment())
                     return@OnTabSelectedListener true
                 }
 

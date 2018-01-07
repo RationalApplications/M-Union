@@ -2,6 +2,8 @@ package xyz.ratapp.munion.ui.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -9,6 +11,7 @@ import android.webkit.WebViewClient;
 import java.util.Locale;
 
 import xyz.ratapp.munion.R;
+import xyz.ratapp.munion.ui.activities.MainActivity;
 
 /**
  * Created by timtim on 29/12/2017.
@@ -24,6 +27,16 @@ public class BitrixAuthWebView extends WebView {
 
     public BitrixAuthWebView(Context context) {
         super(context);
+
+        CookieSyncManager.createInstance(context);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+
+        WebSettings ws = getSettings();
+        ws.setSaveFormData(false);
+        ws.setSavePassword(false);
+        clearCache(true);
+        clearHistory();
     }
 
     public BitrixAuthWebView(Context context, AttributeSet attrs) {

@@ -41,7 +41,7 @@ class CabinetActivity : AppCompatActivity() {
                 getUser(object: DataCallback<Lead> {
                     override fun onSuccess(user: Lead) {
                         btn_copy_link.setOnClickListener {
-                            val code = "123"
+                            val code = user.firebaseEntity
 
                             val clipboard = this@CabinetActivity.
                                     getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -66,10 +66,9 @@ class CabinetActivity : AppCompatActivity() {
                         }
 
                         btn_out_money.setOnClickListener {
-                            //dialog take card number and how much money user need
-                            //...
-                            //send email to admin
-                            //...
+                            //go to money out activity
+                            val intent = Intent(this@CabinetActivity, MoneyOutActivity::class.java)
+                            startActivityForResult(intent, 10)
                         }
 
                         iv_user_photo.setOnClickListener {
@@ -91,6 +90,18 @@ class CabinetActivity : AppCompatActivity() {
                 data.data != null) {
             val uri = data.data
             setupImage(uri)
+        }
+        else if (requestCode == 10) {
+            if(resultCode == Activity.RESULT_OK &&
+                    data != null &&
+                    data.data != null) {
+                //change money value
+            }
+            else {
+                Toast.makeText(this@CabinetActivity,
+                        getString(R.string.cant_send_money),
+                        Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -125,11 +136,15 @@ class CabinetActivity : AppCompatActivity() {
     }
 
     private fun setupData() {
-        val user = DataController.getInstance(this).
+        DataController.getInstance(this).
                 getUser(object: DataCallback<Lead> {
                     override fun onSuccess(user: Lead) {
                         tv_name.text = "${user.name} ${user.lastName}"
                         btn_address.text = user.title
+                        btn_user_id.text = "ID: " + user.id.toString()
+                        btn_invited_count.text = getString(R.string.invited_count,
+                                user.invitedUsers.size.toString())
+                        btn_balance.text = getString(R.string.balance, user.money)
                         val dateString = user.dateCreate.substring(0, 10)
                         var sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                         val date = sdf.parse(dateString)
@@ -140,7 +155,6 @@ class CabinetActivity : AppCompatActivity() {
                                     user.photoUri
                                 else
                                     "android.resource://xyz.ratapp.munion/drawable/icon_me")
-                        //btn_copy_link.text = ???
                     }
 
                     override fun onFailed(thr: Throwable?) {

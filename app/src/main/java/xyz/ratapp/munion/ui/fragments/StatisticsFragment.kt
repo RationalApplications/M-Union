@@ -5,9 +5,9 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Handler
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,29 +16,25 @@ import android.widget.TextView
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.highlight.Highlight
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.fragment_statistics.*
-import xyz.ratapp.munion.ui.fragments.common.FragmentBase
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.controllers.interfaces.DataCallback
 import xyz.ratapp.munion.data.DataController
 import xyz.ratapp.munion.data.pojo.Statistics
+import xyz.ratapp.munion.ui.fragments.common.FragmentBase
 import xyz.ratapp.munion.ui.views.audio.AudiosDialog
-import kotlin.collections.ArrayList
 
 /**
  * <p>Date: 30.10.17</p>
  * @author Simon
  */
-class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
+class StatisticsFragment : FragmentBase() {
     private lateinit var mChart: PieChart
 
     private lateinit var mTfRegular: Typeface
@@ -57,11 +53,17 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
 
         setupView()
         DataController.getInstance(activity).
-                loadStatistics(object: DataCallback<Statistics>
+                getStatistics(object: DataCallback<Statistics>
                 {
                     override fun onSuccess(data: Statistics) {
-                        setupData(data)
-                        setupDelegates(data)
+                        val mainHandler = Handler(activity.mainLooper)
+
+                        val myRunnable = {
+                            setData(data)
+                            setupData(data)
+                            setupDelegates(data)
+                        }
+                        mainHandler.post(myRunnable)
                     }
 
                     override fun onFailed(thr: Throwable?) {
@@ -137,21 +139,6 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
         // enable rotation of the chart by touch
         mChart.isRotationEnabled = true
         mChart.isHighlightPerTapEnabled = true
-
-        // add a selection listener
-        mChart.setOnChartValueSelectedListener(this)
-
-        DataController.getInstance(activity).
-                loadStatistics(object: DataCallback<Statistics> {
-
-            override fun onSuccess(data: Statistics) {
-                setData(data)
-            }
-
-            override fun onFailed(thr: Throwable?) {
-
-            }
-        })
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad)
 
@@ -238,15 +225,4 @@ class StatisticsFragment : FragmentBase(), OnChartValueSelectedListener {
         return s
     }
 
-    override fun onNothingSelected() {
-        Log.i("PieChart", "nothing selected")
-    }
-
-    override fun onValueSelected(e: Entry?, h: Highlight?) {
-        if (e == null)
-            return
-        Log.i("VAL SELECTED",
-                "Value: " + e.y + ", index: " + h!!.getX()
-                + ", DataSet index: " + h.getDataSetIndex())
-    }
 }

@@ -2,30 +2,25 @@ package xyz.ratapp.munion.data;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.Html;
+
+import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import xyz.ratapp.munion.R;
 import xyz.ratapp.munion.controllers.interfaces.DataCallback;
-import xyz.ratapp.munion.controllers.interfaces.ListCallback;
-import xyz.ratapp.munion.data.audio.BitrixOAuthAudiosTask;
 import xyz.ratapp.munion.data.pojo.Lead;
 import xyz.ratapp.munion.data.pojo.LeadListResponse;
 import xyz.ratapp.munion.data.pojo.Statistics;
 import xyz.ratapp.munion.data.retrofit.BitrixAPI;
 import xyz.ratapp.munion.data.statistic.StatisticLoader;
-import xyz.ratapp.munion.data.statistic.StatisticParser;
 import xyz.ratapp.munion.helpers.FileHelper;
 
 
@@ -79,7 +74,8 @@ public class DataController extends DataContainer {
             callback.onSuccess(getStatistics());
         }
         else {
-            callback.onFailed(new Throwable());
+            loadStatistics(callback);
+            //callback.onFailed(new Throwable());
         }
     }
 
@@ -108,9 +104,8 @@ public class DataController extends DataContainer {
                         !DataController.this.user.getTalksRecords()
                                 .equals(user.getTalksRecords());
 
-                String[] urls = user.getComments().
-                        replace("<pre>", "").
-                        replace("</pre>", "").split("<br>");
+                String[] urls = Html.fromHtml(user.getComments()).
+                        toString().split("\\s");
 
                 new StatisticLoader(
                         context,
@@ -121,6 +116,7 @@ public class DataController extends DataContainer {
                         loadRecords, new DataCallback<Statistics>() {
                     @Override
                     public void onSuccess(Statistics data) {
+                        user.setStatistics(data);
                         callback.onSuccess(data);
                     }
 
@@ -180,4 +176,13 @@ public class DataController extends DataContainer {
         saveUserToDisk();
     }
 
+    public void setFbUserEntity(@NotNull String entityId) {
+        user.setFirebaseEntity(entityId);
+        saveUserToDisk();
+    }
+
+    public void setLoyaltyCode(@NotNull String id,
+                               @NotNull String loyaltyCode) {
+        api.setLoyaltyCode(id, loyaltyCode).enqueue(null);
+    }
 }

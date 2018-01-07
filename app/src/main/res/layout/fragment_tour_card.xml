@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:paddingTop="18dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:layout_weight="1.35"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/welcome_to_the_club"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/back_card">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/imageView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    android:maxWidth="100dp"
+                    android:src="@drawable/logo_card"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:padding="10dp"
+                    />
+
+
+                <com.marcouberti.autofitbutton.AutoFitButton
+                    android:id="@+id/btn_user_id"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_alignParentBottom="true"
+
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@+id/imageView13"
+                    android:layout_toRightOf="@+id/imageView13"
+
+
+                    android:background="@drawable/radius_button_white"
+                    android:enabled="false"
+
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="123456"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimaryDark" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/iv_building"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    android:maxWidth="100dp"
+                    android:src="@drawable/build_piter"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/description_iv_building" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/iv_building"
+                    android:layout_toRightOf="@+id/iv_building"
+                    android:orientation="vertical">
+
+
+                    <com.marcouberti.autofitbutton.AutoFitButton
+                        android:id="@+id/btn_invited_count"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="30dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="35dp"
+
+                        android:layout_marginRight="35dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/radius_button_white"
+                        android:enabled="false"
+                        android:maxHeight="10dp"
+
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/invited_count_temp"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <com.marcouberti.autofitbutton.AutoFitButton
+                        android:id="@+id/btn_balance"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="30dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="35dp"
+
+                        android:layout_marginRight="35dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/radius_button_white"
+                        android:enabled="false"
+                        android:maxHeight="10dp"
+
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/balance_temp"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:layout_weight="1.05"
+        android:gravity="center"
+        android:text="@string/card_tour_description"
+        android:textColor="@color/hint"
+        android:textSize="16sp" />
+
+</LinearLayout>

@@ -19,6 +19,7 @@ class AudiosAdapter(private val mValues: List<String>) :
         RecyclerView.Adapter<AudiosAdapter.AudioViewHolder>() {
 
     private var audioPlayer: MediaPlayer? = null
+    private var audioTrack: String = ""
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AudioViewHolder {
@@ -37,12 +38,30 @@ class AudiosAdapter(private val mValues: List<String>) :
 
         //setup delegates
         holderAudio.ivPlay.setOnClickListener {
-            initPlayer(mValues[position])
-            audioPlayer!!.start()
-            audioPlayer!!.setOnCompletionListener {
-                holderAudio.ivPlay.setImageResource(R.drawable.ic_media_play_dark)
+            usePlayer(holderAudio.ivPlay, mValues[position])
+        }
+    }
+
+    private fun usePlayer(iv: ImageView, url: String) {
+        if(audioPlayer != null && audioTrack == url) {
+            if(audioPlayer!!.isPlaying) {
+                audioPlayer!!.pause()
+                iv.setImageResource(R.drawable.ic_media_play_dark)
             }
-            holderAudio.ivPlay.setImageResource(R.drawable.ic_media_pause_dark)
+            else {
+                audioPlayer!!.start()
+                iv.setImageResource(R.drawable.ic_media_pause_dark)
+            }
+        }
+        else {
+            audioPlayer = MediaPlayer.create(context, Uri.parse(url))
+            audioPlayer!!.start()
+            iv.setImageResource(R.drawable.ic_media_pause_dark)
+            audioTrack = url
+        }
+
+        audioPlayer!!.setOnCompletionListener {
+            iv.setImageResource(R.drawable.ic_media_play_dark)
         }
     }
 
@@ -63,14 +82,6 @@ class AudiosAdapter(private val mValues: List<String>) :
         }
 
         return byteBuffer.toByteArray()
-    }
-
-    private fun initPlayer(url: String) {
-        if(audioPlayer != null) {
-            audioPlayer!!.stop()
-        }
-
-        audioPlayer = MediaPlayer.create(context, Uri.parse(url))
     }
 
     override fun getItemCount(): Int {

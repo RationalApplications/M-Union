@@ -3,6 +3,7 @@ package xyz.ratapp.munion.data.statistic;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -13,10 +14,10 @@ import java.util.Map;
 import xyz.ratapp.munion.R;
 import xyz.ratapp.munion.controllers.interfaces.DataCallback;
 import xyz.ratapp.munion.controllers.interfaces.ListCallback;
-import xyz.ratapp.munion.data.DataController;
 import xyz.ratapp.munion.data.audio.BitrixOAuthAudiosTask;
 import xyz.ratapp.munion.data.pojo.Lead;
 import xyz.ratapp.munion.data.pojo.Statistics;
+import xyz.ratapp.munion.data.statistic.parsers.StatisticParser;
 import xyz.ratapp.munion.ui.views.BitrixAuthWebView;
 
 /**
@@ -49,7 +50,7 @@ public class StatisticLoader implements Runnable {
 
     private volatile boolean wasTalksLoad = false;
     private volatile boolean wasStatisticLoad = false;
-    private volatile int count;
+    private volatile Map<Integer, Integer> counter = new HashMap<>();
 
 
     public StatisticLoader(Context context, String objectName,
@@ -84,26 +85,29 @@ public class StatisticLoader implements Runnable {
         result.setLooksCount(looksCount);
         result.setObjectName(objectName);
 
+        loadStatistic(0);
+
         if(loadRecords) {
             loadTalks(0);
         }
-
-        loadStatistic(0);
-
     }
 
     private void loadStatistic(int attempt) {
         if(attempt < 5) {
-            count = 0;
+            StatisticParser parser = new StatisticParser(context);
+
+            counter.put(attempt, 0);
             Map<String, Float> data = new HashMap<>();
 
             for (String url : dataUrls) {
-                StatisticParser.parse(context, url, new DataCallback<Float>() {
+                parser.parse(url, new DataCallback<Float>() {
                     @Override
                     public void onSuccess(Float result) {
-                        count++;
+                        Integer cnt = counter.get(attempt);
+                        counter.put(attempt, cnt + 1);
                         data.put(url, result);
-                        if (count == dataUrls.size()) {
+
+                        if (cnt + 1 == dataUrls.size()) {
                             float views = 0;
                             for (Map.Entry<String, Float> entry : data.entrySet()) {
                                 views += entry.getValue();
@@ -111,14 +115,18 @@ public class StatisticLoader implements Runnable {
 
                             StatisticLoader.this.result.setViewsCount((int) views);
                             StatisticLoader.this.result.setData(data);
+                            wasStatisticLoad = true;
                             sendResult();
                         }
                     }
 
                     @Override
                     public void onFailed(Throwable thr) {
-                        Log.e("MyTag", thr.toString());
-                        loadStatistic(attempt + 1);
+                        Handler mainHandler = new Handler(context.getMainLooper());
+
+                        Runnable myRunnable = () ->
+                                loadStatistic(attempt + 1);
+                        mainHandler.post(myRunnable);
                     }
                 });
             }
@@ -134,7 +142,7 @@ public class StatisticLoader implements Runnable {
                 @Override
                 public void onSuccess(List<String> data) {
                     result.setTalksUrls(data);
-                    wasStatisticLoad = true;
+                    wasTalksLoad = true;
                     sendResult();
                 }
 
@@ -150,8 +158,9 @@ public class StatisticLoader implements Runnable {
     }
 
     private void sendResult() {
-        if(wasStatisticLoad && wasTalksLoad
-                && resultIsReady()) {
+        if(wasStatisticLoad &&
+                (wasTalksLoad || !loadRecords) &&
+                resultIsReady()) {
             callback.onSuccess(result);
         }
     }
@@ -165,8 +174,8 @@ public class StatisticLoader implements Runnable {
 
     private void loadTalksWithCallback(ListCallback<String> callback,
                            List<Lead.Record> talksRecords) {
-        String email = context.getString(R.string.email);
-        String password = context.getString(R.string.password);
+        String email = context.getString(R.string.user_name);
+        String password = context.getString(R.string.user_password);
 
         BitrixAuthWebView wv = new BitrixAuthWebView(context);
         String url = String.format(Locale.getDefault(), AUTH_URL_MASK,

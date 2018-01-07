@@ -82,7 +82,7 @@ public class BitrixOAuthAudiosTask extends
             urlString = urlString.replaceFirst("auth=",
                     "auth=" + accessToken);
             String url = loadUrl(urlString,
-                    talksRecord.getDownloadUrl());
+                    talksRecord.getId() + ".wav");
 
             if (url != null) {
                 result.add(url);

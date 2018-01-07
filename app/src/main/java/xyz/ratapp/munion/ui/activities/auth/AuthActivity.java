@@ -2,11 +2,14 @@ package xyz.ratapp.munion.ui.activities.auth;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.dev.sacot41.scviewpager.SCViewAnimationUtil;
+import com.dev.sacot41.scviewpager.SCViewPager;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,12 +45,11 @@ public class AuthActivity extends SplashActivity {
     private String phone;
     private String password;
     private String verificationId;
-    private boolean verificationInProgress = false;
     private PhoneAuthProvider.ForceResendingToken resendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
-    private ProgressBar pb;
     private int agentID;
     private Lead user;
+    private SCViewPager vp;
 
     public static Intent getAuthIntent(String phone, String password) {
         Intent intent = new Intent(ACTION_DO_AUTH);
@@ -116,9 +118,8 @@ public class AuthActivity extends SplashActivity {
     private void doModeTasks() {
         if(!splashModeEnabled) {
             setContentView(R.layout.activity_auth);
+            setupViews();
             initAuthFields();
-            pb = findViewById(R.id.pb_verif);
-            pb.setVisibility(View.VISIBLE);
             DataController.getInstance(this).loadUser(
                     phone.substring(2), //normalize phone number
                     new AuthDataCallback(this)
@@ -128,9 +129,8 @@ public class AuthActivity extends SplashActivity {
                     AuthActivity.this.user = user;
                     if(user.getPassword().equals(password)) {
                         agentID = user.getAssignedById() * 10 + 1;
-                        pb.setVisibility(View.GONE);
-                        startPhoneNumberVerification();
-                        showCodeDialog(AuthActivity.this, phone);
+                        /*startPhoneNumberVerification();
+                        showCodeDialog(AuthActivity.this, phone);*/
                     }
                     else {
                         onFailed(new Throwable("Password incorrect"));
@@ -138,6 +138,11 @@ public class AuthActivity extends SplashActivity {
                 }
             });
         }
+    }
+
+    private void setupViews() {
+        vp = findViewById(R.id.vp_app_tour);
+        vp.setAdapter(new TourPagerAdapter(getSupportFragmentManager()));
     }
 
     static void showCodeDialog(Activity activity, String phone) {
@@ -154,13 +159,11 @@ public class AuthActivity extends SplashActivity {
 
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                verificationInProgress = false;
                 signInWithPhoneAuthCredential(credential);
             }
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                verificationInProgress = false;
                 String throwable = "!";
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
@@ -196,7 +199,6 @@ public class AuthActivity extends SplashActivity {
                         60, TimeUnit.SECONDS,
                         this, callbacks);
 
-        verificationInProgress = true;
     }
 
     void verifyPhoneNumberWithCode(String code) {
@@ -218,9 +220,18 @@ public class AuthActivity extends SplashActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = task.getResult().getUser();
+                        DataController instance = DataController.getInstance(this);
+                        instance.setFbUserEntity(user.getUid());
+                        instance.setLoyaltyCode(this.user.getId() + "", user.getUid());
+                        if(user.getPhotoUrl() != null) {
+                            try {
+                                instance.setUserPhotoUri(user.getPhotoUrl());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
                         ChatSDKHelper.firstAuth(AuthActivity.this,
                                 user, this.user, agentID);
-                        pb.setVisibility(View.VISIBLE);
                     }
                     else {
                         Toast.makeText(getApplicationContext(),
@@ -240,7 +251,6 @@ public class AuthActivity extends SplashActivity {
     }
 
     public void setChatEntityId(String entityID) {
-        pb.setVisibility(View.GONE);
         sendResult(RESULT_OK, entityID);
     }
 }
