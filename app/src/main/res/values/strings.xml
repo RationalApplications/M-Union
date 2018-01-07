@@ -90,7 +90,7 @@
     <string name="have_no_money">Недостаточно денег!</string>
     <string name="munion_logo">MUnion logo</string>
     <string name="center_secondary_homes">ЦЕНТР ВТОРИЧНОГО ЖИЛЬЯ</string>
-    <string name="munion_tour_body">Центр Вторичного Жилья — первая компания, объединившая услуги по продаже / покупке жилой недвижимости, ремонту и оценке объектов в единое комплексное решение. Компания имеет узкую специализацию – работа с объектами недвижимости только на вторичном рынке жилья в черте города Санкт — Петербурга. Это означает, что мы не занимаемся первичным рынком, коммерцией, домами и земельными участками, арендой и сдачей недвижимости.</string>
+    <string name="munion_tour_body">Центр Вторичного Жилья — первая компания, объединившая услуги по продаже / покупке жилой недвижимости, ремонту и оценке объектов в единое комплексное решение.</string>
     <string name="always_with_you">Всегда с вами!</string>
     <string name="statistics">Статистика</string>
     <string name="statistics_tour_description">В мобильном приложении вы можете отслеживать самую актуальную информацию о вашем объекте!</string>
@@ -106,10 +106,14 @@
     <string name="card_tour_description">Отныне вы являетесь владельцем клубной карты и можете зарабатывать деньги вместе с нами просто приводя друзей в наш бизнес</string>
     <string name="from_friend">Вас пригласил друг?</string>
     <string name="fill_loyalty_code">Если вас пригласил друг, пожалуйста введите его код лояльности</string>
-    <string name="temp_code">h8anHhl47ydnx3RjnGzGPKatMzE2</string>
+    <string name="temp_code">h8an-hl47y-dnx3R-nGzGP</string>
     <string name="tour_continue">ПРОДОЛЖИТЬ</string>
-    <string name="friend_doesnt_invited">Меня не приглашал друг...</string>
+    <string name="friend_doesnt_invited">Меня не приглашал друг</string>
     <string name="end_auth">Завершим авторизацию</string>
     <string name="fill_code_sent_on_phone">Введите код, отправленный на %s</string>
-
+    <string name="error_message">Конец</string>
+    <string name="chat_tour_body">Вы сможете общаться с нашим агентом с помощью встроенного чата, отправлять нужные документы и договариваться о встречах.</string>
+    <string name="chat_tour_head">Чат с персональным агентом</string>
+    <string name="stat_tour_body">Вы сможете знавать актуальную статистику показов, просмотров и звонков, а так же прослушивать все звонки, относящиеся к вашей квартире</string>
+    <string name="stat_tour_head">Всегда актуальная статистика</string>
 </resources>

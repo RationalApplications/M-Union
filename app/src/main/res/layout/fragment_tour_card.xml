@@ -7,11 +7,13 @@
     android:paddingTop="18dp"
     android:orientation="vertical">
 
-    <TextView
+    <me.grantland.widget.AutofitTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
-        android:layout_weight="1.35"
+        android:layout_weight="1.5"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
         android:gravity="center"
         android:singleLine="true"
         android:text="@string/welcome_to_the_club"

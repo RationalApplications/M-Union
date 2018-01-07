@@ -19,7 +19,7 @@ import com.vk.sdk.api.VKRequest.VKRequestListener
  */
 class NewsManager {
 
-    fun getNews(after: String = "0", limit: String = "10"): Observable<PostNews> {
+    /*fun getNews(after: String = "0", limit: String = "10"): Observable<PostNews> {
         return Observable.create { subscriber ->
 
             val request = VKApi.wall().get(VKParameters.from(
@@ -110,6 +110,6 @@ class NewsManager {
             subscriber.onCompleted()
 
         }
-    }
+    }*/
 
 }
