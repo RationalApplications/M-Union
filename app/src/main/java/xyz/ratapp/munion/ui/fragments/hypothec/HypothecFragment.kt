@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.fragment_hypothec.*
 import xyz.ratapp.munion.ui.activities.CameraActivity
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.helpers.email.Sender
-import xyz.ratapp.munion.extensions.inflate
 
 /**
  * <p>Date: 29.10.17</p>
@@ -30,7 +29,7 @@ class HypothecFragment : Fragment() {
     var count = 0;
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return container?.inflate(R.layout.fragment_hypothec, false)
+        return inflater!!.inflate(R.layout.fragment_hypothec, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

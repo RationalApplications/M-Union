@@ -10,7 +10,7 @@ import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import kotlinx.android.synthetic.main.activity_main.*
-import xyz.ratapp.munion.ui.fragments.common.FragmentBase
+import xyz.ratapp.munion.ui.fragments.common.BaseFragment
 import xyz.ratapp.munion.ui.fragments.hypothec.HypothecRootFragment
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -33,11 +33,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private val PERMISSIONS_REQUEST = 91
-    }
-
-    public fun showDialog(view: View) {
-        AlertDialog.Builder(this).
-                setView(view).create().show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeFragment(fragment: FragmentBase) {
+    fun changeFragment(fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.main_container, fragment)
         ft.commit()
@@ -228,10 +223,9 @@ class MainActivity : AppCompatActivity() {
                 })
     }
 
-    fun getNavigation(): AHBottomNavigation {
+    fun getNavigation() : AHBottomNavigation {
         return navigation
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -264,20 +258,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setNoConnection(){
-        changeFragment(ErrorFragment.getInstance("No internet connection", "reload"))
-        navigation.visibility = View.INVISIBLE
-    }
-
-    fun setHaveConnection(){
-        changeFragment(VkFragment())
-        navigation.visibility = View.VISIBLE
-    }
-
-    private fun isOnline(): Boolean {
-        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val netInfo = cm.activeNetworkInfo
-        return netInfo != null && netInfo.isConnectedOrConnecting
-    }
 }
 

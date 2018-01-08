@@ -9,7 +9,6 @@ import com.jkb.vcedittext.VerificationAction
 import kotlinx.android.synthetic.main.fragment_tour_submit.*
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.controllers.interfaces.SmsCodeCallback
-import xyz.ratapp.munion.extensions.inflate
 
 /**
  * Created by timtim on 07/01/2018.
@@ -20,7 +19,7 @@ class SubmitTourFragment : SlideFragment() {
     private var phone: String? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return container?.inflate(R.layout.fragment_tour_submit, false)
+        return inflater!!.inflate(R.layout.fragment_tour_submit, container, false)
     }
 
     override fun backgroundColor(): Int {

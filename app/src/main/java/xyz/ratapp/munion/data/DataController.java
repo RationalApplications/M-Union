@@ -249,17 +249,16 @@ public class DataController extends DataContainer {
 
     public void setLoyaltyCode(@NotNull String id,
                                @NotNull String loyaltyCode) {
-        //h8anhl47ydnx3RnGzGP
-        //h8an-hl47y-dnx3R-nGzGP
-        String firstPart = loyaltyCode.substring(0, 4);
-        String secondPart = loyaltyCode.substring(4, 9);
-        String thirdPart = loyaltyCode.substring(9, 14);
-        String fourthPart = loyaltyCode.substring(14);
+        StringBuilder builder = new StringBuilder();
+        char[] chars = loyaltyCode.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if(i % 4 == 0 && i != 0) {
+                builder.append('-');
+            }
+            builder.append(chars[i]);
+        }
 
-        loyaltyCode = String.format(Locale.getDefault(),
-                "%s-%s-%s-%s", firstPart, secondPart,
-                thirdPart, fourthPart);
-        api.setLoyaltyCode(id, loyaltyCode).enqueue(new Callback<JsonObject>() {
+        api.setLoyaltyCode(id, builder.toString()).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 

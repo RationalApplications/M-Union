@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_auth.*
-import xyz.ratapp.munion.ui.fragments.common.FragmentBase
+import xyz.ratapp.munion.ui.fragments.common.BaseFragment
 import xyz.ratapp.munion.R
-import xyz.ratapp.munion.extensions.inflate
 import xyz.ratapp.munion.ui.activities.AuthActivity
 
 /**
@@ -17,14 +16,14 @@ import xyz.ratapp.munion.ui.activities.AuthActivity
  * @author Simon
  */
 
-class LoginFragment : FragmentBase() {
+class LoginFragment : BaseFragment() {
 
     override fun getFragmentName(context: Context): String {
         return context.resources.getString(R.string.title_account)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return container?.inflate(R.layout.fragment_auth, false)
+        return inflater!!.inflate(R.layout.fragment_auth, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

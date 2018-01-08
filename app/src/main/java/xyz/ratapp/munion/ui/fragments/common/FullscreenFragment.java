@@ -15,7 +15,7 @@ import xyz.ratapp.munion.ui.activities.MainActivity;
  * @author Simon
  */
 
-public abstract class FullscreenFragment extends FragmentBase implements Runnable {
+public abstract class FullscreenFragment extends BaseFragment implements Runnable {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,13 +54,9 @@ public abstract class FullscreenFragment extends FragmentBase implements Runnabl
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void registerSystemUiVisibility() {
         final View decorView = getActivity().getWindow().getDecorView();
-        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-
-            @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
-                    setFullscreen();
-                }
+        decorView.setOnSystemUiVisibilityChangeListener(visibility -> {
+            if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                setFullscreen();
             }
         });
     }

@@ -56,8 +56,7 @@ import io.reactivex.subjects.PublishSubject
 import org.apache.commons.lang3.StringUtils
 import timber.log.Timber
 import xyz.ratapp.munion.R
-import xyz.ratapp.munion.ui.fragments.common.RxBaseFragment
-import xyz.ratapp.munion.extensions.inflate
+import xyz.ratapp.munion.ui.fragments.common.BaseFragment
 import xyz.ratapp.munion.ui.views.TextInputDelegate
 import xyz.ratapp.munion.ui.views.TextInputView
 import java.util.*
@@ -68,7 +67,7 @@ import java.util.prefs.Preferences
  * <p>Date: 29.10.17</p>
  * @author Simon
  */
-class ChatFragment : RxBaseFragment(), TextInputDelegate, ChatOptionsDelegate {
+class ChatFragment : BaseFragment(), TextInputDelegate, ChatOptionsDelegate {
 
     private lateinit var optionsHandler: ChatOptionsHandler
     private val activityResultPublishSubject = PublishSubject.create<ActivityResult>()
@@ -108,7 +107,7 @@ class ChatFragment : RxBaseFragment(), TextInputDelegate, ChatOptionsDelegate {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return container?.inflate(R.layout.chat_sdk_activity_chat, false)
+        return inflater!!.inflate(R.layout.chat_sdk_activity_chat, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import xyz.ratapp.munion.R
-import xyz.ratapp.munion.extensions.inflate
 
 /**
  *
@@ -15,10 +14,12 @@ import xyz.ratapp.munion.extensions.inflate
  * @author Simon
  */
 
-abstract class FragmentRoot : FragmentBase() {
+abstract class RootFragment : BaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return container?.inflate(R.layout.fragment_root, false)
+    override fun onCreateView(inflater: LayoutInflater?,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater!!.inflate(R.layout.fragment_root, container, false)
     }
 
     fun changeFragment(fragment : Fragment){

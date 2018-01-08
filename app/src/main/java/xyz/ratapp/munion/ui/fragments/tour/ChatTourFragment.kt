@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import xyz.ratapp.munion.R
-import xyz.ratapp.munion.extensions.inflate
 
 /**
  * Created by timtim on 07/01/2018.
@@ -15,7 +14,7 @@ import xyz.ratapp.munion.extensions.inflate
 class ChatTourFragment : SlideFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return container?.inflate(R.layout.fragment_tour_chat, false)
+        return inflater!!.inflate(R.layout.fragment_tour_chat, container, false)
     }
 
     override fun backgroundColor(): Int {

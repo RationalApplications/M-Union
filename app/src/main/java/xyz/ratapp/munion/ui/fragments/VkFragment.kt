@@ -10,11 +10,10 @@ import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.fragment_vk.*
 import kotlinx.android.synthetic.main.fragment_vk.view.*
 import xyz.ratapp.munion.R
-import xyz.ratapp.munion.ui.fragments.common.RxBaseFragment
-import xyz.ratapp.munion.extensions.inflate
 import android.view.KeyEvent
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
+import xyz.ratapp.munion.ui.fragments.common.BaseFragment
 import java.io.IOException
 import java.io.InputStream
 
@@ -24,22 +23,17 @@ import java.io.InputStream
  * @author Simon
  */
 
-class VkFragment : RxBaseFragment() {
-//    companion object {
-//        private val KEY_VK_NEWS = "vkNews"
-//    }
-//
-//    private var postNews: PostNews? = null
-//
-//    private val newsManager by lazy { NewsManager() }
+class VkFragment : BaseFragment() {
 
 
     override fun getFragmentName(context: Context): String {
         return context.resources.getString(R.string.title_news_feed)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return container?.inflate(R.layout.fragment_vk, false)
+    override fun onCreateView(inflater: LayoutInflater?,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater!!.inflate(R.layout.fragment_vk, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -104,53 +98,7 @@ class VkFragment : RxBaseFragment() {
             web_view_vk.loadUrl("https://m.vk.com/m_union")
 
         }
-
-//        news_list.apply {
-//            news_list.setHasFixedSize(true)
-//            val linearLayout = LinearLayoutManager(context)
-//            news_list.layoutManager = linearLayout
-//            news_list.clearOnScrollListeners()
-//            news_list.addOnScrollListener(InfiniteScrollListener({ requestNews() }, linearLayout))
-//        }
-//
-//        initAdapter()
-//
-//        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_VK_NEWS)) {
-//            postNews = savedInstanceState.get(KEY_VK_NEWS) as PostNews
-//            (news_list.adapter as NewsAdapter).clearAndAddNews(postNews!!.news)
-//        } else {
-//            requestNews()
-//        }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-//        val news = (news_list.adapter as NewsAdapter).getNews()
-//        if (postNews != null && news.size > 0) {
-//            outState?.putParcelable(KEY_VK_NEWS, postNews?.copy(news = news))
-//        }
-    }
-
-//    private fun requestNews() {
-//        val subscription = newsManager.getNews(postNews?.after ?: "")
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        { retrievedNews ->
-//                            postNews = retrievedNews
-//                            (news_list.adapter as NewsAdapter).addNews(retrievedNews.news)
-//                        },
-//                        { e ->
-//                            Snackbar.make(news_list, e.message ?: "", Snackbar.LENGTH_SHORT).show()
-//                        })
-//
-//        subscriptions.add(subscription)
-//    }
-
-//    private fun initAdapter() {
-//        if (news_list.adapter == null) {
-//            news_list.adapter = NewsAdapter()
-//        }
-//    }
 
 }

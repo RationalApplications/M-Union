@@ -27,14 +27,14 @@ import xyz.ratapp.munion.R
 import xyz.ratapp.munion.controllers.interfaces.DataCallback
 import xyz.ratapp.munion.data.DataController
 import xyz.ratapp.munion.data.pojo.Statistics
-import xyz.ratapp.munion.ui.fragments.common.FragmentBase
+import xyz.ratapp.munion.ui.fragments.common.BaseFragment
 import xyz.ratapp.munion.ui.views.audio.AudiosDialog
 
 /**
  * <p>Date: 30.10.17</p>
  * @author Simon
  */
-class StatisticsFragment : FragmentBase() {
+class StatisticsFragment : BaseFragment() {
     private lateinit var mChart: PieChart
 
     private lateinit var mTfRegular: Typeface

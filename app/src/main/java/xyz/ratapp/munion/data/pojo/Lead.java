@@ -177,6 +177,19 @@ public class Lead implements Serializable
     }
 
     public void setLoyaltyCode(String loyaltyCode) {
+        if(loyaltyCode != null && !loyaltyCode.contains("-")) {
+            StringBuilder builder = new StringBuilder();
+            char[] chars = loyaltyCode.toCharArray();
+            for (int i = 0; i < chars.length; i++) {
+                if(i % 4 == 0 && i != 0) {
+                    builder.append('-');
+                }
+                builder.append(chars[i]);
+            }
+
+            loyaltyCode = builder.toString();
+        }
+
         this.loyaltyCode = loyaltyCode;
     }
 

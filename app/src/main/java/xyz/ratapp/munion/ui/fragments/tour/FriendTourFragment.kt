@@ -9,7 +9,6 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_tour_friend.*
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.controllers.interfaces.CodeInputCallback
-import xyz.ratapp.munion.extensions.inflate
 
 /**
  * Created by timtim on 07/01/2018.
@@ -20,7 +19,7 @@ class FriendTourFragment : SlideFragment() {
     private var canMoveNext = false
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return container?.inflate(R.layout.fragment_tour_friend, false)
+        return inflater!!.inflate(R.layout.fragment_tour_friend, container, false)
     }
 
     override fun backgroundColor(): Int {

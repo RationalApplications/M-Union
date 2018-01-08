@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
  *
  * @author Simon
  */
-public abstract class FragmentBase extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     public abstract String getFragmentName(Context context);
 
