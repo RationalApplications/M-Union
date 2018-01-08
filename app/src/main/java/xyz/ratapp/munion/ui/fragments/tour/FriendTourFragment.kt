@@ -27,7 +27,7 @@ class FriendTourFragment : SlideFragment() {
     }
 
     override fun canMoveFurther(): Boolean {
-        return true
+        return false
     }
 
     override fun cantMoveFurtherErrorMessage(): String {

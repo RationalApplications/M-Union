@@ -8,9 +8,6 @@
     android:gravity="center"
     tools:context="xyz.ratapp.munion.ui.activities.auth.AuthActivity">
 
-    <com.dev.sacot41.scviewpager.SCViewPager
-        android:id="@+id/vp_app_tour"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
 
 </RelativeLayout>

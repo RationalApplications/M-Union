@@ -118,6 +118,16 @@ public class ChatSDKHelper {
         });
     }
 
+    public static void authWithUser(SplashActivity activity,
+                                    FirebaseUser user) {
+        FirebaseAuthenticationHandler auth =
+                ((FirebaseAuthenticationHandler) NM.auth());
+        auth.authenticateWithUser(user).
+                observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
+            AppBackgroundMonitor.shared().setEnabled(true);
+        });
+    }
+
     public static void initChatUser(Lead lead) {
         User user = NM.currentUser();
 

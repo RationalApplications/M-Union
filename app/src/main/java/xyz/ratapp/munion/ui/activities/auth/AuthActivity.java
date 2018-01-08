@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.dev.sacot41.scviewpager.SCViewAnimationUtil;
-import com.dev.sacot41.scviewpager.SCViewPager;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,29 +16,41 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import agency.tango.materialintroscreen.MaterialIntroActivity;
+import agency.tango.materialintroscreen.SlideFragment;
+import agency.tango.materialintroscreen.SlideFragmentBuilder;
 import xyz.ratapp.munion.R;
 import xyz.ratapp.munion.data.DataController;
 import xyz.ratapp.munion.data.pojo.Lead;
 import xyz.ratapp.munion.helpers.ChatSDKHelper;
 import xyz.ratapp.munion.helpers.PreferencesHelper;
 import xyz.ratapp.munion.ui.activities.SplashActivity;
+import xyz.ratapp.munion.ui.fragments.tour.CardTourFragment;
+import xyz.ratapp.munion.ui.fragments.tour.ChatTourFragment;
+import xyz.ratapp.munion.ui.fragments.tour.FriendTourFragment;
+import xyz.ratapp.munion.ui.fragments.tour.MunionTourFragment;
+import xyz.ratapp.munion.ui.fragments.tour.StatTourFragment;
+import xyz.ratapp.munion.ui.fragments.tour.SubmitTourFragment;
 
 /**
  * Created by timtim on 24/12/2017.
  */
 
-public class AuthActivity extends SplashActivity {
+public class AuthActivity extends MaterialIntroActivity {
 
     public final static String ACTION_DO_AUTH =
             "xyz.ratapp.munion.ACTION_DO_AUTH";
-    public static final String RESPONSE_EXTRA_CHAT_ENTITY_ID = "RESPONSE_EXTRA_CHAT_ENTITY_ID";
+    public static final String RESPONSE_EXTRA_CHAT_ENTITY_ID =
+            "RESPONSE_EXTRA_CHAT_ENTITY_ID";
     public final static String EXTRA_PHONE_NUMBER = "phone_number";
     public final static String EXTRA_PASSWORD = "password";
     public final static int REQUEST_AUTH_CODE = 73;
 
-
+    private List<SlideFragment> fragments;
     private FirebaseAuth auth;
     private String phone;
     private String password;
@@ -49,7 +59,6 @@ public class AuthActivity extends SplashActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
     private int agentID;
     private Lead user;
-    private SCViewPager vp;
 
     public static Intent getAuthIntent(String phone, String password) {
         Intent intent = new Intent(ACTION_DO_AUTH);
@@ -61,14 +70,11 @@ public class AuthActivity extends SplashActivity {
         return intent;
     }
 
-    private boolean splashModeEnabled = true;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        savedInstanceState = setActivityMode(savedInstanceState);
         auth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
+        setupViews();
     }
 
     @Override
@@ -90,59 +96,43 @@ public class AuthActivity extends SplashActivity {
         }
     }
 
-    private Bundle setActivityMode(Bundle savedInstanceState) {
-        Intent intent = getIntent();
-
-        if (savedInstanceState == null) {
-            savedInstanceState = new Bundle();
-        }
-        if(intent == null) {
-            setTheme(R.style.SplashTheme);
-            savedInstanceState.putBoolean(SplashActivity.EXTRA_SHOW_SPLASH, true);
-            return savedInstanceState;
-        }
-
-        String action = intent.getAction();
-        if(action != null && action.equals(ACTION_DO_AUTH)) {
-            savedInstanceState.putBoolean(SplashActivity.EXTRA_SHOW_SPLASH, false);
-            splashModeEnabled = false;
-        }
-        else {
-            savedInstanceState.putBoolean(SplashActivity.EXTRA_SHOW_SPLASH, true);
-            setTheme(R.style.SplashTheme);
-        }
-
-        return savedInstanceState;
-    }
-
     private void doModeTasks() {
-        if(!splashModeEnabled) {
-            setContentView(R.layout.activity_auth);
-            setupViews();
-            initAuthFields();
-            DataController.getInstance(this).loadUser(
-                    phone.substring(2), //normalize phone number
-                    new AuthDataCallback(this)
-            {
-                @Override
-                protected void doAfterPhoneChecked(Lead user) {
-                    AuthActivity.this.user = user;
-                    if(user.getPassword().equals(password)) {
-                        agentID = user.getAssignedById() * 10 + 1;
+        initAuthFields();
+        DataController.getInstance(this).loadUser(
+                phone.substring(2), //normalize phone number
+                new AuthDataCallback(this)
+                {
+                    @Override
+                    protected void doAfterPhoneChecked(Lead user) {
+                        AuthActivity.this.user = user;
+                        if(user.getPassword().equals(password)) {
+                            agentID = user.getAssignedById() * 10 + 1;
                         /*startPhoneNumberVerification();
                         showCodeDialog(AuthActivity.this, phone);*/
+                        }
+                        else {
+                            onFailed(new Throwable("Password incorrect"));
+                        }
                     }
-                    else {
-                        onFailed(new Throwable("Password incorrect"));
-                    }
-                }
-            });
-        }
+                });
     }
 
     private void setupViews() {
-        vp = findViewById(R.id.vp_app_tour);
-        vp.setAdapter(new TourPagerAdapter(getSupportFragmentManager()));
+        if(fragments == null) {
+            fragments = new ArrayList<>(6);
+            fragments.add(new MunionTourFragment());
+            fragments.add(new StatTourFragment());
+            fragments.add(new ChatTourFragment());
+            fragments.add(new CardTourFragment());
+            fragments.add(new FriendTourFragment());
+            fragments.add(new SubmitTourFragment());
+        }
+
+        for (SlideFragment fragment : fragments) {
+            addSlide(fragment);
+        }
+
+        enableLastSlideAlphaExitTransition(true);
     }
 
     static void showCodeDialog(Activity activity, String phone) {

@@ -5,6 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import agency.tango.materialintroscreen.MaterialIntroActivity;
+import xyz.ratapp.munion.helpers.ChatSDKHelper;
+import xyz.ratapp.munion.helpers.PreferencesHelper;
+
 /**
  * <p>Date: 03.12.17</p>
  *
@@ -13,27 +20,31 @@ import android.support.v7.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public final static String EXTRA_SHOW_SPLASH = "show_splash";
-
-    public static Intent getSplashIntent(Context context) {
-        Intent intent = new Intent(context, SplashActivity.class);
-        Bundle extras = new Bundle();
-        extras.putBoolean(EXTRA_SHOW_SPLASH, true);
-        intent.putExtras(extras);
-
-        return intent;
-    }
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        auth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null &&
-                savedInstanceState.containsKey(EXTRA_SHOW_SPLASH) &&
-                savedInstanceState.getBoolean(EXTRA_SHOW_SPLASH)) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = auth.getCurrentUser();
+
+        if (currentUser != null) {
+            boolean isAuthed = PreferencesHelper.getInstance(this).isAuthed();
+            String chatThread = PreferencesHelper.getInstance(this).getChatThreadEntityId();
+
+            if (isAuthed && !chatThread.isEmpty()) {
+                ChatSDKHelper.authWithUser(this, currentUser);
+            }
         }
     }
 }

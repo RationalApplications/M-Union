@@ -59,7 +59,6 @@ dependencies {
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'com.braintreepayments:card-form:3.1.1'
     compile 'com.justkiddingbaby:vercodeedittext:1.0.5'
-    compile "com.dev.sacot41:scviewpager:0.0.4"
     compile 'agency.tango.android:material-intro-screen:0.0.5'
 }
 
