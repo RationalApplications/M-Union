@@ -73,6 +73,7 @@
             android:textSize="16sp" />
 
         <me.grantland.widget.AutofitTextView
+            android:id="@+id/tv_have_no_friends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

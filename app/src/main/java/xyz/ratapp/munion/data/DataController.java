@@ -3,12 +3,17 @@ package xyz.ratapp.munion.data;
 import android.content.Context;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 
 import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,7 +80,7 @@ public class DataController extends DataContainer {
         }
         else {
             loadStatistics(callback);
-            //callback.onFailed(new Throwable());
+            //codeCallback.onFailedTakeCode(new Throwable());
         }
     }
 
@@ -181,8 +186,89 @@ public class DataController extends DataContainer {
         saveUserToDisk();
     }
 
+    public void addToInvitedFriendByLoyaltyCode(String loyaltyCode) {
+        api.loadLeadByLoyaltyCode(loyaltyCode).enqueue(
+                new Callback<LeadListResponse>() {
+            @Override
+            public void onResponse(Call<LeadListResponse> call,
+                                   Response<LeadListResponse> response) {
+                if(response != null && response.body() != null &&
+                        response.body().getLeads() != null) {
+                    LeadListResponse listResponse = response.body();
+
+                    getUser(new DataCallback<Lead>() {
+                        @Override
+                        public void onSuccess(Lead data) {
+                            if(listResponse.getLeads().size() > 0) {
+                                Lead lead = listResponse.getLeads().get(0);
+                                List<String> invitedUsers = lead.getInvitedUsers();
+                                invitedUsers.add(data.getId() + "");
+                                setInvitedFriends(lead.getId() + "", invitedUsers);
+                            }
+                        }
+
+                        @Override
+                        public void onFailed(Throwable thr) {
+                            Log.e("MyTag", thr.toString());
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LeadListResponse> call, Throwable t) {
+                Log.e("MyTag", t.toString());
+            }
+        });
+    }
+
+    private void setInvitedFriends(String id,
+                                   List<String> invitedFriends) {
+        Map<String, String> queryMap = new HashMap<>();
+        int i = 0;
+        for (String friend : invitedFriends) {
+            String key = String.format(Locale.getDefault(),
+                    "fields[UF_CRM_1514422134][%d]", i);
+            queryMap.put(key, friend);
+            i++;
+        }
+
+        api.setInvitedFriends(id, queryMap).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void setLoyaltyCode(@NotNull String id,
                                @NotNull String loyaltyCode) {
-        api.setLoyaltyCode(id, loyaltyCode).enqueue(null);
+        //h8anhl47ydnx3RnGzGP
+        //h8an-hl47y-dnx3R-nGzGP
+        String firstPart = loyaltyCode.substring(0, 4);
+        String secondPart = loyaltyCode.substring(4, 9);
+        String thirdPart = loyaltyCode.substring(9, 14);
+        String fourthPart = loyaltyCode.substring(14);
+
+        loyaltyCode = String.format(Locale.getDefault(),
+                "%s-%s-%s-%s", firstPart, secondPart,
+                thirdPart, fourthPart);
+        api.setLoyaltyCode(id, loyaltyCode).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
 }

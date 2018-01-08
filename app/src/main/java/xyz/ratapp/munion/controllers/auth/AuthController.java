@@ -1,12 +1,8 @@
-package xyz.ratapp.munion.ui.activities.auth;
+package xyz.ratapp.munion.controllers.auth;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.support.annotation.StringRes;
 
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
@@ -20,15 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import agency.tango.materialintroscreen.MaterialIntroActivity;
 import agency.tango.materialintroscreen.SlideFragment;
-import agency.tango.materialintroscreen.SlideFragmentBuilder;
 import xyz.ratapp.munion.R;
+import xyz.ratapp.munion.controllers.interfaces.CodeInputCallback;
+import xyz.ratapp.munion.controllers.interfaces.SmsCodeCallback;
 import xyz.ratapp.munion.data.DataController;
 import xyz.ratapp.munion.data.pojo.Lead;
 import xyz.ratapp.munion.helpers.ChatSDKHelper;
 import xyz.ratapp.munion.helpers.PreferencesHelper;
-import xyz.ratapp.munion.ui.activities.SplashActivity;
+import xyz.ratapp.munion.ui.activities.AuthActivity;
 import xyz.ratapp.munion.ui.fragments.tour.CardTourFragment;
 import xyz.ratapp.munion.ui.fragments.tour.ChatTourFragment;
 import xyz.ratapp.munion.ui.fragments.tour.FriendTourFragment;
@@ -36,20 +32,20 @@ import xyz.ratapp.munion.ui.fragments.tour.MunionTourFragment;
 import xyz.ratapp.munion.ui.fragments.tour.StatTourFragment;
 import xyz.ratapp.munion.ui.fragments.tour.SubmitTourFragment;
 
+import static android.app.Activity.RESULT_OK;
+import static xyz.ratapp.munion.ui.activities.AuthActivity.EXTRA_PASSWORD;
+import static xyz.ratapp.munion.ui.activities.AuthActivity.EXTRA_PHONE_NUMBER;
+import static xyz.ratapp.munion.ui.activities.AuthActivity.RESPONSE_EXTRA_CHAT_ENTITY_ID;
+
 /**
- * Created by timtim on 24/12/2017.
+ * Created by timtim on 08/01/2018.
  */
 
-public class AuthActivity extends MaterialIntroActivity {
+public class AuthController implements
+        CodeInputCallback,
+        SmsCodeCallback {
 
-    public final static String ACTION_DO_AUTH =
-            "xyz.ratapp.munion.ACTION_DO_AUTH";
-    public static final String RESPONSE_EXTRA_CHAT_ENTITY_ID =
-            "RESPONSE_EXTRA_CHAT_ENTITY_ID";
-    public final static String EXTRA_PHONE_NUMBER = "phone_number";
-    public final static String EXTRA_PASSWORD = "password";
-    public final static int REQUEST_AUTH_CODE = 73;
-
+    private AuthActivity activity;
     private List<SlideFragment> fragments;
     private FirebaseAuth auth;
     private String phone;
@@ -60,90 +56,72 @@ public class AuthActivity extends MaterialIntroActivity {
     private int agentID;
     private Lead user;
 
-    public static Intent getAuthIntent(String phone, String password) {
-        Intent intent = new Intent(ACTION_DO_AUTH);
-        Bundle extras = new Bundle();
-        extras.putString(EXTRA_PHONE_NUMBER, phone);
-        extras.putString(EXTRA_PASSWORD, password);
-        intent.putExtras(extras);
-
-        return intent;
+    public AuthController(AuthActivity activity) {
+        this.activity = activity;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate() {
         auth = FirebaseAuth.getInstance();
-        super.onCreate(savedInstanceState);
-        setupViews();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
+    public void onStart() {
+        initAuthFields();
+        setupFragments();
         FirebaseUser currentUser = auth.getCurrentUser();
 
         if (currentUser != null) {
-            boolean isAuthed = PreferencesHelper.getInstance(this).isAuthed();
-            String chatThread = PreferencesHelper.getInstance(this).getChatThreadEntityId();
+            PreferencesHelper helper = PreferencesHelper.getInstance(activity);
+            boolean isAuthed = helper.isAuthed();
+            String chatThread = helper.getChatThreadEntityId();
 
             if(isAuthed && !chatThread.isEmpty()) {
                 ChatSDKHelper.authWithUser(this, currentUser);
             }
         }
         else {
-            doModeTasks();
+            DataController.getInstance(activity).loadUser(
+                    phone.substring(2), //normalize phone number
+                    new AuthDataCallback(this)
+                    {
+                        @Override
+                        protected void doAfterPhoneChecked(Lead user) {
+                            AuthController.this.user = user;
+                            if(user.getPassword().equals(password)) {
+                                agentID = user.getAssignedById() * 10 + 1;
+                                startPhoneNumberVerification();
+                            }
+                            else {
+                                onFailed(new Throwable("Password incorrect"));
+                            }
+                        }
+                    });
         }
     }
 
-    private void doModeTasks() {
-        initAuthFields();
-        DataController.getInstance(this).loadUser(
-                phone.substring(2), //normalize phone number
-                new AuthDataCallback(this)
-                {
-                    @Override
-                    protected void doAfterPhoneChecked(Lead user) {
-                        AuthActivity.this.user = user;
-                        if(user.getPassword().equals(password)) {
-                            agentID = user.getAssignedById() * 10 + 1;
-                        /*startPhoneNumberVerification();
-                        showCodeDialog(AuthActivity.this, phone);*/
-                        }
-                        else {
-                            onFailed(new Throwable("Password incorrect"));
-                        }
-                    }
-                });
-    }
-
-    private void setupViews() {
+    private void setupFragments() {
         if(fragments == null) {
             fragments = new ArrayList<>(6);
             fragments.add(new MunionTourFragment());
             fragments.add(new StatTourFragment());
             fragments.add(new ChatTourFragment());
             fragments.add(new CardTourFragment());
-            fragments.add(new FriendTourFragment());
-            fragments.add(new SubmitTourFragment());
+
+            FriendTourFragment friend = new FriendTourFragment();
+            friend.setCodeCallback(this);
+            fragments.add(friend);
+
+            SubmitTourFragment submit = new SubmitTourFragment();
+            submit.setPhoneNumber(phone);
+            submit.setSmsCallback(this);
+            fragments.add(submit);
         }
 
-        for (SlideFragment fragment : fragments) {
-            addSlide(fragment);
-        }
-
-        enableLastSlideAlphaExitTransition(true);
-    }
-
-    static void showCodeDialog(Activity activity, String phone) {
-        VerificationDialog dialog = new VerificationDialog();
-        dialog.setPhone(phone);
-        dialog.show(activity.getFragmentManager(), "dialog");
+        activity.setupFragments(fragments);
     }
 
     private void initAuthFields() {
-        phone = getIntent().getStringExtra(EXTRA_PHONE_NUMBER);
-        password = getIntent().getStringExtra(EXTRA_PASSWORD);
+        phone = activity.getIntent().getStringExtra(EXTRA_PHONE_NUMBER);
+        password = activity.getIntent().getStringExtra(EXTRA_PASSWORD);
 
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
@@ -163,54 +141,52 @@ public class AuthActivity extends MaterialIntroActivity {
                 }
 
                 String error = getString(R.string.error_auth);
-                Toast.makeText(AuthActivity.this,
-                        error + throwable,
-                        Toast.LENGTH_LONG).show();
-                AuthActivity.this.finish();
+                activity.showLongToast(error + throwable);
+                activity.finish();
             }
 
             @Override
             public void onCodeSent(String verificationId,
                                    PhoneAuthProvider.ForceResendingToken token) {
-                AuthActivity.this.verificationId = verificationId;
+                AuthController.this.verificationId = verificationId;
                 resendToken = token;
             }
         };
     }
 
     void onFailedInAuthTask(Throwable thr) {
-        Toast.makeText(this, thr.getMessage(), Toast.LENGTH_LONG).show();
-        finish();
+        activity.showLongToast(thr.getMessage());
+        activity.finish();
     }
 
     private void startPhoneNumberVerification() {
         PhoneAuthProvider.getInstance().
                 verifyPhoneNumber(phone,
                         60, TimeUnit.SECONDS,
-                        this, callbacks);
+                        activity, callbacks);
 
-    }
-
-    void verifyPhoneNumberWithCode(String code) {
-        PhoneAuthCredential credential =
-                PhoneAuthProvider.getCredential(verificationId, code);
-        signInWithPhoneAuthCredential(credential);
     }
 
     private void resendVerificationCode(PhoneAuthProvider.ForceResendingToken token) {
         PhoneAuthProvider.getInstance().
                 verifyPhoneNumber(phone,
                         60, TimeUnit.SECONDS,
-                        this, callbacks,
+                        activity, callbacks,
                         token);
+    }
+
+    private void verifyPhoneNumberWithCode(String code) {
+        PhoneAuthCredential credential =
+                PhoneAuthProvider.getCredential(verificationId, code);
+        signInWithPhoneAuthCredential(credential);
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         auth.signInWithCredential(credential)
-                .addOnCompleteListener(this, task -> {
+                .addOnCompleteListener(activity, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = task.getResult().getUser();
-                        DataController instance = DataController.getInstance(this);
+                        DataController instance = DataController.getInstance(activity);
                         instance.setFbUserEntity(user.getUid());
                         instance.setLoyaltyCode(this.user.getId() + "", user.getUid());
                         if(user.getPhotoUrl() != null) {
@@ -220,27 +196,59 @@ public class AuthActivity extends MaterialIntroActivity {
                                 e.printStackTrace();
                             }
                         }
-                        ChatSDKHelper.firstAuth(AuthActivity.this,
+                        ChatSDKHelper.firstAuth(this,
                                 user, this.user, agentID);
                     }
                     else {
-                        Toast.makeText(getApplicationContext(),
-                                R.string.incorrect_password,
-                                Toast.LENGTH_LONG).show();
+                        activity.showLongToast(R.string.incorrect_password);
                         resendVerificationCode(resendToken);
-                        showCodeDialog(AuthActivity.this, phone);
                     }
                 });
-    }
-
-    private void sendResult(int result, String chatEntityId) {
-        Intent intent = new Intent();
-        intent.putExtra(RESPONSE_EXTRA_CHAT_ENTITY_ID, chatEntityId);
-        setResult(result, intent);
-        finish();
     }
 
     public void setChatEntityId(String entityID) {
         sendResult(RESULT_OK, entityID);
     }
+
+    private void sendResult(int result, String chatEntityId) {
+        Intent intent = new Intent();
+        intent.putExtra(RESPONSE_EXTRA_CHAT_ENTITY_ID, chatEntityId);
+        activity.setResult(result, intent);
+        activity.finish();
+    }
+
+    public AuthActivity getActivity() {
+        return activity;
+    }
+
+    private String getString(@StringRes  int id) {
+        return activity.getString(id);
+    }
+
+
+    //fragments interfaces
+    //sms code interface
+    @Override
+    public void onSmsCodeTaken(String code) {
+        verifyPhoneNumberWithCode(code);
+    }
+
+    @Override
+    public void resendSmsCode() {
+        startPhoneNumberVerification();
+    }
+
+    //friend code interface
+    @Override
+    public void onCodeTaken(String code) {
+        //TODO: проверять верно ли введен код
+        DataController instance = DataController.getInstance(activity);
+        instance.addToInvitedFriendByLoyaltyCode(code);
+    }
+
+    @Override
+    public void onFailedTakeCode() {
+        //do nothing ¯\_(ツ)_/¯
+    }
+
 }

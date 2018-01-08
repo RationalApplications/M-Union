@@ -26,7 +26,6 @@ import xyz.ratapp.munion.controllers.interfaces.DataCallback
 import xyz.ratapp.munion.data.DataController
 import xyz.ratapp.munion.data.pojo.Lead
 import xyz.ratapp.munion.helpers.PreferencesHelper
-import xyz.ratapp.munion.ui.activities.auth.AuthActivity
 import xyz.ratapp.munion.ui.fragments.*
 
 

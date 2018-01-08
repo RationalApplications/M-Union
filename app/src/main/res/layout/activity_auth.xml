@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:gravity="center"
-    tools:context="xyz.ratapp.munion.ui.activities.auth.AuthActivity">
+    tools:context="xyz.ratapp.munion.ui.activities.AuthActivity">
 
 
 

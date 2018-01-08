@@ -12,21 +12,17 @@ import java.util.Collections;
 import java.util.List;
 
 import co.chatsdk.core.dao.Keys;
-import co.chatsdk.core.dao.Thread;
 import co.chatsdk.core.dao.User;
 import co.chatsdk.core.session.NM;
-import co.chatsdk.core.session.StorageManager;
 import co.chatsdk.firebase.FirebaseAuthenticationHandler;
-import co.chatsdk.ui.search.SearchActivity;
 import co.chatsdk.ui.utils.AppBackgroundMonitor;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
+import xyz.ratapp.munion.controllers.auth.AuthController;
 import xyz.ratapp.munion.data.pojo.Lead;
 import xyz.ratapp.munion.ui.activities.SplashActivity;
-import xyz.ratapp.munion.ui.activities.auth.AuthActivity;
+import xyz.ratapp.munion.ui.activities.AuthActivity;
 
 /**
  * Created by timtim on 24/12/2017.
@@ -36,23 +32,20 @@ public class ChatSDKHelper {
 
     private static final String DEFAULT_CHAT_NAME = "DEFAULT_CHAT";
 
-    public static void createThread(final AuthActivity activity,
+    public static void createThread(final AuthController controller,
                                     List<User> users) {
+        AuthActivity activity = controller.getActivity();
         NM.thread().createThread(users.get(0).getName(), users)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(thread -> {
-                            PreferencesHelper.
-                                    getInstance(activity).
+                    PreferencesHelper.getInstance(activity).
                                     saveChatThread(thread);
-                            activity.setChatEntityId(thread.getEntityID());
+                    controller.setChatEntityId(thread.getEntityID());
                         }
-                ).doOnError(throwable -> {
-                    String str = activity.getString(co.chatsdk.ui.R.string.create_thread_with_users_fail_toast);
-                    Toast.makeText(activity, str, Toast.LENGTH_SHORT).show();
-                }).observeOn(AndroidSchedulers.mainThread()).subscribe();
+                ).doOnError(throwable -> activity.showToast(co.chatsdk.ui.R.string.create_thread_with_users_fail_toast)).observeOn(AndroidSchedulers.mainThread()).subscribe();
     }
 
-    public static void firstAuth(final AuthActivity activity,
+    public static void firstAuth(final AuthController controller,
                                  FirebaseUser user,
                                  Lead bitrixUser,
                                  int agentId) {
@@ -80,41 +73,40 @@ public class ChatSDKHelper {
 
                         @Override
                         public void onError(@NonNull Throwable e) {
-                            Toast.makeText(activity, "Ваш агент не установил приложение :c", Toast.LENGTH_SHORT).show();
-                            ChatSDKHelper.createThread(activity,
-                                    Collections.singletonList(NM.currentUser()));
+                            controller.getActivity().showToast("Ваш агент не установил приложение :c");
+                            ChatSDKHelper.createThread(controller, Collections.singletonList(NM.currentUser()));
                         }
 
                         @Override
                         public void onComplete() {
                             if(agent != null) {
-                                ChatSDKHelper.createThread(activity,
+                                ChatSDKHelper.createThread(controller,
                                         Arrays.asList(NM.currentUser(), agent));
                             }
                             else {
-                                Toast.makeText(activity, "Ваш агент не установил приложение :c", Toast.LENGTH_SHORT).show();
-                                ChatSDKHelper.createThread(activity,
-                                        Collections.singletonList(NM.currentUser()));
+                                controller.getActivity().showToast("Ваш агент не установил приложение :c");
+                                ChatSDKHelper.createThread(controller, Collections.singletonList(NM.currentUser()));
                             }
                         }
                     });
 
             initChatUser(bitrixUser);
 
-            PreferencesHelper.getInstance(activity).setAuthed(true);
+            PreferencesHelper.getInstance(controller.getActivity()).setAuthed(true);
         });
     }
 
-    public static void authWithUser(AuthActivity activity,
+    public static void authWithUser(AuthController controller,
                                     FirebaseUser user) {
         FirebaseAuthenticationHandler auth =
                 ((FirebaseAuthenticationHandler) NM.auth());
         auth.authenticateWithUser(user).
                 observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
             AppBackgroundMonitor.shared().setEnabled(true);
-            String threadEntityId = PreferencesHelper.getInstance(activity).
+            String threadEntityId = PreferencesHelper.
+                    getInstance(controller.getActivity()).
                     getChatThreadEntityId();
-            activity.setChatEntityId(threadEntityId);
+            controller.setChatEntityId(threadEntityId);
         });
     }
 

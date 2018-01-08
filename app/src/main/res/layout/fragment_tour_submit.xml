@@ -32,6 +32,7 @@
         app:minTextSize="16sp" />
 
     <com.jkb.vcedittext.VerificationCodeEditText
+        android:id="@+id/vcet_sms_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -41,8 +42,8 @@
         app:bottomLineHeight="2dp"
         app:bottomLineNormalColor="@color/hint"
         app:bottomLineSelectedColor="@color/colorAccent"
-        app:selectedBackgroundColor="@color/colorPrimary"
         app:figures="6"
+        app:selectedBackgroundColor="@color/colorPrimary"
         app:verCodeMargin="10dp" />
 
 </LinearLayout>

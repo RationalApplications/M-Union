@@ -116,4 +116,6 @@
     <string name="chat_tour_head">Чат с персональным агентом</string>
     <string name="stat_tour_body">Вы сможете знавать актуальную статистику показов, просмотров и звонков, а так же прослушивать все звонки, относящиеся к вашей квартире</string>
     <string name="stat_tour_head">Всегда актуальная статистика</string>
+    <string name="fill_friend_code">Введите код друга!</string>
+    <string name="fill_sms_code">Введите код отправленный по смс!</string>
 </resources>

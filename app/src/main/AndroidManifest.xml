@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activities.auth.AuthActivity"
+            android:name=".ui.activities.AuthActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Intro">
             <intent-filter>

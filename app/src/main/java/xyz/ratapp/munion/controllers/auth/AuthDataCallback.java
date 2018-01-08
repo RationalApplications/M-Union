@@ -1,7 +1,8 @@
-package xyz.ratapp.munion.ui.activities.auth;
+package xyz.ratapp.munion.controllers.auth;
 
 import xyz.ratapp.munion.controllers.interfaces.DataCallback;
 import xyz.ratapp.munion.data.pojo.Lead;
+import xyz.ratapp.munion.ui.activities.AuthActivity;
 
 /**
  * Created by timtim on 27/12/2017.
@@ -9,10 +10,10 @@ import xyz.ratapp.munion.data.pojo.Lead;
 
 public abstract class AuthDataCallback implements DataCallback<Lead> {
 
-    private AuthActivity authActivity;
+    private AuthController controller;
 
-    public AuthDataCallback(AuthActivity authActivity) {
-        this.authActivity = authActivity;
+    public AuthDataCallback(AuthController controller) {
+        this.controller = controller;
     }
 
     @Override
@@ -24,6 +25,6 @@ public abstract class AuthDataCallback implements DataCallback<Lead> {
 
     @Override
     public void onFailed(Throwable thr) {
-        authActivity.onFailedInAuthTask(thr);
+        controller.onFailedInAuthTask(thr);
     }
 }

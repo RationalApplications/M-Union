@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_auth.*
 import xyz.ratapp.munion.ui.fragments.common.FragmentBase
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.extensions.inflate
-import xyz.ratapp.munion.ui.activities.auth.AuthActivity
+import xyz.ratapp.munion.ui.activities.AuthActivity
 
 /**
  * <p>Date: 29.10.17</p>
