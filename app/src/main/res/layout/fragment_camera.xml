@@ -38,7 +38,7 @@
             android:paddingRight="16dp"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="22sp"
             app:autoSizeTextType="uniform" />
 
         <View
@@ -52,7 +52,7 @@
             android:layout_toLeftOf="@id/camera_document_frame"
             android:layout_toStartOf="@id/camera_document_frame"
             android:background="@color/black"
-            android:alpha="0.25"/>
+            android:alpha="0.35"/>
 
         <View
             android:id="@+id/v_right_decor"
@@ -65,9 +65,10 @@
             android:layout_toRightOf="@id/camera_document_frame"
             android:layout_toEndOf="@id/camera_document_frame"
             android:background="@color/black"
-            android:alpha="0.25"/>
+            android:alpha="0.35"/>
 
         <View
+            android:id="@+id/v_top_decor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -75,12 +76,13 @@
             android:layout_toRightOf="@id/v_left_decor"
             android:layout_toLeftOf="@id/v_right_decor"
             android:background="@color/black"
-            android:alpha="0.25"
+            android:alpha="0.35"
             android:layout_toEndOf="@id/v_left_decor"
             android:layout_toStartOf="@id/v_right_decor" />
 
 
         <View
+            android:id="@+id/v_bottom_decor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -88,7 +90,7 @@
             android:layout_toRightOf="@id/v_left_decor"
             android:layout_toLeftOf="@id/v_right_decor"
             android:background="@color/black"
-            android:alpha="0.25"
+            android:alpha="0.35"
             android:layout_toEndOf="@id/v_left_decor"
             android:layout_toStartOf="@id/v_right_decor" />
 
@@ -97,19 +99,18 @@
             android:layout_width="168dp"
             android:layout_height="256dp"
             android:layout_centerInParent="true"
-            android:alpha="0.25"
-            android:background="@color/white"
-            android:src="@drawable/pasport" />
+            android:alpha="0.3"
+            android:background="@color/white" />
 
-        <ImageButton
+        <com.dewarder.camerabutton.CameraButton
             android:id="@+id/camera_shot"
             android:layout_width="44dp"
             android:layout_height="44dp"
+            app:cb_main_circle_radius="30dp"
+            app:cb_stroke_width="14dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="8dp"
-            android:background="@null"
-            android:src="@drawable/ic_camera_shot" />
+            android:layout_marginBottom="8dp"/>
 
         <Button
             android:id="@+id/camera_accept"
@@ -120,7 +121,7 @@
             android:layout_margin="8dp"
             android:background="@null"
             android:drawablePadding="6dp"
-            android:drawableLeft="@drawable/crop__ic_done"
+            android:drawableLeft="@drawable/ic_accept_png"
             android:drawableTint="@color/colorAccent"
             android:text="Accept"
             android:textColor="@color/colorAccent"
@@ -136,7 +137,7 @@
             android:background="@null"
             android:text="Cancel"
             android:drawablePadding="6dp"
-            android:drawableLeft="@drawable/crop__ic_cancel"
+            android:drawableLeft="@drawable/ic_close_circle_png"
             android:drawableTint="@color/white"
             android:textColor="@color/white"
             android:visibility="invisible" />

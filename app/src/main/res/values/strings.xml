@@ -127,4 +127,5 @@
     <string name="friend_tour_body">Вы тоже можете приглашать своих знакомых к нам и получать 5000 рублей за сделку!</string>
     <string name="tour_temp_name">Иван Иванов</string>
     <string name="friend_tour_header">Вас пригласил:</string>
+    <string name="fill_hypothec_data">Введите свое имя и номер телефона в формате +79123456789</string>
 </resources>

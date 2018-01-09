@@ -267,4 +267,10 @@ public class DataController extends DataContainer {
             }
         });
     }
+
+    public void createContact(@NotNull String name,
+                               @NotNull String phone,
+                              Callback<JsonObject> callback) {
+        api.createContact(name, phone.substring(2)).enqueue(callback);
+    }
 }

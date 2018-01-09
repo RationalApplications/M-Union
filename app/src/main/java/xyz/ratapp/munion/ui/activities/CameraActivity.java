@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.ui.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +10,8 @@ import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
@@ -21,7 +24,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.dewarder.camerabutton.CameraButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,6 +45,7 @@ import xyz.ratapp.munion.R;
 public class CameraActivity extends AppCompatActivity implements
         SurfaceHolder.Callback,
         View.OnClickListener,
+        CameraButton.OnTapEventListener,
         Camera.PictureCallback,
         Camera.PreviewCallback,
         Camera.AutoFocusCallback {
@@ -46,31 +53,33 @@ public class CameraActivity extends AppCompatActivity implements
     private static final String PHOTO_RESULT = "xyz.ratapp.muinion.camera.result";
 
     private static final String ARGS_TEXT = "camera_args_text";
+    private static final String ARGS_IMAGE_MASK = "camera_args_image";
     private static final String ARGS_WIDTH = "camera_args_width";
     private static final String ARGS_HEIGHT = "camera_args_height";
 
-    private String argsText;
-    private Integer argsWidth;
-    private Integer argsHeight;
     private Boolean supportAutofocus;
 
     private Camera camera;
     private SurfaceHolder surfaceHolder;
     private SurfaceView preview;
-    private ImageButton shotBtn;
+    private CameraButton shotBtn;
     private AppCompatTextView cameraText;
     private ImageButton backButton;
-    private View cameraDocumentFrame;
+    private ImageView cameraDocumentFrame;
     private View loading;
 
 
     private Button acceptPhoto;
     private Button cancelPhoto;
+    private int srcImageWidth;
+    private int srcImageHeight;
 
-    public static Intent newIntent(Context context, String text, int width, int height) {
+    public static Intent newIntent(Context context, String text,
+                                   @DrawableRes int mask, int width, int height) {
         Intent i = new Intent(context, CameraActivity.class);
 
         i.putExtra(ARGS_TEXT, text);
+        i.putExtra(ARGS_IMAGE_MASK, mask);
         i.putExtra(ARGS_WIDTH, width);
         i.putExtra(ARGS_HEIGHT, height);
 
@@ -88,9 +97,10 @@ public class CameraActivity extends AppCompatActivity implements
 
         setContentView(R.layout.fragment_camera);
 
-        argsText = getIntent().getStringExtra(ARGS_TEXT);
-        argsWidth = getIntent().getIntExtra(ARGS_WIDTH, 200);
-        argsHeight = getIntent().getIntExtra(ARGS_HEIGHT, 300);
+        String argsText = getIntent().getStringExtra(ARGS_TEXT);
+        int argsMask = getIntent().getIntExtra(ARGS_IMAGE_MASK, -1);
+        Integer argsWidth = getIntent().getIntExtra(ARGS_WIDTH, 200);
+        Integer argsHeight = getIntent().getIntExtra(ARGS_HEIGHT, 300);
 
         View view = findViewById(R.id.camera_frame_layout);
         view.setOnClickListener(this);
@@ -107,7 +117,8 @@ public class CameraActivity extends AppCompatActivity implements
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         shotBtn = findViewById(R.id.camera_shot);
-        shotBtn.setOnClickListener(this);
+        shotBtn.setMode(CameraButton.Mode.TAP);
+        shotBtn.setOnTapEventListener(this);
 
         cameraText = findViewById(R.id.camera_text);
         backButton = findViewById(R.id.camera_back);
@@ -118,6 +129,14 @@ public class CameraActivity extends AppCompatActivity implements
 
         cameraDocumentFrame = findViewById(R.id.camera_document_frame);
         resizeView(cameraDocumentFrame, argsWidth, argsHeight);
+        cameraDocumentFrame.setImageResource(argsMask);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
@@ -125,24 +144,20 @@ public class CameraActivity extends AppCompatActivity implements
         super.onResume();
         camera = Camera.open();
         Camera.Parameters parameters = camera.getParameters();
-        //FIXME: почему 6?? У меня на 4.4.2 Samsung'е их всего 4, при чем от 0 до 3 они идут по убывающей в разрешении
-        //List<Camera.Size> sizes = parameters.getSupportedPictureSizes();
-        //parameters.setPictureSize(sizes.get(6).width, sizes.get(6).height);
-        //здесь будет Тимин костыльный код
         Camera.Size size = parameters.getPictureSize();
+        srcImageHeight = size.height;
+        srcImageWidth = size.width;
         parameters.setPictureSize(size.width, size.height);
         parameters.set("orientation", "portrait");
         parameters.setRotation(90);
         camera.setDisplayOrientation(90);
         camera.setParameters(parameters);
 
-        //еще Тимин код
         List<String> focusModes = parameters.getSupportedFocusModes();
         supportAutofocus = focusModes != null &&
                 focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO);
 
         if(supportAutofocus) {
-            //Phone supports autofocus!
             camera.autoFocus(null);
         }
     }
@@ -160,7 +175,9 @@ public class CameraActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    public void surfaceChanged(SurfaceHolder holder,
+                               int format, int width, int height) {
+
     }
 
     @Override
@@ -178,13 +195,23 @@ public class CameraActivity extends AppCompatActivity implements
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+
+    }
+
+    @Override
+    public void onTap() {
+        if(supportAutofocus) {
+            camera.autoFocus(this);
+        }
+        else {
+            camera.takePicture(null, null, null, this);
+        }
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.camera_shot) {
-            camera.autoFocus(this);
-        } else if (v.getId() == R.id.camera_frame_layout && camera != null) {
+        if (v.getId() == R.id.camera_frame_layout &&
+                camera != null) {
             if (supportAutofocus) {
                 camera.autoFocus(null);
             }
@@ -192,10 +219,8 @@ public class CameraActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onPictureTaken(final byte[] paramArrayOfByte, final Camera paramCamera) {
-        // сохраняем полученные jpg в папке /sdcard/CameraExample/
-        // имя файла - System.currentTimeMillis()
-
+    public void onPictureTaken(final byte[] paramArrayOfByte,
+                               final Camera paramCamera) {
         camera.stopPreview();
 
         acceptPhoto.setVisibility(View.VISIBLE);
@@ -203,14 +228,19 @@ public class CameraActivity extends AppCompatActivity implements
 
         backButton.setVisibility(View.GONE);
         cameraText.setVisibility(View.GONE);
-        cameraDocumentFrame.setVisibility(View.GONE);
+        //cameraDocumentFrame.setVisibility(View.GONE);
+        cameraDocumentFrame.setImageDrawable(null);
+        cameraDocumentFrame.setBackground(null);
         shotBtn.setVisibility(View.GONE);
+
+        findViewById(R.id.v_bottom_decor).setAlpha(1);
+        findViewById(R.id.v_top_decor).setAlpha(1);
+        findViewById(R.id.v_left_decor).setAlpha(1);
+        findViewById(R.id.v_right_decor).setAlpha(1);
 
 
         acceptPhoto.setOnClickListener(view -> {
-            Uri uri = savePhoto(paramArrayOfByte);
-            setResultUri(uri);
-            finish();
+            savePhoto(paramArrayOfByte);
         });
 
         cancelPhoto.setOnClickListener(view -> {
@@ -233,40 +263,67 @@ public class CameraActivity extends AppCompatActivity implements
         setResult(RESULT_OK, data);
     }
 
-    private Uri savePhoto(byte[] data) {
+    private void savePhoto(byte[] data) {
+        final Bitmap bitmap = getCroppedBitmap(data);
         loading.setVisibility(View.VISIBLE);
         acceptPhoto.setVisibility(View.GONE);
         cancelPhoto.setVisibility(View.GONE);
 
+        new Thread(() -> {
+            Uri uri;
+
+            if (bitmap != null) {
+
+                File file = new File(Environment.getExternalStorageDirectory() + "/MUnion");
+                if (!file.isDirectory()) {
+                    file.mkdir();
+                }
+
+                int argsMask = getIntent().getIntExtra(ARGS_IMAGE_MASK, -1);
+                String fileName = CameraActivity.this.getResources().getResourceName(argsMask);
+                file = new File(Environment.getExternalStorageDirectory() + "/MUnion", fileName + ".png");
+
+                uri = Uri.fromFile(file);
+
+                try {
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 1, fileOutputStream);
+
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+
+                setResultUri(uri);
+                finish();
+            }
+            else {
+                setResult(Activity.RESULT_CANCELED);
+                finish();
+            }
+
+        }).start();
+    }
+
+    private Bitmap getCroppedBitmap(byte[] data) {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int sWidth = size.x; //s means screen
+        int sHeight = size.y;
+
+        int x = (int) ((cameraDocumentFrame.getLeft() / (float) sWidth) * srcImageWidth);
+        int y = ((int) ((cameraDocumentFrame.getTop() / (float) sHeight) * srcImageHeight));
+        int width = ((int) ((cameraDocumentFrame.getWidth() / (float) sWidth) * srcImageWidth));
+        int height = ((int) ((cameraDocumentFrame.getHeight() / (float) sHeight) * srcImageHeight));
+
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-        Uri uri = null;
+        bitmap = Bitmap.createBitmap(bitmap, x, y, width, height);
 
-        if (bitmap != null) {
-
-            File file = new File(Environment.getExternalStorageDirectory() + "/MUnion");
-            if (!file.isDirectory()) {
-                file.mkdir();
-            }
-
-            file = new File(Environment.getExternalStorageDirectory() + "/MUnion", System.currentTimeMillis() + ".png");
-
-            uri = Uri.fromFile(file);
-
-            try {
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 1, fileOutputStream);
-
-                fileOutputStream.flush();
-                fileOutputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-
-        }
-
-        return uri;
+        return bitmap;
     }
 
     public static Uri getPhotoUri(Intent result) {
@@ -295,14 +352,14 @@ public class CameraActivity extends AppCompatActivity implements
         display.getSize(size);
         int sWidth = size.x - padding; //s means screen
         int sHeight = size.y - padding;
-        int multiplyer = Math.min(sWidth / newWidth,
+        int multiplier = Math.min(sWidth / newWidth,
                 sHeight / newHeight);
 
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        layoutParams.width = newWidth * multiplyer;
-        layoutParams.height = newHeight * multiplyer;
+        layoutParams.width = newWidth * multiplier;
+        layoutParams.height = newHeight * multiplier;
         view.setLayoutParams(layoutParams);
     }
 }
