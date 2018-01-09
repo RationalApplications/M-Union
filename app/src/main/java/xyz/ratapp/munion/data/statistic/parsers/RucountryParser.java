@@ -48,7 +48,7 @@ public class RucountryParser implements Runnable {
                 id);
         String jsResultCode = "document.getElementsByTagName('html')[0].innerHTML";
 
-        AuthWebView wv = statisticParser.setWebView(true, false);
+        AuthWebView wv = statisticParser.setWebView(true);
 
         wv.loginAndExecuteJs(loginUrl, loginJsCode, url, jsCode,
                 jsResultCode, new AuthWebView.JSInterfaceCallback() {

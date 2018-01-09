@@ -19,16 +19,15 @@ public class EmlsParser implements Runnable {
     private StatisticParser statisticParser;
     private Context context;
     private long id;
-    private boolean fromCian;
     private DataCallback<Float[]> callback;
     private boolean wasLoad = false;
 
-    public EmlsParser(StatisticParser statisticParser, Context context, long id,
-                      boolean fromCian, DataCallback<Float[]> callback) {
+    public EmlsParser(StatisticParser statisticParser,
+                      Context context, long id,
+                      DataCallback<Float[]> callback) {
         this.statisticParser = statisticParser;
         this.context = context;
         this.id = id;
-        this.fromCian = fromCian;
         this.callback = callback;
     }
 
@@ -48,7 +47,7 @@ public class EmlsParser implements Runnable {
                 "https://emls.ru/spb/term/index.php?module=38&q=0&p=0&id=%d&swm=1&d=1&a=3&action=stat", id);
         String jsResultCode = "'<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'";
 
-        AuthWebView wv = statisticParser.setWebView(false, false);
+        AuthWebView wv = statisticParser.setWebView(false);
 
         wv.loginAndExecuteJs(loginUrl, loginJsCode, url, "",
                 jsResultCode, new AuthWebView.JSInterfaceCallback() {

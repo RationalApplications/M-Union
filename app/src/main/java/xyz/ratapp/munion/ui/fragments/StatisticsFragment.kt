@@ -10,10 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -60,6 +57,11 @@ class StatisticsFragment : BaseFragment() {
 
         setupView()
         getStatistic()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     private fun getStatistic() {

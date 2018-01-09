@@ -15,6 +15,7 @@ import java.util.Locale;
 import ca.mimic.oauth2library.OAuth2Client;
 import ca.mimic.oauth2library.OAuthResponse;
 import xyz.ratapp.munion.data.pojo.Lead;
+import xyz.ratapp.munion.helpers.ZipHelper;
 
 /**
  * Created by timtim on 02/01/2018.
@@ -72,25 +73,37 @@ public class BitrixOAuthAudiosTask extends
                     mask, talksRecord.getDownloadUrl());
             urlString = urlString.replaceFirst("auth=",
                     "auth=" + accessToken);
-            String url = loadUrl(urlString,
-                    talksRecord.getId() + ".wav");
+            String file = URI.create(urlString).toURL().
+                    openConnection().
+                    getHeaderField("Content-Disposition");
+            file = file.substring(file.indexOf(";") + 1);
+            file = file.substring(file.indexOf("filename=\"") + 10, file.indexOf("\";"));
+            List<String> urls = loadUrls(urlString, file);
 
-            if (url != null) {
-                result.add(url);
+            if (urls != null) {
+                result.addAll(urls);
             }
         }
 
         return result;
     }
 
-    private String loadUrl(String urlString, String file) {
+    private List<String> loadUrls(String urlString, String file) {
         File path = new File(appFolder, file);
         URI u = URI.create(urlString);
 
         try (InputStream in = u.toURL().openStream()) {
             copy(in, path);
 
-            return path.toString();
+            ArrayList<String> result = new ArrayList<>();
+            if(path.getAbsolutePath().endsWith(".zip")) {
+                result.addAll(ZipHelper.unzip(path, appFolder));
+            }
+            else {
+                result.add(path.toString());
+            }
+
+            return result;
 
         } catch (Exception e) {
             return null;

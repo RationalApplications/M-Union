@@ -42,6 +42,13 @@ class AudiosAdapter(private val mValues: List<String>) :
         }
     }
 
+    fun stop() {
+        if(audioPlayer != null &&
+                audioPlayer!!.isPlaying) {
+            audioPlayer!!.stop()
+        }
+    }
+
     private fun usePlayer(iv: ImageView, url: String) {
         if(audioPlayer != null && audioTrack == url) {
             if(audioPlayer!!.isPlaying) {

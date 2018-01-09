@@ -30,9 +30,10 @@ public class YandexParser implements Runnable {
     @Override
     public void run() {
         statisticParser.isWebViewMuted = true;
-        AuthWebView wv = statisticParser.setWebView(false, true);
+        AuthWebView wv = statisticParser.setWebView(false);
         wv.executeJsAfterLoadingPage(url, "",
-                "document.getElementsByTagName('html')[0].innerHTML",
+                "document.getElementsByClassName('card__dates')[0].textContent",
+                //"\'<html>\'+document.getElementsByTagName(\'html\')[0].innerHTML+\'</html>\'",
                 new AuthWebView.JSInterfaceCallback() {
 
                     @Override
@@ -41,10 +42,10 @@ public class YandexParser implements Runnable {
                         if(!wasLoad) {
                             wasLoad = true;
                             if (result != null && !result.isEmpty()) {
-                                int i = result.indexOf("Просмотры: ");
+                                int i = result.indexOf("просмотрено ");
                                 if (i != -1) {
-                                    result = result.substring(i + 11);
-                                    float data = Float.parseFloat(result.substring(0, result.indexOf("</div>")));
+                                    result = result.substring(i + 12);
+                                    float data = Float.parseFloat(result.substring(0, result.indexOf(" ")));
                                     callback.onSuccess(new Float[]{data});
                                     next();
                                 } else {

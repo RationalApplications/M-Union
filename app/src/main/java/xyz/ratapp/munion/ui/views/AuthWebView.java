@@ -2,10 +2,16 @@ package xyz.ratapp.munion.ui.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -28,14 +34,16 @@ public class AuthWebView extends WebView {
         getSettings().setDomStorageEnabled(false);
         getSettings().setAppCacheEnabled(false);
         getSettings().setLoadsImagesAutomatically(false);
-        //((MainActivity) context).showDialog(this);
-    }
+        getSettings().setBlockNetworkImage(true);
+        //getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-    public void setPcMode(boolean pcMode) {
-        if(pcMode) {
-            String newUA= "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0";
-            getSettings().setUserAgentString(newUA);
+        if (Build.VERSION.SDK_INT >= 19) {
+            setLayerType(View.LAYER_TYPE_HARDWARE, null);
         }
+        else {
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+
     }
 
     public void setPrivateMode(boolean privateMode) {
@@ -67,7 +75,22 @@ public class AuthWebView extends WebView {
             boolean isFirstLoading = true;
 
             @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                callback.sendResult(null);
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request,
+                                            WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                callback.sendResult(null);
+            }
+
+            @Override
             public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
                 if (isFirstLoading && !jsCode.isEmpty()) {
                     isFirstLoading = false;
                     view.loadUrl("javascript:(function() {" +
@@ -79,6 +102,7 @@ public class AuthWebView extends WebView {
                             "(" + jsResultCode + ");");
                 }
             }
+
         });
 
         loadUrl(url);
@@ -89,6 +113,19 @@ public class AuthWebView extends WebView {
                                   String jsResultCode,
                                   JSInterfaceCallback callback) {
         setWebViewClient(new WebViewClient() {
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                callback.sendResult(null);
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request,
+                                            WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                callback.sendResult(null);
+            }
 
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -103,6 +140,7 @@ public class AuthWebView extends WebView {
                     executeJsAfterLoadingPage(urlToLoad, jsCode, jsResultCode, callback);
                 }
             }
+
         });
 
         loadUrl(loginUrl);

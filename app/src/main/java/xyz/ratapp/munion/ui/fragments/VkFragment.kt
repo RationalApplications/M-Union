@@ -3,14 +3,11 @@ package xyz.ratapp.munion.ui.fragments
 import android.content.Context
 import android.os.Bundle
 import android.util.Base64
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.fragment_vk.*
 import kotlinx.android.synthetic.main.fragment_vk.view.*
 import xyz.ratapp.munion.R
-import android.view.KeyEvent
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import xyz.ratapp.munion.ui.fragments.common.BaseFragment
@@ -34,6 +31,11 @@ class VkFragment : BaseFragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_vk, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

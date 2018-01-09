@@ -45,7 +45,7 @@ public class StatisticParser {
             wv = new AuthWebView(context);
             wv.setVisibility(View.GONE);
             dialog.addContentView(wv, params);
-            setWebView(false, false);
+            setWebView(false);
         }
 
         if (url.contains("www.")) {
@@ -61,7 +61,7 @@ public class StatisticParser {
                     Long.parseLong(url);
 
             //parseEmls(context, id, false, callback);
-            addTask(new EmlsParser(this, context, id, false, callback));
+            addTask(new EmlsParser(this, context, id, callback));
         } else if (url.startsWith("https://spb.sterium.com/")) {
             parseSterium(url, callback);
         } else if (url.startsWith("http://mirkvartir.ru/")) {
@@ -82,16 +82,15 @@ public class StatisticParser {
             addTask(new RucountryParser(this, context, id, callback));
         } else if (url.startsWith("https://realty.yandex.ru/")) {
             //parseYandex(context, url, callback);
-            addTask(new YandexParser(this, context, url, callback));
+            addTask(new YandexParser(this, context, url + "#", callback));
         } else {
             callback.onSuccess(new Float[]{0f});
         }
 
     }
 
-    AuthWebView setWebView(boolean privateMode, boolean pcMode) {
+    AuthWebView setWebView(boolean privateMode) {
         wv.setPrivateMode(privateMode);
-        wv.setPcMode(pcMode);
         return wv;
     }
 

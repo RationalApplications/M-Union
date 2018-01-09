@@ -32,11 +32,10 @@
             android:gravity="center"
             android:lines="2"
             android:text="@string/object"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textSize="20sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:minTextSize="12sp" />
+            app:minTextSize="10sp" />
 
         <ImageButton
             android:id="@+id/btn_refresh_stats"

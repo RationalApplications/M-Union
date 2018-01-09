@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.view.WindowManager
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import xyz.ratapp.munion.ui.fragments.common.BaseFragment
 import xyz.ratapp.munion.R
@@ -24,6 +25,11 @@ class ContactsFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_contacts, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

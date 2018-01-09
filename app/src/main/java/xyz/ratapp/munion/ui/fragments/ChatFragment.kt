@@ -15,6 +15,7 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -108,6 +109,11 @@ class ChatFragment : BaseFragment(), TextInputDelegate, ChatOptionsDelegate {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.chat_sdk_activity_chat, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

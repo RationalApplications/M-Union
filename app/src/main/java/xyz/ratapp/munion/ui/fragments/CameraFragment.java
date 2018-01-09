@@ -56,12 +56,10 @@ public class CameraFragment extends FullscreenFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (camera != null){
-                    camera.autoFocus(null);
-                }
+        setupViews(view);
+        view.setOnClickListener(view1 -> {
+            if (camera != null){
+                camera.autoFocus(null);
             }
         });
 
@@ -82,6 +80,16 @@ public class CameraFragment extends FullscreenFragment implements
         }
 
         return view;
+    }
+
+    private void setupViews(View view) {
+        view.findViewById(R.id.camera_accept).bringToFront();
+        view.findViewById(R.id.camera_back).bringToFront();
+        view.findViewById(R.id.camera_cancel).bringToFront();
+        view.findViewById(R.id.camera_document_frame).bringToFront();
+        view.findViewById(R.id.camera_loading).bringToFront();
+        view.findViewById(R.id.camera_shot).bringToFront();
+        view.findViewById(R.id.camera_text).bringToFront();
     }
 
 

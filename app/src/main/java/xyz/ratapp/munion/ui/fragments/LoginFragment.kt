@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_auth.*
 import xyz.ratapp.munion.ui.fragments.common.BaseFragment
@@ -24,6 +25,11 @@ class LoginFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_auth, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

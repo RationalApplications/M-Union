@@ -2,6 +2,7 @@ package xyz.ratapp.munion.ui.views.audio;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public final class AudiosDialog extends AlertDialog.Builder {
     private List<String> data;
     private RecyclerView rv;
     private RelativeLayout rl;
+    private AudiosAdapter adapter;
 
     public AudiosDialog(Context context) {
         super(context);
@@ -36,6 +38,9 @@ public final class AudiosDialog extends AlertDialog.Builder {
     public AlertDialog show() {
         setView(rl);
         setTitle(R.string.recs_of_calls);
+        setOnCancelListener(dialog -> {
+            adapter.stop();
+        });
 
         return super.show();
     }
@@ -47,7 +52,7 @@ public final class AudiosDialog extends AlertDialog.Builder {
 
     private void setupAdapter() {
         if(rv != null) {
-            AudiosAdapter adapter = new AudiosAdapter(data);
+            adapter = new AudiosAdapter(data);
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(adapter);
         }

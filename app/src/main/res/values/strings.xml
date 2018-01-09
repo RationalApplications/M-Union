@@ -39,7 +39,7 @@
     <string name="credit_edit_hint_name">Ваше имя</string>
     <string name="credit_edit_hint_phone">Ваш телефон</string>
     <string name="credit_head_text">Оформите заявку на ипотеку прямо сейчас</string>
-    <string name="object">Матроса Железняка 57</string>
+    <string name="object">Название объекта</string>
     <string name="count_of_views">Количество \nпросмотров</string>
     <string name="count_of_calls">Количество \nзвонков</string>
     <string name="count_of_shows">Количество \nпоказов</string>
