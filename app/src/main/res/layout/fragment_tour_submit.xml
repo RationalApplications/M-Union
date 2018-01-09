@@ -4,12 +4,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="18dp">
 
-    <TextView
+    <me.grantland.widget.AutofitTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:singleLine="true"
         android:text="@string/end_auth"
@@ -34,7 +38,7 @@
     <com.jkb.vcedittext.VerificationCodeEditText
         android:id="@+id/vcet_sms_code"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_margin="16dp"
         android:inputType="number"
         android:textColor="@color/white"
