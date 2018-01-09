@@ -37,7 +37,7 @@ class HypothecFragment : Fragment() {
 
         hypothec_btn_order.apply {
             hypothec_btn_order.setOnClickListener {
-                runCamera("Сделайте фото паспорта", 88 * 11, 125 * 11)
+                runCamera("Сделайте фото паспорта", 103, 146)
             }
         }
     }
@@ -57,11 +57,11 @@ class HypothecFragment : Fragment() {
 
             when (count) {
                 1 -> {
-                    runCamera("Сделайте фото ИНН", 210 * 4, 297 * 4)
+                    runCamera("Сделайте фото ИНН", 210, 297)
                 }
 
                 2 -> {
-                    runCamera("Сделайте фото СНИЛС", 115 * 8, 80 * 8)
+                    runCamera("Сделайте фото СНИЛС", 115, 80)
                 }
 
                 3 -> {

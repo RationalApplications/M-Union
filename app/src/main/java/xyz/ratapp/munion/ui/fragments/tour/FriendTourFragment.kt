@@ -16,7 +16,6 @@ import xyz.ratapp.munion.controllers.interfaces.CodeInputCallback
 class FriendTourFragment : SlideFragment() {
 
     lateinit var codeCallback: CodeInputCallback
-    private var canMoveNext = false
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_tour_friend, container, false)
@@ -31,7 +30,7 @@ class FriendTourFragment : SlideFragment() {
     }
 
     override fun canMoveFurther(): Boolean {
-        return /*canMoveNext*/ true;
+        return true
     }
 
     override fun cantMoveFurtherErrorMessage(): String {

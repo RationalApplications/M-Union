@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 
+import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -286,10 +288,21 @@ public class CameraActivity extends AppCompatActivity implements
 
 
     private void resizeView(View view, int newWidth, int newHeight) {
+        int padding = getResources().getDimensionPixelOffset(R.dimen.camera_document_offset);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int sWidth = size.x - padding; //s means screen
+        int sHeight = size.y - padding;
+        int multiplyer = Math.min(sWidth / newWidth,
+                sHeight / newHeight);
+
+
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        layoutParams.width = newWidth;
-        layoutParams.height = newHeight;
+        layoutParams.width = newWidth * multiplyer;
+        layoutParams.height = newHeight * multiplyer;
         view.setLayoutParams(layoutParams);
     }
 }

@@ -43,10 +43,9 @@ public class RucountryParser implements Runnable {
                 rucountryLogin, rucountryPassword);
         String url = "http://spb.rucountry.ru/user/ads";
         //user-ad-filter-code
-        String jsCode = String.format(Locale.getDefault(), "document.getElementById('user-ad-filter-code').value='%d';" +
-                        "tmp.ListContent('myvtorichka', false, {action: 'vtorichka', pageid: 1, pagesize: 15, filter:user.ParsingFilter(), orderby:'datecreated_desc', url:'', route:'user/ads', uid:''});",
+        String jsCode = String.format(Locale.getDefault(), "tmp.ListContent(\'myvtorichka\', false, {action: \'vtorichka\', pageid: 1, pagesize: 15, filter:\"{\\\"sd\\\":\\\"\\\",\\\"fd\\\":\\\"\\\",\\\"code\\\":\\\"%d\\\",\\\"status\\\":\\\"1\\\",\\\"type\\\":\\\"1\\\"}\", orderby:\'datecreated_desc\', url:\'\', route:\'user/ads\', uid:\'\'});",
                 id);
-        String jsResultCode = "document.getElementsByTagName('html')[0].innerHTML";
+        String jsResultCode = "document.getElementsByClassName(\'glyphicons no-js eye_open margin-bottom-5\')[0].textContent";
 
         AuthWebView wv = statisticParser.setWebView(true);
 
@@ -59,10 +58,10 @@ public class RucountryParser implements Runnable {
                         if(!wasLoad) {
                             wasLoad = true;
                             if (result != null && !result.isEmpty()) {
-                                int i = result.indexOf("Просмотры <b>");
+                                int i = result.indexOf("Просмотры ");
                                 if (i != -1) {
-                                    result = result.substring(i + 13);
-                                    float data = Float.parseFloat(result.substring(0, result.indexOf("</b>")));
+                                    result = result.substring(i + 10);
+                                    float data = Float.parseFloat(result);
                                     callback.onSuccess(new Float[]{data});
                                     next();
                                 } else {
