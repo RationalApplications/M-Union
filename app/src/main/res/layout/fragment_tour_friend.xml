@@ -1,90 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@color/colorPrimary"
-    android:orientation="vertical">
+    android:paddingTop="18dp">
 
-    <TextView
+    <me.grantland.widget.AutofitTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
-        android:layout_weight="2"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1.5"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
         android:gravity="center"
         android:singleLine="true"
-        android:text="@string/from_friend"
+        android:text="@string/friend_tour_header"
         android:textColor="@color/white"
         android:textSize="26sp"
         android:textStyle="bold" />
 
-    <me.grantland.widget.AutofitTextView
-        android:id="@+id/tv_head_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="16dp"
-        android:layout_weight="2"
-        android:maxLines="2"
-        android:text="@string/fill_loyalty_code"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size"
-        app:minTextSize="16sp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.75"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
 
-        <EditText
-            android:id="@+id/et_friend_code"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="48dp"
-            android:background="@drawable/radius_edit_text"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:hint="@string/temp_code"
-            android:inputType="textPassword"
-            android:paddingBottom="16dp"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
-            android:paddingTop="16dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/hint" />
-
-        <com.marcouberti.autofitbutton.AutoFitButton
-            android:id="@+id/btn_friend_submit"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/auth_btn_height"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/radius_button"
-            android:singleLine="true"
-            android:text="@string/tour_continue"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp" />
+            android:layout_marginTop="6dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="6dp"
+            android:padding="16dp"
+            android:contentDescription="@string/munion_logo"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_account_large" />
 
         <me.grantland.widget.AutofitTextView
-            android:id="@+id/tv_have_no_friends"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:text="@string/tour_temp_name"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:text="@string/friend_doesnt_invited"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="@color/hint"
-            android:textSize="16sp"
-            app:minTextSize="12sp" />
-
+            android:gravity="center_horizontal"
+            android:textSize="20sp"/>
     </LinearLayout>
+
+
+    <me.grantland.widget.AutofitTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="80dp"
+        android:layout_weight="1.05"
+        android:gravity="center"
+        android:text="@string/friend_tour_body"
+        android:textColor="@color/hint"
+        android:textSize="16sp" />
 
 </LinearLayout>

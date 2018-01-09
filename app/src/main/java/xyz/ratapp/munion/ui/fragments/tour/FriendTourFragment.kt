@@ -31,7 +31,7 @@ class FriendTourFragment : SlideFragment() {
     }
 
     override fun canMoveFurther(): Boolean {
-        return canMoveNext
+        return /*canMoveNext*/ true;
     }
 
     override fun cantMoveFurtherErrorMessage(): String {
@@ -40,7 +40,7 @@ class FriendTourFragment : SlideFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+/*
         btn_friend_submit.setOnClickListener {
             val code = et_friend_code.text.
                     toString()
@@ -59,6 +59,6 @@ class FriendTourFragment : SlideFragment() {
         tv_have_no_friends.setOnClickListener {
             codeCallback.onFailedTakeCode()
             canMoveNext = true
-        }
+        }*/
     }
 }

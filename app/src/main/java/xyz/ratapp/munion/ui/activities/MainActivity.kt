@@ -120,10 +120,10 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
-        val itemNews = AHBottomNavigationItem(getString(R.string.title_news_feed), R.drawable.ic_news)
+        val itemNews = AHBottomNavigationItem(getString(R.string.title_news_feed), R.drawable.ic_news_bottom_bar)
         val itemAuth = AHBottomNavigationItem(getString(R.string.title_account), R.drawable.ic_account_circle_white)
-        val itemHypothec = AHBottomNavigationItem(getString(R.string.title_credit), R.drawable.ic_hypothec)
-        val itemContact = AHBottomNavigationItem(getString(R.string.title_contacts), R.drawable.ic_contacts_white)
+        val itemHypothec = AHBottomNavigationItem(getString(R.string.title_credit), R.drawable.ic_hypothec_bottom_bar)
+        val itemContact = AHBottomNavigationItem(getString(R.string.title_contacts), R.drawable.ic_contacts_bottom_bar)
 
         navigation.addItem(itemNews)
         navigation.addItem(itemAuth)
@@ -171,11 +171,11 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
-        val itemNews = AHBottomNavigationItem(getString(R.string.title_news_feed), R.drawable.ic_news)
-        val itemChat = AHBottomNavigationItem(getString(R.string.title_chat), R.drawable.ic_chat)
-        val itemStatistic = AHBottomNavigationItem(getString(R.string.title_statistics), R.drawable.ic_statistic)
-        val itemHypothec = AHBottomNavigationItem(getString(R.string.title_credit), R.drawable.ic_hypothec)
-        val itemContact = AHBottomNavigationItem(getString(R.string.title_contacts), R.drawable.ic_contacts_white)
+        val itemNews = AHBottomNavigationItem(getString(R.string.title_news_feed), R.drawable.ic_news_bottom_bar)
+        val itemChat = AHBottomNavigationItem(getString(R.string.title_chat), R.drawable.ic_chat_bottom_bar)
+        val itemStatistic = AHBottomNavigationItem(getString(R.string.title_statistics), R.drawable.ic_statistics_bottom_bar)
+        val itemHypothec = AHBottomNavigationItem(getString(R.string.title_credit), R.drawable.ic_hypothec_bottom_bar)
+        val itemContact = AHBottomNavigationItem(getString(R.string.title_contacts), R.drawable.ic_contacts_bottom_bar)
 
 
         navigation.addItem(itemNews)
