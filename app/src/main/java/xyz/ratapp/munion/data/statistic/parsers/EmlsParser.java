@@ -20,11 +20,11 @@ public class EmlsParser implements Runnable {
     private Context context;
     private long id;
     private boolean fromCian;
-    private DataCallback<Float> callback;
+    private DataCallback<Float[]> callback;
     private boolean wasLoad = false;
 
     public EmlsParser(StatisticParser statisticParser, Context context, long id,
-                      boolean fromCian, DataCallback<Float> callback) {
+                      boolean fromCian, DataCallback<Float[]> callback) {
         this.statisticParser = statisticParser;
         this.context = context;
         this.id = id;
@@ -48,41 +48,45 @@ public class EmlsParser implements Runnable {
                 "https://emls.ru/spb/term/index.php?module=38&q=0&p=0&id=%d&swm=1&d=1&a=3&action=stat", id);
         String jsResultCode = "'<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'";
 
-        statisticParser.wv = new AuthWebView(context, false, false);
+        AuthWebView wv = statisticParser.setWebView(false, false);
 
-        statisticParser.wv.loginAndExecuteJs(loginUrl, loginJsCode, url, "",
+        wv.loginAndExecuteJs(loginUrl, loginJsCode, url, "",
                 jsResultCode, new AuthWebView.JSInterfaceCallback() {
 
                     @Override
                     @JavascriptInterface
                     public void sendResult(String result) {
-                        if(!wasLoad) {
+                        if (!wasLoad) {
                             wasLoad = true;
                             if (result != null && !result.isEmpty()) {
 
-                                if (fromCian) {
-                                    int i = result.indexOf("просмотров на cian.ru ");
-                                    if (i != -1) {
-                                        result = result.substring(i + 22);
-                                        float data = Float.parseFloat(result.substring(0, result.indexOf("<br>")));
-                                        callback.onSuccess(data);
-                                        next();
-                                    } else {
-                                        next();
-                                        callback.onFailed(new Throwable("cant load emls"));
-                                    }
-                                } else {
-                                    int i = result.indexOf("Всего просмотров на emls: ");
-                                    if (i != -1) {
-                                        result = result.substring(i + 26);
-                                        float data = Float.parseFloat(result.substring(0, result.indexOf(',')));
-                                        next();
-                                        callback.onSuccess(data);
-                                    } else {
-                                        next();
-                                        callback.onFailed(new Throwable("cant load emls"));
-                                    }
+                                int size = 0;
+                                float cian = -1, emls = -1;
+                                int i = result.indexOf("Всего просмотров на emls: ");
+                                if (i != -1) {
+                                    result = result.substring(i + 26);
+                                    emls = Float.parseFloat(result.substring(0, result.indexOf(',')));
+                                    size++;
                                 }
+
+                                i = result.indexOf("просмотров на cian.ru ");
+                                if (i != -1) {
+                                    result = result.substring(i + 22);
+                                    cian = Float.parseFloat(result.substring(0, result.indexOf("<br>")));
+                                    size++;
+                                }
+
+                                if (size == 2) {
+                                    next();
+                                    callback.onSuccess(new Float[]{emls, cian});
+                                } else if (size == 1) {
+                                    next();
+                                    callback.onSuccess(new Float[]{emls});
+                                } else {
+                                    next();
+                                    callback.onFailed(new Throwable("cant load emls"));
+                                }
+
                             } else {
                                 next();
                                 callback.onFailed(new Throwable("cant load emls"));

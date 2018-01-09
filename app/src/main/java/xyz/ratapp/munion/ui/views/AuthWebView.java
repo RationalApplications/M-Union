@@ -22,12 +22,25 @@ import xyz.ratapp.munion.ui.activities.MainActivity;
 public class AuthWebView extends WebView {
 
 
-    public AuthWebView(Context context, boolean privateMode,
-                       boolean pcMode) {
+    public AuthWebView(Context context) {
         super(context);
+        getSettings().setJavaScriptEnabled(true);
+        getSettings().setDomStorageEnabled(false);
+        getSettings().setAppCacheEnabled(false);
+        getSettings().setLoadsImagesAutomatically(false);
+        //((MainActivity) context).showDialog(this);
+    }
 
+    public void setPcMode(boolean pcMode) {
+        if(pcMode) {
+            String newUA= "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0";
+            getSettings().setUserAgentString(newUA);
+        }
+    }
+
+    public void setPrivateMode(boolean privateMode) {
         if(privateMode) {
-            CookieSyncManager.createInstance(context);
+            CookieSyncManager.createInstance(getContext());
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookie();
 
@@ -37,13 +50,11 @@ public class AuthWebView extends WebView {
             clearCache(true);
             clearHistory();
         }
-        if(pcMode) {
-            String newUA= "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0";
-            getSettings().setUserAgentString(newUA);
+        else {
+            WebSettings ws = getSettings();
+            ws.setSaveFormData(true);
+            ws.setSavePassword(true);
         }
-
-        getSettings().setJavaScriptEnabled(true);
-        //((MainActivity) context).showDialog(this);
     }
 
     public void executeJsAfterLoadingPage(String url, String jsCode,

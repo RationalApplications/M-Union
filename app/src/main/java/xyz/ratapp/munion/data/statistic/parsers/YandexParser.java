@@ -17,10 +17,10 @@ public class YandexParser implements Runnable {
     private Context context;
     private String url;
     private boolean wasLoad = false;
-    private DataCallback<Float> callback;
+    private DataCallback<Float[]> callback;
 
     public YandexParser(StatisticParser statisticParser, Context context,
-                        String url, DataCallback<Float> callback) {
+                        String url, DataCallback<Float[]> callback) {
         this.statisticParser = statisticParser;
         this.context = context;
         this.url = url;
@@ -30,8 +30,8 @@ public class YandexParser implements Runnable {
     @Override
     public void run() {
         statisticParser.isWebViewMuted = true;
-        statisticParser.wv = new AuthWebView(context, false, true);
-        statisticParser.wv.executeJsAfterLoadingPage(url, "",
+        AuthWebView wv = statisticParser.setWebView(false, true);
+        wv.executeJsAfterLoadingPage(url, "",
                 "document.getElementsByTagName('html')[0].innerHTML",
                 new AuthWebView.JSInterfaceCallback() {
 
@@ -45,7 +45,7 @@ public class YandexParser implements Runnable {
                                 if (i != -1) {
                                     result = result.substring(i + 11);
                                     float data = Float.parseFloat(result.substring(0, result.indexOf("</div>")));
-                                    callback.onSuccess(data);
+                                    callback.onSuccess(new Float[]{data});
                                     next();
                                 } else {
                                     callback.onFailed(new Throwable("cant load yandex"));

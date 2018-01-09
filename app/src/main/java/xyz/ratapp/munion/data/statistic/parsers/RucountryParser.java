@@ -20,10 +20,10 @@ public class RucountryParser implements Runnable {
     private Context context;
     private long id;
     private boolean wasLoad = false;
-    private DataCallback<Float> callback;
+    private DataCallback<Float[]> callback;
 
     public RucountryParser(StatisticParser statisticParser, Context context,
-                           long id, DataCallback<Float> callback) {
+                           long id, DataCallback<Float[]> callback) {
         this.statisticParser = statisticParser;
         this.context = context;
         this.id = id;
@@ -48,9 +48,9 @@ public class RucountryParser implements Runnable {
                 id);
         String jsResultCode = "document.getElementsByTagName('html')[0].innerHTML";
 
-        statisticParser.wv = new AuthWebView(context, true, false);
+        AuthWebView wv = statisticParser.setWebView(true, false);
 
-        statisticParser.wv.loginAndExecuteJs(loginUrl, loginJsCode, url, jsCode,
+        wv.loginAndExecuteJs(loginUrl, loginJsCode, url, jsCode,
                 jsResultCode, new AuthWebView.JSInterfaceCallback() {
 
                     @Override
@@ -63,7 +63,7 @@ public class RucountryParser implements Runnable {
                                 if (i != -1) {
                                     result = result.substring(i + 13);
                                     float data = Float.parseFloat(result.substring(0, result.indexOf("</b>")));
-                                    callback.onSuccess(data);
+                                    callback.onSuccess(new Float[]{data});
                                     next();
                                 } else {
                                     callback.onFailed(new Throwable("cant load rucountry"));

@@ -1,18 +1,24 @@
 package xyz.ratapp.munion.ui.fragments
 
 import android.animation.ValueAnimator
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -35,10 +41,11 @@ import xyz.ratapp.munion.ui.views.audio.AudiosDialog
  * @author Simon
  */
 class StatisticsFragment : BaseFragment() {
-    private lateinit var mChart: PieChart
 
+    private lateinit var mChart: PieChart
     private lateinit var mTfRegular: Typeface
     private lateinit var mTfLight: Typeface
+    private var dialog: AlertDialog? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_statistics, container, false)
@@ -52,24 +59,64 @@ class StatisticsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupView()
-        DataController.getInstance(activity).
-                getStatistics(object: DataCallback<Statistics>
-                {
-                    override fun onSuccess(data: Statistics) {
-                        val mainHandler = Handler(activity.mainLooper)
+        getStatistic()
+    }
 
-                        val myRunnable = {
-                            setData(data)
-                            setupData(data)
-                            setupDelegates(data)
-                        }
-                        mainHandler.post(myRunnable)
+    private fun getStatistic() {
+        val instance = DataController.getInstance(activity)
+        instance.getStatistics(object: DataCallback<Statistics>
+        {
+            override fun onSuccess(data: Statistics) {
+                hideDialog()
+                setupFragmentFromUiThread(data)
+            }
+
+            override fun onFailed(thr: Throwable?) {
+                showDialog()
+                instance.loadStatistics(dialog, object: DataCallback<Statistics> {
+                    override fun onSuccess(data: Statistics) {
+                        hideDialog()
+                        setupFragmentFromUiThread(data)
                     }
 
                     override fun onFailed(thr: Throwable?) {
-
+                        hideDialog()
+                        Toast.makeText(activity,
+                                R.string.cant_load_statistics,
+                                Toast.LENGTH_LONG).show()
                     }
                 })
+            }
+        })
+    }
+
+    private fun loadStatistic() {
+        val instance = DataController.getInstance(activity)
+        instance.loadStatistics(dialog, object: DataCallback<Statistics>
+        {
+            override fun onSuccess(data: Statistics) {
+                hideDialog()
+                setupFragmentFromUiThread(data)
+            }
+
+            override fun onFailed(thr: Throwable?) {
+                hideDialog()
+                Toast.makeText(activity,
+                        R.string.cant_load_statistics,
+                        Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun setupFragmentFromUiThread(data: Statistics) {
+        val mainHandler = Handler(activity.mainLooper)
+
+        val myRunnable = {
+            setData(data)
+            setupData(data)
+            setupDelegates(data)
+        }
+        mainHandler.post(myRunnable)
     }
 
     private fun setupDelegates(data: Statistics) {
@@ -84,6 +131,39 @@ class StatisticsFragment : BaseFragment() {
 
     private fun setupView() {
         setupPieChart()
+        btn_refresh_stats.setOnClickListener {
+            showDialog()
+            loadStatistic()
+        }
+    }
+
+    private fun showDialog() {
+        val root = LinearLayout(context)
+        root.layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        root.gravity = Gravity.CENTER
+
+        val pb = ProgressBar(context)
+        pb.isIndeterminate = true
+        pb.isActivated = true
+        root.addView(pb, LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT))
+
+        dialog = AlertDialog.Builder(context).
+                setCancelable(false).
+                setTitle(R.string.load_statistics).
+                setMessage(R.string.its_not_take_long_time).
+                setView(root).create()
+        dialog!!.show()
+    }
+
+    fun hideDialog() {
+        if(dialog != null) {
+            dialog!!.dismiss()
+        }
     }
 
     private fun setupData(data: Statistics) {
@@ -117,7 +197,7 @@ class StatisticsFragment : BaseFragment() {
 
         mChart.setUsePercentValues(true)
         mChart.description.isEnabled = false
-        mChart.setExtraOffsets(10f, 10f, 45f, 30f)
+        mChart.setExtraOffsets(5f, 5f, 45f, 30f)
 
         mChart.dragDecelerationFrictionCoef = 0.95f
 
@@ -130,8 +210,8 @@ class StatisticsFragment : BaseFragment() {
         mChart.setTransparentCircleColor(Color.WHITE)
         mChart.setTransparentCircleAlpha(110)
 
-        mChart.holeRadius = 46f
-        mChart.transparentCircleRadius = 50f
+        mChart.holeRadius = 48f
+        mChart.transparentCircleRadius = 52f
 
         mChart.setDrawCenterText(true)
 
@@ -143,6 +223,7 @@ class StatisticsFragment : BaseFragment() {
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad)
 
         val l = mChart.legend
+        l.textColor = resources.getColor(R.color.hint)
         l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
         l.orientation = Legend.LegendOrientation.VERTICAL
@@ -154,7 +235,7 @@ class StatisticsFragment : BaseFragment() {
         // entry label styling
         mChart.setEntryLabelColor(Color.WHITE)
         mChart.setEntryLabelTypeface(mTfRegular)
-        mChart.setEntryLabelTextSize(12f)
+        mChart.setEntryLabelTextSize(8f)
     }
 
     private fun setData(stat: Statistics) {
@@ -169,11 +250,12 @@ class StatisticsFragment : BaseFragment() {
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
         for (entry in map) {
+            val uri = Uri.parse(entry.component1())
             entries.add(PieEntry((entry.component2() / range) * 100,
-                    entry.component1()))
+                    uri.host))
         }
 
-        val dataSet = PieDataSet(entries, "Sales Results")
+        val dataSet = PieDataSet(entries, "Просмотры")
 
         dataSet.setDrawIcons(false)
 
@@ -206,7 +288,7 @@ class StatisticsFragment : BaseFragment() {
 
         val data = PieData(dataSet)
         data.setValueFormatter(PercentFormatter())
-        data.setValueTextSize(11f)
+        data.setValueTextSize(8f)
         data.setValueTextColor(Color.WHITE)
         data.setValueTypeface(mTfLight)
         mChart.data = data

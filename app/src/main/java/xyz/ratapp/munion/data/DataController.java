@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.data;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.text.Html;
@@ -40,7 +41,7 @@ public class DataController extends DataContainer {
     public static DataController getInstance(Context context) {
         ourInstance.context = context;
 
-        if(ourInstance.retrofit == null ||
+        if (ourInstance.retrofit == null ||
                 ourInstance.api == null) {
             ourInstance.retrofit = new Retrofit.Builder().
                     addConverterFactory(GsonConverterFactory.create())
@@ -62,40 +63,36 @@ public class DataController extends DataContainer {
 
     @Override
     public void getUser(DataCallback<Lead> callback) {
-        if(getUser() != null) {
+        if (getUser() != null) {
             callback.onSuccess(getUser());
-        }
-        else if(phone != null) {
+        } else if (phone != null) {
             loadUser(phone, callback);
-        }
-        else {
+        } else {
             callback.onFailed(new Throwable());
         }
     }
 
     @Override
     public void getStatistics(DataCallback<Statistics> callback) {
-        if(getStatistics() != null) {
+        if (getStatistics() != null) {
             callback.onSuccess(getStatistics());
-        }
-        else {
-            loadStatistics(callback);
-            //codeCallback.onFailedTakeCode(new Throwable());
+        } else {
+            callback.onFailed(new Throwable());
         }
     }
 
     @Override
-    public void loadStatistics(DataCallback<Statistics> callback) {
-        if(phone != null) {
-            loadStatistics(phone, callback);
-        }
-        else {
+    public void loadStatistics(AlertDialog dialog, DataCallback<Statistics> callback) {
+        if (phone != null) {
+            loadStatistics(phone, dialog, callback);
+        } else {
             callback.onFailed(new Throwable());
         }
     }
 
     @Override
     void loadStatistics(String phone,
+                        AlertDialog dialog,
                         DataCallback<Statistics> callback) {
 
         this.phone = phone;
@@ -103,9 +100,8 @@ public class DataController extends DataContainer {
         loadUser(phone, new DataCallback<Lead>() {
             @Override
             public void onSuccess(Lead user) {
-                boolean hasUserBefore = getUser() != null &&
-                                DataController.this.user.getStatistics() != null;
-                boolean loadRecords = !hasUserBefore ||
+                boolean hasStatsBefore = DataController.this.user.getStatistics() != null;
+                boolean loadRecords = !hasStatsBefore ||
                         !DataController.this.user.getTalksRecords()
                                 .equals(user.getTalksRecords());
 
@@ -113,23 +109,25 @@ public class DataController extends DataContainer {
                         toString().split("\\s");
 
                 new StatisticLoader(
-                        context,
+                        dialog,
                         user.getTitle(),
                         Arrays.asList(urls),
                         user.getTalksRecords(),
                         user.getCallsCount(), user.getLooksCount(),
-                        loadRecords, new DataCallback<Statistics>() {
-                    @Override
-                    public void onSuccess(Statistics data) {
-                        user.setStatistics(data);
-                        callback.onSuccess(data);
-                    }
+                        loadRecords,
+                        new DataCallback<Statistics>() {
+                            @Override
+                            public void onSuccess(Statistics data) {
+                                user.setStatistics(data);
+                                saveUserToDisk();
+                                callback.onSuccess(data);
+                            }
 
-                    @Override
-                    public void onFailed(Throwable thr) {
-                        callback.onFailed(thr);
-                    }
-                }).run();
+                            @Override
+                            public void onFailed(Throwable thr) {
+                                callback.onFailed(thr);
+                            }
+                        }).run();
 
             }
 
@@ -152,17 +150,16 @@ public class DataController extends DataContainer {
                                    Response<LeadListResponse> response) {
 
                 LeadListResponse data = response.body();
-                if(data == null) {
+                if (data == null) {
                     callback.onFailed(new Throwable("Server connection error"));
                     return;
                 }
 
-                if(data.getLeads() != null && data.getLeads().size() >= 1) {
+                if (data.getLeads() != null && data.getLeads().size() >= 1) {
                     user = data.getLeads().get(0);
                     saveUserToDisk();
                     callback.onSuccess(user);
-                }
-                else {
+                } else {
                     callback.onFailed(new Throwable("Server not found you :c"));
                 }
             }
@@ -189,38 +186,38 @@ public class DataController extends DataContainer {
     public void addToInvitedFriendByLoyaltyCode(String loyaltyCode) {
         api.loadLeadByLoyaltyCode(loyaltyCode).enqueue(
                 new Callback<LeadListResponse>() {
-            @Override
-            public void onResponse(Call<LeadListResponse> call,
-                                   Response<LeadListResponse> response) {
-                if(response != null && response.body() != null &&
-                        response.body().getLeads() != null) {
-                    LeadListResponse listResponse = response.body();
+                    @Override
+                    public void onResponse(Call<LeadListResponse> call,
+                                           Response<LeadListResponse> response) {
+                        if (response != null && response.body() != null &&
+                                response.body().getLeads() != null) {
+                            LeadListResponse listResponse = response.body();
 
-                    getUser(new DataCallback<Lead>() {
-                        @Override
-                        public void onSuccess(Lead data) {
-                            if(listResponse.getLeads().size() > 0) {
-                                Lead lead = listResponse.getLeads().get(0);
-                                List<String> invitedUsers = lead.getInvitedUsers();
-                                invitedUsers.add(data.getId() + "");
-                                setInvitedFriends(lead.getId() + "", invitedUsers);
-                            }
+                            getUser(new DataCallback<Lead>() {
+                                @Override
+                                public void onSuccess(Lead data) {
+                                    if (listResponse.getLeads().size() > 0) {
+                                        Lead lead = listResponse.getLeads().get(0);
+                                        List<String> invitedUsers = lead.getInvitedUsers();
+                                        invitedUsers.add(data.getId() + "");
+                                        setInvitedFriends(lead.getId() + "", invitedUsers);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailed(Throwable thr) {
+                                    Log.e("MyTag", thr.toString());
+                                }
+                            });
                         }
 
-                        @Override
-                        public void onFailed(Throwable thr) {
-                            Log.e("MyTag", thr.toString());
-                        }
-                    });
-                }
+                    }
 
-            }
-
-            @Override
-            public void onFailure(Call<LeadListResponse> call, Throwable t) {
-                Log.e("MyTag", t.toString());
-            }
-        });
+                    @Override
+                    public void onFailure(Call<LeadListResponse> call, Throwable t) {
+                        Log.e("MyTag", t.toString());
+                    }
+                });
     }
 
     private void setInvitedFriends(String id,
@@ -252,7 +249,7 @@ public class DataController extends DataContainer {
         StringBuilder builder = new StringBuilder();
         char[] chars = loyaltyCode.toCharArray();
         for (int i = 0; i < chars.length; i++) {
-            if(i % 4 == 0 && i != 0) {
+            if (i % 4 == 0 && i != 0) {
                 builder.append('-');
             }
             builder.append(chars[i]);

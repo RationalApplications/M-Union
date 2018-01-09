@@ -114,9 +114,9 @@ public class AuthController implements
             submit.setPhoneNumber(phone);
             submit.setSmsCallback(this);
             fragments.add(submit);
-        }
 
-        activity.setupFragments(fragments);
+            activity.setupFragments(fragments);
+        }
     }
 
     private void initAuthFields() {

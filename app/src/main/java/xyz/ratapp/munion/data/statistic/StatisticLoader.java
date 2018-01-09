@@ -1,9 +1,12 @@
 package xyz.ratapp.munion.data.statistic;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +31,13 @@ public class StatisticLoader implements Runnable {
     private static final String AUTH_URL_MASK =
             "https://m-union.bitrix24.ru/oauth/authorize/?client_id=%s&response_type=%d&redirect_uri=%s";
     private static final int RESPONSE_TYPE = 13;
+    public static final ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
 
 
     private Context context;
+    private final AlertDialog dialog;
     private String objectName;
     private List<String> dataUrls;
     private List<Lead.Record> records;
@@ -38,7 +45,7 @@ public class StatisticLoader implements Runnable {
     private int looksCount;
     private boolean loadRecords;
     private DataCallback<Statistics> callback;
-    Statistics result;
+    private Statistics result;
 
 
     private String clientId;
@@ -49,14 +56,16 @@ public class StatisticLoader implements Runnable {
 
     private volatile boolean wasTalksLoad = false;
     private volatile boolean wasStatisticLoad = false;
+    //ключ = номер попытки, значение = количество загруженных элементов
     private volatile Map<Integer, Integer> counter = new HashMap<>();
 
 
-    public StatisticLoader(Context context, String objectName,
+    public StatisticLoader(AlertDialog dialog, String objectName,
                            List<String> dataUrls, List<Lead.Record> records,
                            int callsCount, int looksCount,
                            boolean loadRecords, DataCallback<Statistics> callback) {
-        this.context = context;
+        this.dialog = dialog;
+        this.context = dialog.getContext();
         initData(context);
         this.objectName = objectName;
         this.dataUrls = dataUrls;
@@ -92,19 +101,38 @@ public class StatisticLoader implements Runnable {
     }
 
     private void loadStatistic(int attempt) {
-        if(attempt < 5) {
-            StatisticParser parser = new StatisticParser(context);
+        if(attempt < 2) {
+            StatisticParser parser = new StatisticParser(dialog);
 
             counter.put(attempt, 0);
             Map<String, Float> data = new HashMap<>();
 
             for (String url : dataUrls) {
-                parser.parse(url, new DataCallback<Float>() {
+                if(url.contains("cian.ru")) {
+                    continue;
+                }
+
+                parser.parse(url, new DataCallback<Float[]>() {
                     @Override
-                    public void onSuccess(Float result) {
+                    public void onSuccess(Float result[]) {
                         Integer cnt = counter.get(attempt);
                         counter.put(attempt, cnt + 1);
-                        data.put(url, result);
+                        data.put(url, result[0]);
+
+                        if(result.length > 1) {
+                            cnt = counter.get(attempt);
+                            counter.put(attempt, cnt + 1);
+                            String cianUrl = "";
+
+                            for (String dataUrl : dataUrls) {
+                                if(dataUrl.contains("cian.ru")) {
+                                    cianUrl = url;
+                                    break;
+                                }
+                            }
+
+                            data.put(cianUrl, result[1]);
+                        }
 
                         if (cnt + 1 == dataUrls.size()) {
                             float views = 0;
@@ -136,7 +164,7 @@ public class StatisticLoader implements Runnable {
     }
 
     private void loadTalks(int attempt) {
-        if(attempt < 5) {
+        if(attempt < 2) {
             loadTalksWithCallback(new ListCallback<String>() {
                 @Override
                 public void onSuccess(List<String> data) {
@@ -177,6 +205,8 @@ public class StatisticLoader implements Runnable {
         String password = context.getString(R.string.user_password);
 
         BitrixAuthWebView wv = new BitrixAuthWebView(context);
+        wv.setVisibility(View.GONE);
+        dialog.addContentView(wv, params);
         String url = String.format(Locale.getDefault(), AUTH_URL_MASK,
                 clientId, RESPONSE_TYPE, redirectUri);
         wv.login(url, email, password, new BitrixAuthWebView.

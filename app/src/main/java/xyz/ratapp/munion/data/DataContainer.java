@@ -1,5 +1,6 @@
 package xyz.ratapp.munion.data;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -49,13 +50,16 @@ abstract class DataContainer {
 
     protected abstract void getStatistics(DataCallback<Statistics> callback);
 
-    public abstract void loadUser(String phone,
-                                          DataCallback<Lead> callback);
-
-    public abstract void loadStatistics(DataCallback<Statistics> callback);
-
     abstract void loadStatistics(String phone,
-                                              DataCallback<Statistics> callback);
+                                 AlertDialog dialog,
+                                 DataCallback<Statistics> callback);
+
+    public abstract void loadUser(String phone,
+                                  DataCallback<Lead> callback);
+
+    public abstract void loadStatistics(AlertDialog dialog,
+                                        DataCallback<Statistics> callback);
+
 
     protected void saveUserToDisk() {
         if(user != null) {
