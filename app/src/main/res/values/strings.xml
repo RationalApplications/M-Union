@@ -133,4 +133,6 @@
     <string name="hypothec_start_status">Заявка отправлена на рассмотрение</string>
     <string name="invite_friend">Пригласить друга</string>
     <string name="you_have_no_money">У вас пусто на счету… Пригласите друга!</string>
+    <string name="form_mask">http://ratapp.xyz/munion/invite?id=%d</string>
+    <string name="friendMessageMask">Привет! Продай свою квартиру быстрее с моими друзьями из MUnion, переходи по ссылке: %s</string>
 </resources>

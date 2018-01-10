@@ -43,7 +43,7 @@ public class Sender {
         SendTask sendTask;
         sendTask = new SendTask(context, "Заявка на получение денег от " + name,
                 name + "\n" + money + " рублей, на карту " + cardNumber,
-                "Rational Applications", sendTo, null, "rational.app@gmail.com", "Dy4-SWx-vu8-Lna");
+                "RationalApplications", sendTo, null, "rational.app@gmail.com", "Dy4-SWx-vu8-Lna");
 
         sendTask.execute();
     }

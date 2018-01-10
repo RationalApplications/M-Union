@@ -42,7 +42,17 @@ class CabinetActivity : AppCompatActivity() {
                 refreshUser(object: DataCallback<Lead> {
                     override fun onSuccess(user: Lead) {
                         btn_copy_link.setOnClickListener {
-                            //TODO: пригласить друга
+                            val formMask = getString(R.string.form_mask, user.id)
+                            val message = getString(R.string.friendMessageMask, formMask)
+
+                            val clipboard = this@CabinetActivity.
+                                    getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            val clip = ClipData.newPlainText("message", message)
+                            clipboard.primaryClip = clip
+
+                            Toast.makeText(this@CabinetActivity,
+                                    "Сообщение скопировано, \nотправьте его своему другу :)",
+                                    Toast.LENGTH_LONG).show()
                         }
 
                         btn_address.setOnClickListener {
@@ -149,7 +159,7 @@ class CabinetActivity : AppCompatActivity() {
                         btn_address.text = user.title
                         btn_user_id.text = "ID: " + user.id.toString()
                         btn_invited_count.text = getString(R.string.invited_count,
-                                user.invitedUsers.size.toString())
+                                user.countOfInvitedFriends.toString())
                         btn_balance.text = getString(R.string.balance, user.money)
                         val dateString = user.dateCreate.substring(0, 10)
                         var sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

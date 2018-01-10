@@ -39,23 +39,8 @@ public interface BitrixAPI {
             "select[]=UF_CRM_1514422134&select[]=UF_CRM_1514422511")
     Call<LeadListResponse> loadLeadByPhone(@Query("filter[PHONE]") String phone);
 
-    @GET("crm.lead.list?select[]=TITLE&select[]=NAME&select[]=SECOND_NAME&" +
-            "select[]=LAST_NAME&select[]=COMMENTS&select[]=BIRTHDATE&select[]=ASSIGNED_BY_ID&" +
-            "select[]=CREATED_BY_ID&select[]=DATE_CREATE&select[]=UF_CRM_1514330608&select[]=UF_CRM_1502809647&" +
-            "select[]=PHONE&select[]=UF_CRM_1502183426&select[]=UF_CRM_1502183442&select[]=UF_CRM_1514422195&" +
-            "select[]=UF_CRM_1514422134&select[]=UF_CRM_1514422511")
-    Call<LeadListResponse> loadLeadByLoyaltyCode(@Query("filter[UF_CRM_1514422195]") String loyaltyCode);
-
-    @GET("crm.lead.update?params[REGISTER_SONET_EVENT]=Y")
-    Call<JsonObject> setInvitedFriends(@Query("id") String id,
-                                       //@Query("fields[UF_CRM_1514422134]") String friendId); -> for single is ok,
-                                       // but for more then one need to send query like this "fields[UF_CRM_1514422134][0]"
-                                       //we will use QueryMap
-                                       @QueryMap Map<String, String> map);
-
-    @GET("crm.lead.update?params[REGISTER_SONET_EVENT]=Y")
-    Call<JsonObject> setLoyaltyCode(@Query("id") String id,
-                                    @Query("fields[UF_CRM_1514422195]") String loyaltyCode);
+    @GET("crm.lead.list")
+    Call<LeadListResponse> loadLeadByInvitedId(@Query("filter[UF_CRM_1515594224]") String invitedId);
 
     @GET("crm.contact.add?params[REGISTER_SONET_EVENT]=Y&fields[PHONE][0][VALUE_TYPE]=WORK&fields[TYPE_ID]=3&fields[SOURCE_ID]=1")
     Call<JsonObject> createContact(@Query("fields[NAME]") String name,

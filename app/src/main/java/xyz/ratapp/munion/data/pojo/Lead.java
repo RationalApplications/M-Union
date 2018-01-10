@@ -53,15 +53,12 @@ public class Lead implements Serializable
     @SerializedName("UF_CRM_1502809647")
     @Expose
     private List<Record> talksRecords = null;
-    @SerializedName("UF_CRM_1514422195")
+    @SerializedName("UF_CRM_1515594224")
     @Expose
-    private String loyaltyCode;
+    private String invitedBy;
     @SerializedName("UF_CRM_1514422511")
     @Expose
     private String money;
-    @SerializedName("UF_CRM_1514422134")
-    @Expose
-    private Object invitedUsers;
     @SerializedName("PHONE")
     @Expose
     private List<Phone> phones = null;
@@ -69,10 +66,12 @@ public class Lead implements Serializable
     //My fields
     @SerializedName("PHOTO_URI")
     private String photoUri;
-    @SerializedName("STATISTICS")
-    private Statistics statistics;
     @SerializedName("FB_ENTITY")
     private String firebaseEntity;
+    @SerializedName("COUNT_OF_INVITED_FRIENDS")
+    private int countOfInvitedFriends;
+    @SerializedName("STATISTICS")
+    private Statistics statistics;
     @SerializedName("HYPOTHEC_DATA")
     private HypothecData hypothec;
 
@@ -162,7 +161,6 @@ public class Lead implements Serializable
     }
 
     public void setTalksRecords(List<Record> talksRecords) {
-        //if zip unzip it
         this.talksRecords = talksRecords;
     }
 
@@ -174,25 +172,12 @@ public class Lead implements Serializable
         this.firebaseEntity = firebaseEntity;
     }
 
-    public String getLoyaltyCode() {
-        return loyaltyCode;
+    public String getInvitedBy() {
+        return invitedBy;
     }
 
-    public void setLoyaltyCode(String loyaltyCode) {
-        if(loyaltyCode != null && !loyaltyCode.contains("-")) {
-            StringBuilder builder = new StringBuilder();
-            char[] chars = loyaltyCode.toCharArray();
-            for (int i = 0; i < chars.length; i++) {
-                if(i % 4 == 0 && i != 0) {
-                    builder.append('-');
-                }
-                builder.append(chars[i]);
-            }
-
-            loyaltyCode = builder.toString();
-        }
-
-        this.loyaltyCode = loyaltyCode;
+    public void setInvitedBy(String invitedBy) {
+        this.invitedBy = invitedBy;
     }
 
     public String getMoney() {
@@ -207,16 +192,12 @@ public class Lead implements Serializable
         this.money = money;
     }
 
-    public List<String> getInvitedUsers() {
-        if(!(invitedUsers instanceof List)) {
-            invitedUsers = new ArrayList<String>();
-        }
-
-        return (List<String>) invitedUsers;
+    public int getCountOfInvitedFriends() {
+        return countOfInvitedFriends;
     }
 
-    public void setInvitedUsers(List<String> invitedUsers) {
-        this.invitedUsers = invitedUsers;
+    public void setCountOfInvitedFriends(int countOfInvitedFriends) {
+        this.countOfInvitedFriends = countOfInvitedFriends;
     }
 
     public HypothecData getHypothec() {

@@ -69,22 +69,24 @@ abstract class DataContainer {
     }
 
     protected void setUser(Lead user) {
-        String photoUri = this.user.getPhotoUri();
-        Statistics statistics = this.user.getStatistics();
-        String firebaseEntry = this.user.getFirebaseEntity();
-        HypothecData hypothec = this.user.getHypothec();
+        if(this.user != null) {
+            String photoUri = this.user.getPhotoUri();
+            Statistics statistics = this.user.getStatistics();
+            String firebaseEntry = this.user.getFirebaseEntity();
+            HypothecData hypothec = this.user.getHypothec();
 
-        if(photoUri != null) {
-            user.setPhotoUri(photoUri);
-        }
-        if(statistics != null) {
-            user.setStatistics(statistics);
-        }
-        if(firebaseEntry != null) {
-            user.setFirebaseEntity(firebaseEntry);
-        }
-        if(hypothec != null) {
-            user.setHypothec(hypothec);
+            if (photoUri != null) {
+                user.setPhotoUri(photoUri);
+            }
+            if (statistics != null) {
+                user.setStatistics(statistics);
+            }
+            if (firebaseEntry != null) {
+                user.setFirebaseEntity(firebaseEntry);
+            }
+            if (hypothec != null) {
+                user.setHypothec(hypothec);
+            }
         }
 
         this.user = user;

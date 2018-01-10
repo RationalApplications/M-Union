@@ -234,7 +234,6 @@ public class DataController extends DataContainer {
 
                 String[] urls = Html.fromHtml(user.getComments()).
                         toString().split("\\s");
-                setUser(user);
 
                 new StatisticLoader(
                         dialog,
@@ -284,9 +283,28 @@ public class DataController extends DataContainer {
                 }
 
                 if (data.getLeads() != null && data.getLeads().size() >= 1) {
-                    setUser(data.getLeads().get(0));
-                    saveUserToDisk();
-                    callback.onSuccess(user);
+                    String id = data.getLeads().get(0).getId() + "";
+                    api.loadLeadByInvitedId(id).enqueue(new Callback<LeadListResponse>() {
+                        @Override
+                        public void onResponse(Call<LeadListResponse> call,
+                                               Response<LeadListResponse> response) {
+                            Lead user = data.getLeads().get(0);
+                            if(response.body() != null) {
+                                user.setCountOfInvitedFriends(response.body().getTotal());
+                                setUser(user);
+                                saveUserToDisk();
+                                callback.onSuccess(DataController.this.user);
+                            }
+                            else {
+                                callback.onFailed(new Throwable());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<LeadListResponse> call, Throwable t) {
+                            callback.onFailed(new Throwable());
+                        }
+                    });
                 } else {
                     callback.onFailed(new Throwable("Server not found you :c"));
                 }
@@ -309,91 +327,6 @@ public class DataController extends DataContainer {
     public void setFbUserEntity(@NotNull String entityId) {
         user.setFirebaseEntity(entityId);
         saveUserToDisk();
-    }
-
-    public void addToInvitedFriendByLoyaltyCode(String loyaltyCode) {
-        api.loadLeadByLoyaltyCode(loyaltyCode).enqueue(
-                new Callback<LeadListResponse>() {
-                    @Override
-                    public void onResponse(Call<LeadListResponse> call,
-                                           Response<LeadListResponse> response) {
-                        if (response != null && response.body() != null &&
-                                response.body().getLeads() != null) {
-                            LeadListResponse listResponse = response.body();
-
-                            getUser(new DataCallback<Lead>() {
-                                @Override
-                                public void onSuccess(Lead data) {
-                                    if (listResponse.getLeads().size() > 0) {
-                                        Lead lead = listResponse.getLeads().get(0);
-                                        List<String> invitedUsers = lead.getInvitedUsers();
-                                        invitedUsers.add(data.getId() + "");
-                                        setInvitedFriends(lead.getId() + "", invitedUsers);
-                                    }
-                                }
-
-                                @Override
-                                public void onFailed(Throwable thr) {
-                                    Log.e("MyTag", thr.toString());
-                                }
-                            });
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<LeadListResponse> call, Throwable t) {
-                        Log.e("MyTag", t.toString());
-                    }
-                });
-    }
-
-    private void setInvitedFriends(String id,
-                                   List<String> invitedFriends) {
-        Map<String, String> queryMap = new HashMap<>();
-        int i = 0;
-        for (String friend : invitedFriends) {
-            String key = String.format(Locale.getDefault(),
-                    "fields[UF_CRM_1514422134][%d]", i);
-            queryMap.put(key, friend);
-            i++;
-        }
-
-        api.setInvitedFriends(id, queryMap).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-
-            }
-        });
-    }
-
-    public void setLoyaltyCode(@NotNull String id,
-                               @NotNull String loyaltyCode) {
-        StringBuilder builder = new StringBuilder();
-        char[] chars = loyaltyCode.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            if (i % 4 == 0 && i != 0) {
-                builder.append('-');
-            }
-            builder.append(chars[i]);
-        }
-
-        api.setLoyaltyCode(id, builder.toString()).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-
-            }
-        });
     }
 
     public void createContact(@NotNull String name,
