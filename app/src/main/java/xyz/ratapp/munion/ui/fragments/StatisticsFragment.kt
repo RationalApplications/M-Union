@@ -25,13 +25,16 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
+import com.taishi.flipprogressdialog.FlipProgressDialog
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.controllers.interfaces.DataCallback
 import xyz.ratapp.munion.data.DataController
 import xyz.ratapp.munion.data.pojo.Statistics
 import xyz.ratapp.munion.ui.fragments.common.BaseFragment
+import xyz.ratapp.munion.ui.views.LoadingDialog
 import xyz.ratapp.munion.ui.views.audio.AudiosDialog
+import java.util.*
 
 /**
  * <p>Date: 30.10.17</p>
@@ -42,7 +45,7 @@ class StatisticsFragment : BaseFragment() {
     private lateinit var mChart: PieChart
     private lateinit var mTfRegular: Typeface
     private lateinit var mTfLight: Typeface
-    private var dialog: AlertDialog? = null
+    private var dialog: LoadingDialog? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_statistics, container, false)
@@ -154,12 +157,9 @@ class StatisticsFragment : BaseFragment() {
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT))
 
-        dialog = AlertDialog.Builder(context).
-                setCancelable(false).
-                setTitle(R.string.load_statistics).
-                setMessage(R.string.its_not_take_long_time).
-                setView(root).create()
-        dialog!!.show()
+        //dialog init
+        dialog = LoadingDialog()
+        dialog!!.show(activity.fragmentManager, "")
     }
 
     fun hideDialog() {

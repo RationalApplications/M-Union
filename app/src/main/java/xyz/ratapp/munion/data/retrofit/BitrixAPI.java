@@ -59,5 +59,9 @@ public interface BitrixAPI {
 
     @GET("crm.contact.add?params[REGISTER_SONET_EVENT]=Y&fields[PHONE][0][VALUE_TYPE]=WORK&fields[TYPE_ID]=3&fields[SOURCE_ID]=1")
     Call<JsonObject> createContact(@Query("fields[NAME]") String name,
-                                    @Query("fields[PHONE][0][VALUE]") String phone);
+                                    @Query("fields[PHONE][0][VALUE]") String phone,
+                                   @Query("fields[COMMENTS]") String status);
+
+    @GET("crm.contact.get?select[]=COMMENTS")
+    Call<JsonObject> loadContactComments(@Query("id") String id);
 }

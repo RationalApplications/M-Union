@@ -6,6 +6,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -38,19 +39,10 @@ class CabinetActivity : AppCompatActivity() {
 
     private fun setupDelegates() {
         DataController.getInstance(this).
-                getUser(object: DataCallback<Lead> {
+                refreshUser(object: DataCallback<Lead> {
                     override fun onSuccess(user: Lead) {
                         btn_copy_link.setOnClickListener {
-                            val code = user.firebaseEntity
-
-                            val clipboard = this@CabinetActivity.
-                                    getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                            val clip = ClipData.newPlainText("loyalty_code", code)
-                            clipboard.primaryClip = clip
-
-                            Toast.makeText(this@CabinetActivity,
-                                    "Код скопирован!",
-                                    Toast.LENGTH_LONG).show()
+                            //TODO: пригласить друга
                         }
 
                         btn_address.setOnClickListener {
@@ -65,10 +57,23 @@ class CabinetActivity : AppCompatActivity() {
                             }
                         }
 
+                        if(user.money.toFloat() <= 0) {
+                            btn_out_money.setBackgroundResource(R.drawable.radius_button_disabled)
+                            btn_out_money.isEnabled = false
+                        }
+
                         btn_out_money.setOnClickListener {
                             //go to money out activity
-                            val intent = Intent(this@CabinetActivity, MoneyOutActivity::class.java)
-                            startActivityForResult(intent, 10)
+                            if(user.money.toFloat() > 0) {
+                                val intent = Intent(this@CabinetActivity,
+                                        MoneyOutActivity::class.java)
+                                startActivityForResult(intent, 10)
+                            }
+                            else {
+                                Toast.makeText(this@CabinetActivity,
+                                        getString(R.string.you_have_no_money),
+                                        Toast.LENGTH_LONG).show()
+                            }
                         }
 
                         iv_user_photo.setOnClickListener {
@@ -130,7 +135,8 @@ class CabinetActivity : AppCompatActivity() {
                         val circularBitmapDrawable =
                                 RoundedBitmapDrawableFactory.create(resources, resource)
                         circularBitmapDrawable.isCircular = true
-                        iv_user_photo.setImageDrawable(circularBitmapDrawable)
+                        iv_user_photo.setBackgroundDrawable(circularBitmapDrawable)
+                        iv_user_photo.setImageResource(R.drawable.mask_photo)
                     }
                 })
     }
@@ -149,12 +155,12 @@ class CabinetActivity : AppCompatActivity() {
                         var sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                         val date = sdf.parse(dateString)
                         sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                        tv_date_of_publish.text = "Дата публикации: ${sdf.format(date)}"
+                        tv_date_of_publish.text = "Работаем вместе с: ${sdf.format(date)}"
                         setImage(
                                 if(user.photoUri != null)
                                     user.photoUri
                                 else
-                                    "android.resource://xyz.ratapp.munion/drawable/icon_me")
+                                    "android.resource://xyz.ratapp.munion/drawable/ic_account_large")
                     }
 
                     override fun onFailed(thr: Throwable?) {

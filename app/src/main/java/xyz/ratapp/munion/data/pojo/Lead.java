@@ -73,6 +73,8 @@ public class Lead implements Serializable
     private Statistics statistics;
     @SerializedName("FB_ENTITY")
     private String firebaseEntity;
+    @SerializedName("HYPOTHEC_DATA")
+    private HypothecData hypothec;
 
 
     public int getId() {
@@ -215,6 +217,14 @@ public class Lead implements Serializable
 
     public void setInvitedUsers(List<String> invitedUsers) {
         this.invitedUsers = invitedUsers;
+    }
+
+    public HypothecData getHypothec() {
+        return hypothec;
+    }
+
+    public void setHypothec(HypothecData hypothec) {
+        this.hypothec = hypothec;
     }
 
     public class Record implements Serializable {

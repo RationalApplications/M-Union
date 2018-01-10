@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.dewarder.camerabutton.CameraButton;
 
@@ -63,7 +64,7 @@ public class CameraActivity extends AppCompatActivity implements
     private SurfaceHolder surfaceHolder;
     private SurfaceView preview;
     private CameraButton shotBtn;
-    private AppCompatTextView cameraText;
+    private TextView cameraText;
     private ImageButton backButton;
     private ImageView cameraDocumentFrame;
     private View loading;
@@ -98,9 +99,6 @@ public class CameraActivity extends AppCompatActivity implements
         setContentView(R.layout.fragment_camera);
 
         String argsText = getIntent().getStringExtra(ARGS_TEXT);
-        int argsMask = getIntent().getIntExtra(ARGS_IMAGE_MASK, -1);
-        Integer argsWidth = getIntent().getIntExtra(ARGS_WIDTH, 200);
-        Integer argsHeight = getIntent().getIntExtra(ARGS_HEIGHT, 300);
 
         View view = findViewById(R.id.camera_frame_layout);
         view.setOnClickListener(this);
@@ -126,10 +124,6 @@ public class CameraActivity extends AppCompatActivity implements
         backButton.setOnClickListener(v -> onBackPressed());
 
         cameraText.setText(argsText);
-
-        cameraDocumentFrame = findViewById(R.id.camera_document_frame);
-        resizeView(cameraDocumentFrame, argsWidth, argsHeight);
-        cameraDocumentFrame.setImageResource(argsMask);
     }
 
     @Override
@@ -145,8 +139,11 @@ public class CameraActivity extends AppCompatActivity implements
         camera = Camera.open();
         Camera.Parameters parameters = camera.getParameters();
         Camera.Size size = parameters.getPictureSize();
-        srcImageHeight = size.height;
-        srcImageWidth = size.width;
+        //===
+        //Даже не спрашивайте, я не знаю почему они так приходят о.о
+        srcImageHeight = size.width;
+        srcImageWidth = size.height;
+        //===
         parameters.setPictureSize(size.width, size.height);
         parameters.set("orientation", "portrait");
         parameters.setRotation(90);
@@ -160,6 +157,14 @@ public class CameraActivity extends AppCompatActivity implements
         if(supportAutofocus) {
             camera.autoFocus(null);
         }
+
+        int argsMask = getIntent().getIntExtra(ARGS_IMAGE_MASK, -1);
+        Integer argsWidth = getIntent().getIntExtra(ARGS_WIDTH, 200);
+        Integer argsHeight = getIntent().getIntExtra(ARGS_HEIGHT, 300);
+
+        cameraDocumentFrame = findViewById(R.id.camera_document_frame);
+        resizeView(cameraDocumentFrame, size, argsWidth, argsHeight);
+        cameraDocumentFrame.setImageResource(argsMask);
     }
 
     @Override
@@ -252,6 +257,11 @@ public class CameraActivity extends AppCompatActivity implements
             cameraDocumentFrame.setVisibility(View.VISIBLE);
             shotBtn.setVisibility(View.VISIBLE);
 
+            findViewById(R.id.v_bottom_decor).setAlpha(0.3f);
+            findViewById(R.id.v_top_decor).setAlpha(0.3f);
+            findViewById(R.id.v_left_decor).setAlpha(0.3f);
+            findViewById(R.id.v_right_decor).setAlpha(0.3f);
+
             paramCamera.startPreview();
         });
 
@@ -281,6 +291,7 @@ public class CameraActivity extends AppCompatActivity implements
 
                 int argsMask = getIntent().getIntExtra(ARGS_IMAGE_MASK, -1);
                 String fileName = CameraActivity.this.getResources().getResourceName(argsMask);
+                fileName = fileName.substring(fileName.lastIndexOf('/'));
                 file = new File(Environment.getExternalStorageDirectory() + "/MUnion", fileName + ".png");
 
                 uri = Uri.fromFile(file);
@@ -321,7 +332,7 @@ public class CameraActivity extends AppCompatActivity implements
         int height = ((int) ((cameraDocumentFrame.getHeight() / (float) sHeight) * srcImageHeight));
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-        bitmap = Bitmap.createBitmap(bitmap, x, y, width, height);
+        bitmap = Bitmap.createBitmap(bitmap, y, x, height, width);
 
         return bitmap;
     }
@@ -344,22 +355,26 @@ public class CameraActivity extends AppCompatActivity implements
     }
 
 
-    private void resizeView(View view, int newWidth, int newHeight) {
+    private void resizeView(View view, Camera.Size cSize, int newWidth, int newHeight) {
         int padding = getResources().getDimensionPixelOffset(R.dimen.camera_document_offset);
 
         Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int sWidth = size.x - padding; //s means screen
-        int sHeight = size.y - padding;
+        Point sSize = new Point();
+        display.getSize(sSize);
+        int sWidth = sSize.x - padding; //s means screen
+        int sHeight = sSize.y - padding;
+
+        int cWidth = srcImageWidth; //c means camera
+        int cHeight = srcImageHeight;
+        float widthDesity = sWidth / ((float) cWidth);
+        float heightDesity = sHeight / ((float) cHeight);
         int multiplier = Math.min(sWidth / newWidth,
                 sHeight / newHeight);
 
-
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        layoutParams.width = newWidth * multiplier;
-        layoutParams.height = newHeight * multiplier;
+        layoutParams.width = ((int) (newWidth * multiplier * widthDesity));
+        layoutParams.height = ((int) (newHeight * multiplier * heightDesity));
         view.setLayoutParams(layoutParams);
     }
 }

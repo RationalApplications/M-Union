@@ -23,12 +23,11 @@ public class Sender {
 
     public void sendHypothecMessage(Context context, String name, String phone, List<Uri> photos) {
         try {
-            String email = "temp@gmail.com";
             String sendTo = "admin@timtim.tech";
 
             SendTask sendTask;
-            sendTask = new SendTask(context, "Заявка на ипотеку от " + name, name + "\n" + phone + "\n" + email + "\n" + email,
-                    "AZINO777", sendTo, photos, "rational.app@gmail.com", "Dy4-SWx-vu8-Lna");
+            sendTask = new SendTask(context, "Заявка на ипотеку от " + name, name + "\n" + phone,
+                    "RationalApplications", sendTo, photos, "rational.app@gmail.com", "Dy4-SWx-vu8-Lna");
             sendTask.execute();
 
         } catch (Exception e) {
@@ -44,7 +43,7 @@ public class Sender {
         SendTask sendTask;
         sendTask = new SendTask(context, "Заявка на получение денег от " + name,
                 name + "\n" + money + " рублей, на карту " + cardNumber,
-                "AZINO777", sendTo, null, "rational.app@gmail.com", "Dy4-SWx-vu8-Lna");
+                "Rational Applications", sendTo, null, "rational.app@gmail.com", "Dy4-SWx-vu8-Lna");
 
         sendTask.execute();
     }

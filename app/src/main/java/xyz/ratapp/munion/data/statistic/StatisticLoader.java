@@ -1,6 +1,5 @@
 package xyz.ratapp.munion.data.statistic;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -16,11 +15,12 @@ import java.util.Map;
 import xyz.ratapp.munion.R;
 import xyz.ratapp.munion.controllers.interfaces.DataCallback;
 import xyz.ratapp.munion.controllers.interfaces.ListCallback;
-import xyz.ratapp.munion.data.statistic.audio.BitrixOAuthAudiosTask;
 import xyz.ratapp.munion.data.pojo.Lead;
 import xyz.ratapp.munion.data.pojo.Statistics;
+import xyz.ratapp.munion.data.statistic.audio.BitrixOAuthAudiosTask;
 import xyz.ratapp.munion.data.statistic.parsers.StatisticParser;
 import xyz.ratapp.munion.ui.views.BitrixAuthWebView;
+import xyz.ratapp.munion.ui.views.LoadingDialog;
 
 /**
  * Created by timtim on 03/01/2018.
@@ -37,7 +37,7 @@ public class StatisticLoader implements Runnable {
 
 
     private Context context;
-    private final AlertDialog dialog;
+    private final LoadingDialog dialog;
     private String objectName;
     private List<String> dataUrls;
     private List<Lead.Record> records;
@@ -60,12 +60,12 @@ public class StatisticLoader implements Runnable {
     private volatile Map<Integer, Integer> counter = new HashMap<>();
 
 
-    public StatisticLoader(AlertDialog dialog, String objectName,
+    public StatisticLoader(LoadingDialog dialog, String objectName,
                            List<String> dataUrls, List<Lead.Record> records,
                            int callsCount, int looksCount,
                            boolean loadRecords, DataCallback<Statistics> callback) {
         this.dialog = dialog;
-        this.context = dialog.getContext();
+        this.context = dialog.getActivity();
         initData(context);
         this.objectName = objectName;
         this.dataUrls = dataUrls;
@@ -206,7 +206,7 @@ public class StatisticLoader implements Runnable {
 
         BitrixAuthWebView wv = new BitrixAuthWebView(context);
         wv.setVisibility(View.GONE);
-        dialog.addContentView(wv, params);
+        dialog.addView(wv, params);
         String url = String.format(Locale.getDefault(), AUTH_URL_MASK,
                 clientId, RESPONSE_TYPE, redirectUri);
         wv.login(url, email, password, new BitrixAuthWebView.

@@ -18,7 +18,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import xyz.ratapp.munion.ui.activities.CameraActivity
 import xyz.ratapp.munion.R
+import xyz.ratapp.munion.controllers.interfaces.DataCallback
 import xyz.ratapp.munion.data.DataController
+import xyz.ratapp.munion.data.pojo.HypothecData
+import xyz.ratapp.munion.helpers.PreferencesHelper
 import xyz.ratapp.munion.helpers.email.Sender
 
 /**
@@ -36,6 +39,43 @@ class HypothecFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_hypothec, container, false)
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViews()
+    }
+
+    private fun setupViews() {
+        if(PreferencesHelper.getInstance(activity).
+                wasHypothecDataSet()) {
+            hypothec_edit_name.visibility = View.INVISIBLE
+            hypothec_edit_phone.visibility = View.INVISIBLE
+            hypothec_btn_order.visibility = View.INVISIBLE
+        }
+
+        val instance = DataController.getInstance(activity)
+        instance.loadHypothec(object: DataCallback<HypothecData> {
+            override fun onSuccess(data: HypothecData) {
+                if(data.comments != null &&
+                        data.comments.isNotBlank()) {
+                    hypothec_text.text = data.comments
+                }
+                else {
+                    if(data.name != null) {
+                        hypothec_edit_name!!.setText(data.name)
+                    }
+                    if(data.phone != null) {
+                        hypothec_edit_phone!!.setText(data.phone)
+                    }
+                }
+            }
+
+            override fun onFailed(thr: Throwable?) {
+                PreferencesHelper.getInstance(activity).
+                        saveHypothecDataWasSet(false)
+            }
+        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -72,6 +112,8 @@ class HypothecFragment : Fragment() {
 
                 if(data != null) {
                     val id = data.get("result").asInt.toString()
+                    PreferencesHelper.getInstance(activity).saveHypothecId(id)
+                    instance.setHypothecId(id + "")
                 }
                 else {
                     createContact(name, phone)
@@ -117,12 +159,14 @@ class HypothecFragment : Fragment() {
                 }
 
                 4 -> {
+                    PreferencesHelper.getInstance(activity).
+                            saveHypothecDataWasSet(true)
                     Sender.getInstance()
                             .sendHypothecMessage(activity,
                                     hypothec_edit_name.text.toString(),
                                     hypothec_edit_phone.text.toString(),
                                     photoUris)
-                    hypothec_text.text = "Заявка отправлена на рассмотрение"
+                    hypothec_text.text = activity.getString(R.string.hypothec_start_status)
                     hypothec_edit_name.visibility = View.INVISIBLE
                     hypothec_edit_phone.visibility = View.INVISIBLE
                     hypothec_btn_order.visibility = View.INVISIBLE

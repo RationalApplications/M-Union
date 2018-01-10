@@ -53,40 +53,37 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="@string/cabinet_tv_name_example"
-                android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:textSize="24sp"/>
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
             <com.marcouberti.autofitbutton.AutoFitButton
                 android:id="@+id/btn_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="2dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="2dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/radius_button"
+                android:ems="14"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:ems="14"
-                android:background="@drawable/radius_button"
                 android:singleLine="true"
-                android:text="@string/address_btn_example"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_gravity="center"/>
+                android:textColor="@color/colorPrimaryDark" />
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/tv_date_of_publish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:singleLine="true"
-                android:text="@string/cabinet_tv_date_of_publish_example"
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:layout_gravity="center"/>
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -200,7 +197,6 @@
 
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:text="@string/invited_count"
                         android:textAllCaps="false"
                         android:textColor="@color/colorPrimaryDark" />
 
@@ -221,7 +217,6 @@
 
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:text="@string/balance"
                         android:textAllCaps="false"
                         android:textColor="@color/colorPrimaryDark" />
 
@@ -249,7 +244,7 @@
             android:ems="20"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:text="@string/cabinet_btn_copy_link"
+            android:text="@string/invite_friend"
             android:textColor="@color/colorPrimaryDark" />
 
         <com.marcouberti.autofitbutton.AutoFitButton
@@ -264,4 +259,5 @@
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/cabinet_btn_out_money" />
     </LinearLayout>
+
 </LinearLayout>

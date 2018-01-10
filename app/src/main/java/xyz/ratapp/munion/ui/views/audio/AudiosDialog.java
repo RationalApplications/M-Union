@@ -30,7 +30,7 @@ public final class AudiosDialog extends AlertDialog.Builder {
     private AudiosAdapter adapter;
 
     public AudiosDialog(Context context) {
-        super(context);
+        super(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
         initViews();
     }
 

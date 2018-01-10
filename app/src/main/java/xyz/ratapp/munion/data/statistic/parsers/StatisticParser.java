@@ -1,6 +1,7 @@
 package xyz.ratapp.munion.data.statistic.parsers;
 
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.view.View;
 
@@ -19,6 +20,7 @@ import java.util.Queue;
 
 import xyz.ratapp.munion.controllers.interfaces.DataCallback;
 import xyz.ratapp.munion.ui.views.AuthWebView;
+import xyz.ratapp.munion.ui.views.LoadingDialog;
 
 import static xyz.ratapp.munion.data.statistic.StatisticLoader.params;
 
@@ -29,14 +31,14 @@ import static xyz.ratapp.munion.data.statistic.StatisticLoader.params;
 public class StatisticParser {
 
     private Context context;
-    private AlertDialog dialog;
+    private LoadingDialog dialog;
     private AuthWebView wv = null;
     boolean isWebViewMuted = false;
     private Queue<Runnable> pool = new ArrayDeque<>();
 
-    public StatisticParser(AlertDialog dialog) {
+    public StatisticParser(LoadingDialog dialog) {
         this.dialog = dialog;
-        this.context = dialog.getContext();
+        this.context = dialog.getActivity();
     }
 
     public void parse(String url, DataCallback<Float[]> callback) {
@@ -44,7 +46,7 @@ public class StatisticParser {
         if (wv == null) {
             wv = new AuthWebView(context);
             wv.setVisibility(View.GONE);
-            dialog.addContentView(wv, params);
+            dialog.addView(wv, params);
             setWebView(false);
         }
 

@@ -2,31 +2,27 @@ package xyz.ratapp.munion.ui.activities
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.view.View
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
-import kotlinx.android.synthetic.main.activity_main.*
-import xyz.ratapp.munion.ui.fragments.common.BaseFragment
-import xyz.ratapp.munion.ui.fragments.hypothec.HypothecRootFragment
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.net.ConnectivityManager
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
-import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
+import kotlinx.android.synthetic.main.activity_main.*
 import xyz.ratapp.munion.R
 import xyz.ratapp.munion.controllers.interfaces.DataCallback
 import xyz.ratapp.munion.data.DataController
 import xyz.ratapp.munion.data.pojo.Lead
 import xyz.ratapp.munion.helpers.PreferencesHelper
 import xyz.ratapp.munion.ui.fragments.*
+import xyz.ratapp.munion.ui.fragments.common.BaseFragment
+import xyz.ratapp.munion.ui.fragments.hypothec.HypothecRootFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -74,6 +70,7 @@ class MainActivity : AppCompatActivity() {
 
     fun init() {
         val preferencesHelper = PreferencesHelper.getInstance(this)
+
         if(preferencesHelper.isAuthed) {
             val chatId = preferencesHelper.chatThreadEntityId
             initAuth(chatId)
