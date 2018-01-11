@@ -188,7 +188,6 @@ public class AuthController implements
                         FirebaseUser user = task.getResult().getUser();
                         DataController instance = DataController.getInstance(activity);
                         instance.setFbUserEntity(user.getUid());
-                        instance.setLoyaltyCode(this.user.getId() + "", user.getUid());
                         if(user.getPhotoUrl() != null) {
                             try {
                                 instance.setUserPhotoUri(user.getPhotoUrl());
@@ -242,8 +241,6 @@ public class AuthController implements
     @Override
     public void onCodeTaken(String code) {
         //TODO: проверять верно ли введен код
-        DataController instance = DataController.getInstance(activity);
-        instance.addToInvitedFriendByLoyaltyCode(code);
     }
 
     @Override
